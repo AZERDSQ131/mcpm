@@ -1,5 +1,9 @@
 # mcpm — Universal MCP Server Manager
 
+[![npm](https://img.shields.io/npm/v/mcp-fleet?style=flat-square&color=7c6aff&label=npm)](https://www.npmjs.com/package/mcp-fleet)
+[![stars](https://img.shields.io/github/stars/AZERDSQ131/mcp-forge?style=flat-square&color=facc15)](https://github.com/AZERDSQ131/mcp-forge/stargazers)
+[![license](https://img.shields.io/github/license/AZERDSQ131/mcp-forge?style=flat-square&color=4ade80)](LICENSE)
+
 **Install, configure, and update MCP servers across all your AI clients in one command.**
 
 ```bash

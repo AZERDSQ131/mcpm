@@ -73,8 +73,9 @@ program
 program
   .command("create [name]")
   .description("Scaffold a new MCP server project")
-  .action(async (name?: string) => {
-    await create(name);
+  .option("--ai <description>", "Describe what the server should do — AI writes the implementation")
+  .action(async (name?: string, opts?: { ai?: string }) => {
+    await create(name, { ai: opts?.ai });
   });
 
 program
@@ -158,6 +159,7 @@ ${chalk.dim("Examples:")}
   ${chalk.italic("mcpm doctor")}                          check server health
   ${chalk.italic("mcpm export ~/my-mcp-setup.json")}      backup your setup
   ${chalk.italic("mcpm import ~/my-mcp-setup.json")}      restore on a new machine
+  ${chalk.italic('mcpm create --ai "fetch crypto prices"')} AI writes the implementation
   ${chalk.italic("mcpm create my-server")}               scaffold a new MCP server
   ${chalk.italic("mcpm run .")}                          test your local server
   ${chalk.italic("mcpm publish")}                        submit your server to registry

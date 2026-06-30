@@ -10,4 +10,4 @@ Set TypingSpeed 80ms
 Type "mcpm doctor"
 Sleep 400ms
 Enter
-Sleep 3.5s
+Sleep 12s

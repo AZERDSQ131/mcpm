@@ -69,6 +69,29 @@ export async function outdated(): Promise<void> {
       } catch {
         status = "unknown";
       }
+    } else if (config.command === "docker" && pkgToCheck) {
+      try {
+        const [repo, tag = "latest"] = pkgToCheck.split(":");
+        const url = repo.includes("/")
+          ? `https://hub.docker.com/v2/repositories/${repo}/tags/${tag}/`
+          : `https://hub.docker.com/v2/repositories/library/${repo}/tags/${tag}/`;
+        const out = execSync(`curl -sf "${url}"`, { stdio: "pipe", timeout: 10_000 });
+        const data = JSON.parse(out.toString()) as { last_updated?: string; name?: string };
+        latestVersion = data.last_updated ? tag : null;
+        status = latestVersion ? "ok" : "unknown";
+      } catch {
+        status = "unknown";
+      }
+    } else if (config.command === "go" && pkgToCheck) {
+      try {
+        const mod = pkgToCheck.replace(/@[^@]+$/, "");
+        const out = execSync(`curl -sf "https://proxy.golang.org/${mod}/@latest"`, { stdio: "pipe", timeout: 10_000 });
+        const data = JSON.parse(out.toString()) as { Version?: string };
+        latestVersion = data.Version ?? null;
+        status = latestVersion ? (pkgMismatch ? "mismatch" : "ok") : "unknown";
+      } catch {
+        status = "unknown";
+      }
     }
 
     results.push({ id, currentPkg, registryPkg, latestVersion, pkgMismatch, status });

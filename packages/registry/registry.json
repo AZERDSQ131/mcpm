@@ -1,82 +1,136 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "servers": {
     "github": {
       "name": "GitHub",
       "description": "Interact with GitHub repos, issues, PRs, and code",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": {
           "description": "GitHub Personal Access Token (repo scope)",
           "required": true
         }
       },
-      "tags": ["git", "code", "collaboration", "official"]
+      "tags": [
+        "git",
+        "code",
+        "collaboration",
+        "official"
+      ]
     },
     "filesystem": {
       "name": "Filesystem",
       "description": "Read and write files on your local filesystem",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "~/"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "~/"
+      ],
       "env": {},
-      "tags": ["files", "local", "official"]
+      "tags": [
+        "files",
+        "local",
+        "official"
+      ]
     },
     "postgres": {
       "name": "PostgreSQL",
       "description": "Query and explore PostgreSQL databases",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres"
+      ],
       "env": {
         "POSTGRES_CONNECTION_STRING": {
           "description": "PostgreSQL connection string (postgresql://user:pass@host/db)",
           "required": true
         }
       },
-      "tags": ["database", "sql", "official"]
+      "tags": [
+        "database",
+        "sql",
+        "official"
+      ]
     },
     "fetch": {
       "name": "Fetch",
       "description": "Fetch web pages and convert them to markdown, HTML, or plain text",
       "command": "npx",
-      "args": ["-y", "mcp-fetch-server"],
+      "args": [
+        "-y",
+        "mcp-fetch-server"
+      ],
       "env": {},
-      "tags": ["web", "scraping"]
+      "tags": [
+        "web",
+        "scraping"
+      ]
     },
     "brave-search": {
       "name": "Brave Search",
       "description": "Web and local search via Brave Search API",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
       "env": {
         "BRAVE_API_KEY": {
           "description": "Brave Search API key",
           "required": true
         }
       },
-      "tags": ["search", "web", "official"]
+      "tags": [
+        "search",
+        "web",
+        "official"
+      ]
     },
     "playwright": {
       "name": "Playwright",
       "description": "Browser automation and end-to-end testing via Playwright",
       "command": "npx",
-      "args": ["-y", "@playwright/mcp"],
+      "args": [
+        "-y",
+        "@playwright/mcp"
+      ],
       "env": {},
-      "tags": ["browser", "automation", "testing"]
+      "tags": [
+        "browser",
+        "automation",
+        "testing"
+      ]
     },
     "puppeteer": {
       "name": "Puppeteer",
       "description": "Browser automation and web scraping via Puppeteer",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-puppeteer"
+      ],
       "env": {},
-      "tags": ["browser", "automation", "scraping", "official"]
+      "tags": [
+        "browser",
+        "automation",
+        "scraping",
+        "official"
+      ]
     },
     "slack": {
       "name": "Slack",
       "description": "Send messages and interact with Slack workspaces",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-slack"
+      ],
       "env": {
         "SLACK_BOT_TOKEN": {
           "description": "Slack bot token (xoxb-...)",
@@ -87,141 +141,247 @@
           "required": true
         }
       },
-      "tags": ["messaging", "collaboration", "official"]
+      "tags": [
+        "messaging",
+        "collaboration",
+        "official"
+      ]
     },
     "discord": {
       "name": "Discord",
       "description": "Read and send messages in Discord channels",
       "command": "npx",
-      "args": ["-y", "mcp-discord"],
+      "args": [
+        "-y",
+        "mcp-discord"
+      ],
       "env": {
         "DISCORD_TOKEN": {
           "description": "Discord bot token",
           "required": true
         }
       },
-      "tags": ["messaging", "community"]
+      "tags": [
+        "messaging",
+        "community"
+      ]
     },
     "redis": {
       "name": "Redis",
       "description": "Interact with Redis key-value stores",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-redis"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-redis"
+      ],
       "env": {
         "REDIS_URL": {
           "description": "Redis connection URL (redis://localhost:6379)",
           "required": true
         }
       },
-      "tags": ["database", "cache", "official"]
+      "tags": [
+        "database",
+        "cache",
+        "official"
+      ]
     },
     "sqlite": {
       "name": "SQLite",
       "description": "Query and manage local SQLite databases",
       "command": "npx",
-      "args": ["-y", "mcp-sqlite"],
+      "args": [
+        "-y",
+        "mcp-sqlite"
+      ],
       "env": {
         "SQLITE_DB_PATH": {
           "description": "Path to the SQLite database file",
           "required": true
         }
       },
-      "tags": ["database", "sql", "local"]
+      "tags": [
+        "database",
+        "sql",
+        "local"
+      ]
     },
     "mysql": {
       "name": "MySQL",
       "description": "Query and manage MySQL databases",
       "command": "npx",
-      "args": ["-y", "mcp-mysql"],
+      "args": [
+        "-y",
+        "mcp-mysql"
+      ],
       "env": {
-        "MYSQL_HOST": { "description": "MySQL host", "required": true },
-        "MYSQL_USER": { "description": "MySQL username", "required": true },
-        "MYSQL_PASSWORD": { "description": "MySQL password", "required": true },
-        "MYSQL_DATABASE": { "description": "Database name", "required": true }
+        "MYSQL_HOST": {
+          "description": "MySQL host",
+          "required": true
+        },
+        "MYSQL_USER": {
+          "description": "MySQL username",
+          "required": true
+        },
+        "MYSQL_PASSWORD": {
+          "description": "MySQL password",
+          "required": true
+        },
+        "MYSQL_DATABASE": {
+          "description": "Database name",
+          "required": true
+        }
       },
-      "tags": ["database", "sql"]
+      "tags": [
+        "database",
+        "sql"
+      ]
     },
     "elasticsearch": {
       "name": "Elasticsearch",
       "description": "Search and analyze data in Elasticsearch",
       "command": "npx",
-      "args": ["-y", "mcp-server-elasticsearch"],
+      "args": [
+        "-y",
+        "mcp-server-elasticsearch"
+      ],
       "env": {
         "ELASTICSEARCH_URL": {
           "description": "Elasticsearch URL (http://localhost:9200)",
           "required": true
         }
       },
-      "tags": ["database", "search", "analytics"]
+      "tags": [
+        "database",
+        "search",
+        "analytics"
+      ]
     },
     "stripe": {
       "name": "Stripe",
       "description": "Interact with Stripe payments, customers, and subscriptions",
       "command": "npx",
-      "args": ["-y", "@stripe/agent-toolkit"],
+      "args": [
+        "-y",
+        "@stripe/agent-toolkit"
+      ],
       "env": {
         "STRIPE_SECRET_KEY": {
           "description": "Stripe secret API key (sk_...)",
           "required": true
         }
       },
-      "tags": ["payments", "billing", "fintech"]
+      "tags": [
+        "payments",
+        "billing",
+        "fintech"
+      ]
     },
     "notion": {
       "name": "Notion",
       "description": "Read and write Notion pages and databases (official)",
       "command": "npx",
-      "args": ["-y", "@notionhq/notion-mcp-server"],
+      "args": [
+        "-y",
+        "@notionhq/notion-mcp-server"
+      ],
       "env": {
         "NOTION_API_TOKEN": {
           "description": "Notion integration token",
           "required": true
         }
       },
-      "tags": ["productivity", "notes", "database", "official"]
+      "tags": [
+        "productivity",
+        "notes",
+        "database",
+        "official"
+      ]
     },
     "linear": {
       "name": "Linear",
       "description": "Manage Linear issues, projects, and teams",
       "command": "npx",
-      "args": ["-y", "mcp-server-linear"],
+      "args": [
+        "-y",
+        "mcp-server-linear"
+      ],
       "env": {
         "LINEAR_API_KEY": {
           "description": "Linear API key",
           "required": true
         }
       },
-      "tags": ["project-management", "issues", "productivity"]
+      "tags": [
+        "project-management",
+        "issues",
+        "productivity"
+      ]
     },
     "jira": {
       "name": "Jira",
       "description": "Manage Jira issues, sprints, and projects",
       "command": "npx",
-      "args": ["-y", "mcp-jira"],
+      "args": [
+        "-y",
+        "mcp-jira"
+      ],
       "env": {
-        "JIRA_HOST": { "description": "Jira host (https://yourcompany.atlassian.net)", "required": true },
-        "JIRA_EMAIL": { "description": "Jira account email", "required": true },
-        "JIRA_API_TOKEN": { "description": "Jira API token", "required": true }
+        "JIRA_HOST": {
+          "description": "Jira host (https://yourcompany.atlassian.net)",
+          "required": true
+        },
+        "JIRA_EMAIL": {
+          "description": "Jira account email",
+          "required": true
+        },
+        "JIRA_API_TOKEN": {
+          "description": "Jira API token",
+          "required": true
+        }
       },
-      "tags": ["project-management", "issues", "productivity"]
+      "tags": [
+        "project-management",
+        "issues",
+        "productivity"
+      ]
     },
     "confluence": {
       "name": "Confluence",
       "description": "Read and write Confluence wiki pages and spaces",
       "command": "npx",
-      "args": ["-y", "mcp-confluence"],
+      "args": [
+        "-y",
+        "mcp-confluence"
+      ],
       "env": {
-        "CONFLUENCE_HOST": { "description": "Confluence host URL", "required": true },
-        "CONFLUENCE_EMAIL": { "description": "Confluence account email", "required": true },
-        "CONFLUENCE_API_TOKEN": { "description": "Confluence API token", "required": true }
+        "CONFLUENCE_HOST": {
+          "description": "Confluence host URL",
+          "required": true
+        },
+        "CONFLUENCE_EMAIL": {
+          "description": "Confluence account email",
+          "required": true
+        },
+        "CONFLUENCE_API_TOKEN": {
+          "description": "Confluence API token",
+          "required": true
+        }
       },
-      "tags": ["documentation", "wiki", "productivity"]
+      "tags": [
+        "documentation",
+        "wiki",
+        "productivity"
+      ]
     },
     "gitlab": {
       "name": "GitLab",
       "description": "Interact with GitLab repos, MRs, issues, and pipelines",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-gitlab"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-gitlab"
+      ],
       "env": {
         "GITLAB_PERSONAL_ACCESS_TOKEN": {
           "description": "GitLab Personal Access Token",
@@ -232,871 +392,2976 @@
           "required": false
         }
       },
-      "tags": ["git", "code", "collaboration", "official"]
+      "tags": [
+        "git",
+        "code",
+        "collaboration",
+        "official"
+      ]
     },
     "obsidian": {
       "name": "Obsidian",
       "description": "Read and write notes in your Obsidian vault",
       "command": "npx",
-      "args": ["-y", "mcp-obsidian"],
+      "args": [
+        "-y",
+        "mcp-obsidian"
+      ],
       "env": {
         "OBSIDIAN_VAULT_PATH": {
           "description": "Path to your Obsidian vault",
           "required": true
         }
       },
-      "tags": ["notes", "knowledge", "local"]
+      "tags": [
+        "notes",
+        "knowledge",
+        "local"
+      ]
     },
     "google-maps": {
       "name": "Google Maps",
       "description": "Location search, directions, and geocoding via Google Maps",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-google-maps"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-google-maps"
+      ],
       "env": {
         "GOOGLE_MAPS_API_KEY": {
           "description": "Google Maps API key",
           "required": true
         }
       },
-      "tags": ["maps", "location", "official"]
+      "tags": [
+        "maps",
+        "location",
+        "official"
+      ]
     },
     "aws-kb": {
       "name": "AWS Knowledge Base",
       "description": "Retrieval from AWS Bedrock Knowledge Bases",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-aws-kb-retrieval"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-aws-kb-retrieval"
+      ],
       "env": {
-        "AWS_ACCESS_KEY_ID": { "description": "AWS Access Key ID", "required": true },
-        "AWS_SECRET_ACCESS_KEY": { "description": "AWS Secret Access Key", "required": true },
-        "AWS_REGION": { "description": "AWS region (e.g. us-east-1)", "required": true }
+        "AWS_ACCESS_KEY_ID": {
+          "description": "AWS Access Key ID",
+          "required": true
+        },
+        "AWS_SECRET_ACCESS_KEY": {
+          "description": "AWS Secret Access Key",
+          "required": true
+        },
+        "AWS_REGION": {
+          "description": "AWS region (e.g. us-east-1)",
+          "required": true
+        }
       },
-      "tags": ["aws", "cloud", "rag", "official"]
+      "tags": [
+        "aws",
+        "cloud",
+        "rag",
+        "official"
+      ]
     },
     "memory": {
       "name": "Memory",
       "description": "Persistent knowledge graph memory for AI assistants",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
       "env": {},
-      "tags": ["memory", "knowledge-graph", "official"]
+      "tags": [
+        "memory",
+        "knowledge-graph",
+        "official"
+      ]
     },
     "everart": {
       "name": "EverArt",
       "description": "AI image generation via EverArt API",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-everart"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-everart"
+      ],
       "env": {
-        "EVERART_API_KEY": { "description": "EverArt API key", "required": true }
+        "EVERART_API_KEY": {
+          "description": "EverArt API key",
+          "required": true
+        }
       },
-      "tags": ["image", "ai", "generation", "official"]
+      "tags": [
+        "image",
+        "ai",
+        "generation",
+        "official"
+      ]
     },
     "everything": {
       "name": "Everything",
       "description": "Reference MCP server with all protocol features for testing",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-everything"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-everything"
+      ],
       "env": {},
-      "tags": ["testing", "reference", "official"]
+      "tags": [
+        "testing",
+        "reference",
+        "official"
+      ]
     },
     "sentry": {
       "name": "Sentry",
       "description": "Query Sentry issues, events, and error data",
       "command": "npx",
-      "args": ["-y", "@sentry/mcp-server"],
+      "args": [
+        "-y",
+        "@sentry/mcp-server"
+      ],
       "env": {
-        "SENTRY_AUTH_TOKEN": { "description": "Sentry authentication token", "required": true },
-        "SENTRY_ORG": { "description": "Sentry organization slug", "required": true }
+        "SENTRY_AUTH_TOKEN": {
+          "description": "Sentry authentication token",
+          "required": true
+        },
+        "SENTRY_ORG": {
+          "description": "Sentry organization slug",
+          "required": true
+        }
       },
-      "tags": ["monitoring", "errors", "devops"]
+      "tags": [
+        "monitoring",
+        "errors",
+        "devops"
+      ]
     },
     "figma": {
       "name": "Figma",
       "description": "Access Figma designs, components, and variables",
       "command": "npx",
-      "args": ["-y", "figma-mcp"],
+      "args": [
+        "-y",
+        "figma-mcp"
+      ],
       "env": {
-        "FIGMA_ACCESS_TOKEN": { "description": "Figma personal access token", "required": true }
+        "FIGMA_ACCESS_TOKEN": {
+          "description": "Figma personal access token",
+          "required": true
+        }
       },
-      "tags": ["design", "ui", "figma"]
+      "tags": [
+        "design",
+        "ui",
+        "figma"
+      ]
     },
     "vercel": {
       "name": "Vercel",
       "description": "Manage Vercel deployments, projects, and domains",
       "command": "npx",
-      "args": ["-y", "@vercel/mcp-adapter"],
+      "args": [
+        "-y",
+        "@vercel/mcp-adapter"
+      ],
       "env": {
-        "VERCEL_TOKEN": { "description": "Vercel API token", "required": true }
+        "VERCEL_TOKEN": {
+          "description": "Vercel API token",
+          "required": true
+        }
       },
-      "tags": ["deployment", "cloud", "hosting"]
+      "tags": [
+        "deployment",
+        "cloud",
+        "hosting"
+      ]
     },
     "supabase": {
       "name": "Supabase",
       "description": "Interact with Supabase databases, auth, and storage",
       "command": "npx",
-      "args": ["-y", "@supabase/mcp-server-supabase"],
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase"
+      ],
       "env": {
-        "SUPABASE_URL": { "description": "Supabase project URL", "required": true },
-        "SUPABASE_SERVICE_ROLE_KEY": { "description": "Supabase service role key", "required": true }
+        "SUPABASE_URL": {
+          "description": "Supabase project URL",
+          "required": true
+        },
+        "SUPABASE_SERVICE_ROLE_KEY": {
+          "description": "Supabase service role key",
+          "required": true
+        }
       },
-      "tags": ["database", "backend", "auth"]
+      "tags": [
+        "database",
+        "backend",
+        "auth"
+      ]
     },
     "cloudflare": {
       "name": "Cloudflare",
       "description": "Manage Cloudflare Workers, KV, D1, and DNS settings",
       "command": "npx",
-      "args": ["-y", "@cloudflare/mcp-server-cloudflare"],
+      "args": [
+        "-y",
+        "@cloudflare/mcp-server-cloudflare"
+      ],
       "env": {
-        "CLOUDFLARE_API_TOKEN": { "description": "Cloudflare API token", "required": true }
+        "CLOUDFLARE_API_TOKEN": {
+          "description": "Cloudflare API token",
+          "required": true
+        }
       },
-      "tags": ["cloud", "deployment", "dns", "edge"]
+      "tags": [
+        "cloud",
+        "deployment",
+        "dns",
+        "edge"
+      ]
     },
     "upstash": {
       "name": "Upstash",
       "description": "Serverless Redis and Kafka via Upstash",
       "command": "npx",
-      "args": ["-y", "@upstash/mcp-server"],
+      "args": [
+        "-y",
+        "@upstash/mcp-server"
+      ],
       "env": {
-        "UPSTASH_REDIS_REST_URL": { "description": "Upstash Redis REST URL", "required": true },
-        "UPSTASH_REDIS_REST_TOKEN": { "description": "Upstash Redis REST token", "required": true }
+        "UPSTASH_REDIS_REST_URL": {
+          "description": "Upstash Redis REST URL",
+          "required": true
+        },
+        "UPSTASH_REDIS_REST_TOKEN": {
+          "description": "Upstash Redis REST token",
+          "required": true
+        }
       },
-      "tags": ["database", "cache", "serverless"]
+      "tags": [
+        "database",
+        "cache",
+        "serverless"
+      ]
     },
     "pinecone": {
       "name": "Pinecone",
       "description": "Vector search and retrieval via Pinecone",
       "command": "npx",
-      "args": ["-y", "@pinecone-database/mcp"],
+      "args": [
+        "-y",
+        "@pinecone-database/mcp"
+      ],
       "env": {
-        "PINECONE_API_KEY": { "description": "Pinecone API key", "required": true }
+        "PINECONE_API_KEY": {
+          "description": "Pinecone API key",
+          "required": true
+        }
       },
-      "tags": ["vector", "search", "rag", "ai"]
+      "tags": [
+        "vector",
+        "search",
+        "rag",
+        "ai"
+      ]
     },
     "exa": {
       "name": "Exa Search",
       "description": "Neural web search via Exa AI",
       "command": "npx",
-      "args": ["-y", "exa-mcp-server"],
+      "args": [
+        "-y",
+        "exa-mcp-server"
+      ],
       "env": {
-        "EXA_API_KEY": { "description": "Exa API key", "required": true }
+        "EXA_API_KEY": {
+          "description": "Exa API key",
+          "required": true
+        }
       },
-      "tags": ["search", "web", "ai"]
+      "tags": [
+        "search",
+        "web",
+        "ai"
+      ]
     },
     "perplexity": {
       "name": "Perplexity",
       "description": "Web search with citations via Perplexity AI",
       "command": "npx",
-      "args": ["-y", "mcp-server-perplexity"],
+      "args": [
+        "-y",
+        "mcp-server-perplexity"
+      ],
       "env": {
-        "PERPLEXITY_API_KEY": { "description": "Perplexity API key", "required": true }
+        "PERPLEXITY_API_KEY": {
+          "description": "Perplexity API key",
+          "required": true
+        }
       },
-      "tags": ["search", "web", "ai"]
+      "tags": [
+        "search",
+        "web",
+        "ai"
+      ]
     },
     "firecrawl": {
       "name": "Firecrawl",
       "description": "Web scraping and crawling at scale via Firecrawl",
       "command": "npx",
-      "args": ["-y", "firecrawl-mcp"],
+      "args": [
+        "-y",
+        "firecrawl-mcp"
+      ],
       "env": {
-        "FIRECRAWL_API_KEY": { "description": "Firecrawl API key", "required": true }
+        "FIRECRAWL_API_KEY": {
+          "description": "Firecrawl API key",
+          "required": true
+        }
       },
-      "tags": ["web", "scraping", "crawling"]
+      "tags": [
+        "web",
+        "scraping",
+        "crawling"
+      ]
     },
     "browserbase": {
       "name": "Browserbase",
       "description": "Cloud browser automation via Browserbase",
       "command": "npx",
-      "args": ["-y", "@browserbasehq/mcp"],
+      "args": [
+        "-y",
+        "@browserbasehq/mcp"
+      ],
       "env": {
-        "BROWSERBASE_API_KEY": { "description": "Browserbase API key", "required": true },
-        "BROWSERBASE_PROJECT_ID": { "description": "Browserbase project ID", "required": true }
+        "BROWSERBASE_API_KEY": {
+          "description": "Browserbase API key",
+          "required": true
+        },
+        "BROWSERBASE_PROJECT_ID": {
+          "description": "Browserbase project ID",
+          "required": true
+        }
       },
-      "tags": ["browser", "automation", "cloud"]
+      "tags": [
+        "browser",
+        "automation",
+        "cloud"
+      ]
     },
     "e2b": {
       "name": "E2B",
       "description": "Secure cloud sandboxes for code execution",
       "command": "npx",
-      "args": ["-y", "@e2b/mcp-server"],
+      "args": [
+        "-y",
+        "@e2b/mcp-server"
+      ],
       "env": {
-        "E2B_API_KEY": { "description": "E2B API key", "required": true }
+        "E2B_API_KEY": {
+          "description": "E2B API key",
+          "required": true
+        }
       },
-      "tags": ["code-execution", "sandbox", "cloud"]
+      "tags": [
+        "code-execution",
+        "sandbox",
+        "cloud"
+      ]
     },
     "kubernetes": {
       "name": "Kubernetes",
       "description": "Manage Kubernetes clusters, pods, and deployments",
       "command": "npx",
-      "args": ["-y", "mcp-server-kubernetes"],
+      "args": [
+        "-y",
+        "mcp-server-kubernetes"
+      ],
       "env": {},
-      "tags": ["devops", "cloud", "containers"]
+      "tags": [
+        "devops",
+        "cloud",
+        "containers"
+      ]
     },
     "docker": {
       "name": "Docker",
       "description": "Manage Docker containers, images, and networks",
       "command": "npx",
-      "args": ["-y", "mcp-server-docker"],
+      "args": [
+        "-y",
+        "mcp-server-docker"
+      ],
       "env": {},
-      "tags": ["devops", "containers", "local"]
+      "tags": [
+        "devops",
+        "containers",
+        "local"
+      ]
     },
     "hubspot": {
       "name": "HubSpot",
       "description": "Manage HubSpot contacts, deals, and marketing campaigns",
       "command": "npx",
-      "args": ["-y", "@hubspot/mcp-server"],
+      "args": [
+        "-y",
+        "@hubspot/mcp-server"
+      ],
       "env": {
-        "HUBSPOT_ACCESS_TOKEN": { "description": "HubSpot private app access token", "required": true }
+        "HUBSPOT_ACCESS_TOKEN": {
+          "description": "HubSpot private app access token",
+          "required": true
+        }
       },
-      "tags": ["crm", "marketing", "sales"]
+      "tags": [
+        "crm",
+        "marketing",
+        "sales"
+      ]
     },
     "airtable": {
       "name": "Airtable",
       "description": "Read and write Airtable bases and records",
       "command": "npx",
-      "args": ["-y", "mcp-airtable"],
+      "args": [
+        "-y",
+        "mcp-airtable"
+      ],
       "env": {
-        "AIRTABLE_API_KEY": { "description": "Airtable API key", "required": true },
-        "AIRTABLE_BASE_ID": { "description": "Airtable base ID", "required": true }
+        "AIRTABLE_API_KEY": {
+          "description": "Airtable API key",
+          "required": true
+        },
+        "AIRTABLE_BASE_ID": {
+          "description": "Airtable base ID",
+          "required": true
+        }
       },
-      "tags": ["database", "spreadsheet", "productivity"]
+      "tags": [
+        "database",
+        "spreadsheet",
+        "productivity"
+      ]
     },
     "shopify": {
       "name": "Shopify",
       "description": "Manage Shopify products, orders, and customers",
       "command": "npx",
-      "args": ["-y", "mcp-shopify"],
+      "args": [
+        "-y",
+        "mcp-shopify"
+      ],
       "env": {
-        "SHOPIFY_STORE_URL": { "description": "Shopify store URL", "required": true },
-        "SHOPIFY_ACCESS_TOKEN": { "description": "Shopify Admin API access token", "required": true }
+        "SHOPIFY_STORE_URL": {
+          "description": "Shopify store URL",
+          "required": true
+        },
+        "SHOPIFY_ACCESS_TOKEN": {
+          "description": "Shopify Admin API access token",
+          "required": true
+        }
       },
-      "tags": ["ecommerce", "products", "orders"]
+      "tags": [
+        "ecommerce",
+        "products",
+        "orders"
+      ]
     },
     "resend": {
       "name": "Resend",
       "description": "Send transactional emails via Resend",
       "command": "npx",
-      "args": ["-y", "mcp-server-resend"],
+      "args": [
+        "-y",
+        "mcp-server-resend"
+      ],
       "env": {
-        "RESEND_API_KEY": { "description": "Resend API key", "required": true }
+        "RESEND_API_KEY": {
+          "description": "Resend API key",
+          "required": true
+        }
       },
-      "tags": ["email", "notifications"]
+      "tags": [
+        "email",
+        "notifications"
+      ]
     },
     "neon": {
       "name": "Neon",
-      "description": "Serverless Postgres via Neon — manage branches, run queries",
+      "description": "Serverless Postgres via Neon \u2014 manage branches, run queries",
       "command": "npx",
-      "args": ["-y", "mcp-server-neon"],
+      "args": [
+        "-y",
+        "mcp-server-neon"
+      ],
       "env": {
-        "NEON_API_KEY": { "description": "Neon API key", "required": true }
+        "NEON_API_KEY": {
+          "description": "Neon API key",
+          "required": true
+        }
       },
-      "tags": ["database", "postgres", "serverless"]
+      "tags": [
+        "database",
+        "postgres",
+        "serverless"
+      ]
     },
     "qdrant": {
       "name": "Qdrant",
       "description": "Vector database operations via Qdrant",
       "command": "npx",
-      "args": ["-y", "mcp-qdrant"],
+      "args": [
+        "-y",
+        "mcp-qdrant"
+      ],
       "env": {
-        "QDRANT_URL": { "description": "Qdrant server URL", "required": true },
-        "QDRANT_API_KEY": { "description": "Qdrant API key", "required": false }
+        "QDRANT_URL": {
+          "description": "Qdrant server URL",
+          "required": true
+        },
+        "QDRANT_API_KEY": {
+          "description": "Qdrant API key",
+          "required": false
+        }
       },
-      "tags": ["vector", "search", "rag", "ai"]
+      "tags": [
+        "vector",
+        "search",
+        "rag",
+        "ai"
+      ]
     },
     "youtube": {
       "name": "YouTube",
       "description": "Search YouTube and fetch video metadata and transcripts",
       "command": "npx",
-      "args": ["-y", "mcp-youtube"],
+      "args": [
+        "-y",
+        "mcp-youtube"
+      ],
       "env": {},
-      "tags": ["video", "search", "content"]
+      "tags": [
+        "video",
+        "search",
+        "content"
+      ]
     },
     "pdf": {
       "name": "PDF",
       "description": "Load and extract text from PDF files",
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-pdf"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-pdf"
+      ],
       "env": {},
-      "tags": ["documents", "files", "official"]
+      "tags": [
+        "documents",
+        "files",
+        "official"
+      ]
     },
     "context7": {
       "name": "Context7",
       "description": "Up-to-date library documentation lookup for any package",
       "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"],
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
       "env": {},
-      "tags": ["documentation", "search", "code"]
+      "tags": [
+        "documentation",
+        "search",
+        "code"
+      ]
     },
     "azure": {
       "name": "Azure",
       "description": "Manage Azure resources, storage, and services",
       "command": "npx",
-      "args": ["-y", "@azure/mcp"],
+      "args": [
+        "-y",
+        "@azure/mcp"
+      ],
       "env": {
-        "AZURE_SUBSCRIPTION_ID": { "description": "Azure subscription ID", "required": true }
+        "AZURE_SUBSCRIPTION_ID": {
+          "description": "Azure subscription ID",
+          "required": true
+        }
       },
-      "tags": ["cloud", "azure", "microsoft"]
+      "tags": [
+        "cloud",
+        "azure",
+        "microsoft"
+      ]
     },
     "heroku": {
       "name": "Heroku",
       "description": "Manage Heroku apps, dynos, and deployments",
       "command": "npx",
-      "args": ["-y", "@heroku/mcp-server"],
+      "args": [
+        "-y",
+        "@heroku/mcp-server"
+      ],
       "env": {
-        "HEROKU_API_KEY": { "description": "Heroku API key", "required": true }
+        "HEROKU_API_KEY": {
+          "description": "Heroku API key",
+          "required": true
+        }
       },
-      "tags": ["deployment", "cloud", "hosting"]
+      "tags": [
+        "deployment",
+        "cloud",
+        "hosting"
+      ]
     },
     "alchemy": {
       "name": "Alchemy",
       "description": "Blockchain data, NFTs, and Web3 APIs via Alchemy",
       "command": "npx",
-      "args": ["-y", "@alchemy/mcp-server"],
+      "args": [
+        "-y",
+        "@alchemy/mcp-server"
+      ],
       "env": {
-        "ALCHEMY_API_KEY": { "description": "Alchemy API key", "required": true }
+        "ALCHEMY_API_KEY": {
+          "description": "Alchemy API key",
+          "required": true
+        }
       },
-      "tags": ["blockchain", "web3", "nft"]
+      "tags": [
+        "blockchain",
+        "web3",
+        "nft"
+      ]
     },
     "apify": {
       "name": "Apify",
       "description": "Web scraping and automation via 3000+ Apify Actors",
       "command": "npx",
-      "args": ["-y", "@apify/actors-mcp-server"],
+      "args": [
+        "-y",
+        "@apify/actors-mcp-server"
+      ],
       "env": {
-        "APIFY_TOKEN": { "description": "Apify API token", "required": true }
+        "APIFY_TOKEN": {
+          "description": "Apify API token",
+          "required": true
+        }
       },
-      "tags": ["scraping", "automation", "web"]
+      "tags": [
+        "scraping",
+        "automation",
+        "web"
+      ]
     },
     "chrome-devtools": {
       "name": "Chrome DevTools",
       "description": "Debug and inspect Chrome via DevTools Protocol",
       "command": "npx",
-      "args": ["-y", "chrome-devtools-mcp"],
+      "args": [
+        "-y",
+        "chrome-devtools-mcp"
+      ],
       "env": {},
-      "tags": ["browser", "debugging", "devtools"]
+      "tags": [
+        "browser",
+        "debugging",
+        "devtools"
+      ]
     },
     "browserstack": {
       "name": "BrowserStack",
       "description": "Cross-browser testing on real devices via BrowserStack",
       "command": "npx",
-      "args": ["-y", "@browserstack/mcp-server"],
+      "args": [
+        "-y",
+        "@browserstack/mcp-server"
+      ],
       "env": {
-        "BROWSERSTACK_USERNAME": { "description": "BrowserStack username", "required": true },
-        "BROWSERSTACK_ACCESS_KEY": { "description": "BrowserStack access key", "required": true }
+        "BROWSERSTACK_USERNAME": {
+          "description": "BrowserStack username",
+          "required": true
+        },
+        "BROWSERSTACK_ACCESS_KEY": {
+          "description": "BrowserStack access key",
+          "required": true
+        }
       },
-      "tags": ["testing", "browser", "cross-platform"]
+      "tags": [
+        "testing",
+        "browser",
+        "cross-platform"
+      ]
     },
     "pulsemcp": {
       "name": "PulseMCP",
       "description": "Discover and search MCP servers in the ecosystem",
       "command": "npx",
-      "args": ["-y", "pulsemcp-server"],
+      "args": [
+        "-y",
+        "pulsemcp-server"
+      ],
       "env": {},
-      "tags": ["discovery", "mcp", "search"]
+      "tags": [
+        "discovery",
+        "mcp",
+        "search"
+      ]
     },
     "twitter": {
       "name": "Twitter / X",
       "description": "Post tweets, search, and interact with Twitter/X",
       "command": "npx",
-      "args": ["-y", "twitter-mcp"],
+      "args": [
+        "-y",
+        "twitter-mcp"
+      ],
       "env": {
-        "TWITTER_API_KEY": { "description": "Twitter API key", "required": true },
-        "TWITTER_API_SECRET": { "description": "Twitter API secret", "required": true },
-        "TWITTER_ACCESS_TOKEN": { "description": "Twitter access token", "required": true },
-        "TWITTER_ACCESS_TOKEN_SECRET": { "description": "Twitter access token secret", "required": true }
+        "TWITTER_API_KEY": {
+          "description": "Twitter API key",
+          "required": true
+        },
+        "TWITTER_API_SECRET": {
+          "description": "Twitter API secret",
+          "required": true
+        },
+        "TWITTER_ACCESS_TOKEN": {
+          "description": "Twitter access token",
+          "required": true
+        },
+        "TWITTER_ACCESS_TOKEN_SECRET": {
+          "description": "Twitter access token secret",
+          "required": true
+        }
       },
-      "tags": ["social", "messaging", "content"]
+      "tags": [
+        "social",
+        "messaging",
+        "content"
+      ]
     },
     "reddit": {
       "name": "Reddit",
       "description": "Browse subreddits, posts, and comments on Reddit",
       "command": "npx",
-      "args": ["-y", "reddit-mcp"],
+      "args": [
+        "-y",
+        "reddit-mcp"
+      ],
       "env": {
-        "REDDIT_CLIENT_ID": { "description": "Reddit app client ID", "required": true },
-        "REDDIT_CLIENT_SECRET": { "description": "Reddit app client secret", "required": true }
+        "REDDIT_CLIENT_ID": {
+          "description": "Reddit app client ID",
+          "required": true
+        },
+        "REDDIT_CLIENT_SECRET": {
+          "description": "Reddit app client secret",
+          "required": true
+        }
       },
-      "tags": ["social", "community", "content"]
+      "tags": [
+        "social",
+        "community",
+        "content"
+      ]
     },
     "instagram": {
       "name": "Instagram",
       "description": "Manage Instagram posts and interactions",
       "command": "npx",
-      "args": ["-y", "mcp-server-instagram"],
+      "args": [
+        "-y",
+        "mcp-server-instagram"
+      ],
       "env": {
-        "INSTAGRAM_ACCESS_TOKEN": { "description": "Instagram Graph API access token", "required": true }
+        "INSTAGRAM_ACCESS_TOKEN": {
+          "description": "Instagram Graph API access token",
+          "required": true
+        }
       },
-      "tags": ["social", "content", "marketing"]
+      "tags": [
+        "social",
+        "content",
+        "marketing"
+      ]
     },
     "linkedin": {
       "name": "LinkedIn",
       "description": "Access LinkedIn profiles, posts, and connections",
       "command": "npx",
-      "args": ["-y", "linkedin-mcp"],
+      "args": [
+        "-y",
+        "linkedin-mcp"
+      ],
       "env": {
-        "LINKEDIN_ACCESS_TOKEN": { "description": "LinkedIn OAuth access token", "required": true }
+        "LINKEDIN_ACCESS_TOKEN": {
+          "description": "LinkedIn OAuth access token",
+          "required": true
+        }
       },
-      "tags": ["social", "professional", "networking"]
+      "tags": [
+        "social",
+        "professional",
+        "networking"
+      ]
     },
     "spotify": {
       "name": "Spotify",
       "description": "Search music, control playback, and manage playlists",
       "command": "npx",
-      "args": ["-y", "spotify-mcp"],
+      "args": [
+        "-y",
+        "spotify-mcp"
+      ],
       "env": {
-        "SPOTIFY_CLIENT_ID": { "description": "Spotify app client ID", "required": true },
-        "SPOTIFY_CLIENT_SECRET": { "description": "Spotify app client secret", "required": true }
+        "SPOTIFY_CLIENT_ID": {
+          "description": "Spotify app client ID",
+          "required": true
+        },
+        "SPOTIFY_CLIENT_SECRET": {
+          "description": "Spotify app client secret",
+          "required": true
+        }
       },
-      "tags": ["music", "media", "entertainment"]
+      "tags": [
+        "music",
+        "media",
+        "entertainment"
+      ]
     },
     "openai": {
       "name": "OpenAI",
       "description": "Access OpenAI models, embeddings, and assistants",
       "command": "npx",
-      "args": ["-y", "openai-mcp"],
+      "args": [
+        "-y",
+        "openai-mcp"
+      ],
       "env": {
-        "OPENAI_API_KEY": { "description": "OpenAI API key", "required": true }
+        "OPENAI_API_KEY": {
+          "description": "OpenAI API key",
+          "required": true
+        }
       },
-      "tags": ["ai", "llm", "embeddings"]
+      "tags": [
+        "ai",
+        "llm",
+        "embeddings"
+      ]
     },
     "langchain": {
       "name": "LangChain",
-      "description": "LangChain tools — agents, chains, and RAG pipelines",
+      "description": "LangChain tools \u2014 agents, chains, and RAG pipelines",
       "command": "npx",
-      "args": ["-y", "langchain-mcp"],
+      "args": [
+        "-y",
+        "langchain-mcp"
+      ],
       "env": {},
-      "tags": ["ai", "llm", "rag"]
+      "tags": [
+        "ai",
+        "llm",
+        "rag"
+      ]
     },
     "gmail": {
       "name": "Gmail",
       "description": "Read, send, and manage Gmail emails",
       "command": "npx",
-      "args": ["-y", "gmail-mcp"],
+      "args": [
+        "-y",
+        "gmail-mcp"
+      ],
       "env": {
-        "GOOGLE_CLIENT_ID": { "description": "Google OAuth client ID", "required": true },
-        "GOOGLE_CLIENT_SECRET": { "description": "Google OAuth client secret", "required": true }
+        "GOOGLE_CLIENT_ID": {
+          "description": "Google OAuth client ID",
+          "required": true
+        },
+        "GOOGLE_CLIENT_SECRET": {
+          "description": "Google OAuth client secret",
+          "required": true
+        }
       },
-      "tags": ["email", "google", "productivity"]
+      "tags": [
+        "email",
+        "google",
+        "productivity"
+      ]
     },
     "google-calendar": {
       "name": "Google Calendar",
       "description": "Create and manage Google Calendar events",
       "command": "npx",
-      "args": ["-y", "google-calendar-mcp"],
+      "args": [
+        "-y",
+        "google-calendar-mcp"
+      ],
       "env": {
-        "GOOGLE_CLIENT_ID": { "description": "Google OAuth client ID", "required": true },
-        "GOOGLE_CLIENT_SECRET": { "description": "Google OAuth client secret", "required": true }
+        "GOOGLE_CLIENT_ID": {
+          "description": "Google OAuth client ID",
+          "required": true
+        },
+        "GOOGLE_CLIENT_SECRET": {
+          "description": "Google OAuth client secret",
+          "required": true
+        }
       },
-      "tags": ["calendar", "google", "productivity"]
+      "tags": [
+        "calendar",
+        "google",
+        "productivity"
+      ]
     },
     "google-drive": {
       "name": "Google Drive",
       "description": "Browse, read, and manage files in Google Drive",
       "command": "npx",
-      "args": ["-y", "google-drive-mcp"],
+      "args": [
+        "-y",
+        "google-drive-mcp"
+      ],
       "env": {
-        "GOOGLE_CLIENT_ID": { "description": "Google OAuth client ID", "required": true },
-        "GOOGLE_CLIENT_SECRET": { "description": "Google OAuth client secret", "required": true }
+        "GOOGLE_CLIENT_ID": {
+          "description": "Google OAuth client ID",
+          "required": true
+        },
+        "GOOGLE_CLIENT_SECRET": {
+          "description": "Google OAuth client secret",
+          "required": true
+        }
       },
-      "tags": ["files", "google", "storage"]
+      "tags": [
+        "files",
+        "google",
+        "storage"
+      ]
     },
     "salesforce": {
       "name": "Salesforce",
       "description": "Manage Salesforce CRM records, opportunities, and leads",
       "command": "npx",
-      "args": ["-y", "salesforce-mcp"],
+      "args": [
+        "-y",
+        "salesforce-mcp"
+      ],
       "env": {
-        "SALESFORCE_CLIENT_ID": { "description": "Salesforce connected app client ID", "required": true },
-        "SALESFORCE_CLIENT_SECRET": { "description": "Salesforce connected app client secret", "required": true },
-        "SALESFORCE_INSTANCE_URL": { "description": "Salesforce instance URL", "required": true }
+        "SALESFORCE_CLIENT_ID": {
+          "description": "Salesforce connected app client ID",
+          "required": true
+        },
+        "SALESFORCE_CLIENT_SECRET": {
+          "description": "Salesforce connected app client secret",
+          "required": true
+        },
+        "SALESFORCE_INSTANCE_URL": {
+          "description": "Salesforce instance URL",
+          "required": true
+        }
       },
-      "tags": ["crm", "sales", "enterprise"]
+      "tags": [
+        "crm",
+        "sales",
+        "enterprise"
+      ]
     },
     "zendesk": {
       "name": "Zendesk",
       "description": "Manage Zendesk support tickets and customer data",
       "command": "npx",
-      "args": ["-y", "zendesk-mcp"],
+      "args": [
+        "-y",
+        "zendesk-mcp"
+      ],
       "env": {
-        "ZENDESK_SUBDOMAIN": { "description": "Zendesk subdomain", "required": true },
-        "ZENDESK_EMAIL": { "description": "Zendesk agent email", "required": true },
-        "ZENDESK_API_TOKEN": { "description": "Zendesk API token", "required": true }
+        "ZENDESK_SUBDOMAIN": {
+          "description": "Zendesk subdomain",
+          "required": true
+        },
+        "ZENDESK_EMAIL": {
+          "description": "Zendesk agent email",
+          "required": true
+        },
+        "ZENDESK_API_TOKEN": {
+          "description": "Zendesk API token",
+          "required": true
+        }
       },
-      "tags": ["support", "crm", "customer-service"]
+      "tags": [
+        "support",
+        "crm",
+        "customer-service"
+      ]
     },
     "asana": {
       "name": "Asana",
       "description": "Manage Asana tasks, projects, and workspaces",
       "command": "npx",
-      "args": ["-y", "asana-mcp"],
+      "args": [
+        "-y",
+        "asana-mcp"
+      ],
       "env": {
-        "ASANA_ACCESS_TOKEN": { "description": "Asana personal access token", "required": true }
+        "ASANA_ACCESS_TOKEN": {
+          "description": "Asana personal access token",
+          "required": true
+        }
       },
-      "tags": ["project-management", "tasks", "productivity"]
+      "tags": [
+        "project-management",
+        "tasks",
+        "productivity"
+      ]
     },
     "clickup": {
       "name": "ClickUp",
       "description": "Manage ClickUp tasks, spaces, and workflows",
       "command": "npx",
-      "args": ["-y", "clickup-mcp"],
+      "args": [
+        "-y",
+        "clickup-mcp"
+      ],
       "env": {
-        "CLICKUP_API_KEY": { "description": "ClickUp API key", "required": true }
+        "CLICKUP_API_KEY": {
+          "description": "ClickUp API key",
+          "required": true
+        }
       },
-      "tags": ["project-management", "tasks", "productivity"]
+      "tags": [
+        "project-management",
+        "tasks",
+        "productivity"
+      ]
     },
     "basecamp": {
       "name": "Basecamp",
       "description": "Manage Basecamp projects, messages, and to-dos",
       "command": "npx",
-      "args": ["-y", "basecamp-mcp"],
+      "args": [
+        "-y",
+        "basecamp-mcp"
+      ],
       "env": {
-        "BASECAMP_ACCOUNT_ID": { "description": "Basecamp account ID", "required": true },
-        "BASECAMP_ACCESS_TOKEN": { "description": "Basecamp OAuth access token", "required": true }
+        "BASECAMP_ACCOUNT_ID": {
+          "description": "Basecamp account ID",
+          "required": true
+        },
+        "BASECAMP_ACCESS_TOKEN": {
+          "description": "Basecamp OAuth access token",
+          "required": true
+        }
       },
-      "tags": ["project-management", "collaboration", "productivity"]
+      "tags": [
+        "project-management",
+        "collaboration",
+        "productivity"
+      ]
     },
     "todoist": {
       "name": "Todoist",
       "description": "Manage Todoist tasks, projects, and labels",
       "command": "npx",
-      "args": ["-y", "todoist-mcp-server"],
+      "args": [
+        "-y",
+        "todoist-mcp-server"
+      ],
       "env": {
-        "TODOIST_API_TOKEN": { "description": "Todoist API token", "required": true }
+        "TODOIST_API_TOKEN": {
+          "description": "Todoist API token",
+          "required": true
+        }
       },
-      "tags": ["tasks", "productivity", "personal"]
+      "tags": [
+        "tasks",
+        "productivity",
+        "personal"
+      ]
     },
     "trello": {
       "name": "Trello",
       "description": "Manage Trello boards, lists, and cards",
       "command": "npx",
-      "args": ["-y", "trello-mcp"],
+      "args": [
+        "-y",
+        "trello-mcp"
+      ],
       "env": {
-        "TRELLO_API_KEY": { "description": "Trello API key", "required": true },
-        "TRELLO_TOKEN": { "description": "Trello token", "required": true }
+        "TRELLO_API_KEY": {
+          "description": "Trello API key",
+          "required": true
+        },
+        "TRELLO_TOKEN": {
+          "description": "Trello token",
+          "required": true
+        }
       },
-      "tags": ["project-management", "kanban", "productivity"]
+      "tags": [
+        "project-management",
+        "kanban",
+        "productivity"
+      ]
     },
     "freshdesk": {
       "name": "Freshdesk",
       "description": "Manage Freshdesk tickets and customer support",
       "command": "npx",
-      "args": ["-y", "freshdesk-mcp"],
+      "args": [
+        "-y",
+        "freshdesk-mcp"
+      ],
       "env": {
-        "FRESHDESK_DOMAIN": { "description": "Freshdesk domain (yourcompany.freshdesk.com)", "required": true },
-        "FRESHDESK_API_KEY": { "description": "Freshdesk API key", "required": true }
+        "FRESHDESK_DOMAIN": {
+          "description": "Freshdesk domain (yourcompany.freshdesk.com)",
+          "required": true
+        },
+        "FRESHDESK_API_KEY": {
+          "description": "Freshdesk API key",
+          "required": true
+        }
       },
-      "tags": ["support", "crm", "customer-service"]
+      "tags": [
+        "support",
+        "crm",
+        "customer-service"
+      ]
     },
     "datadog": {
       "name": "Datadog",
       "description": "Monitor metrics, logs, and traces via Datadog",
       "command": "npx",
-      "args": ["-y", "datadog-mcp-server"],
+      "args": [
+        "-y",
+        "datadog-mcp-server"
+      ],
       "env": {
-        "DATADOG_API_KEY": { "description": "Datadog API key", "required": true },
-        "DATADOG_APP_KEY": { "description": "Datadog application key", "required": true }
+        "DATADOG_API_KEY": {
+          "description": "Datadog API key",
+          "required": true
+        },
+        "DATADOG_APP_KEY": {
+          "description": "Datadog application key",
+          "required": true
+        }
       },
-      "tags": ["monitoring", "observability", "devops"]
+      "tags": [
+        "monitoring",
+        "observability",
+        "devops"
+      ]
     },
     "prometheus": {
       "name": "Prometheus",
       "description": "Query metrics and alerts from Prometheus",
       "command": "npx",
-      "args": ["-y", "prometheus-mcp"],
+      "args": [
+        "-y",
+        "prometheus-mcp"
+      ],
       "env": {
-        "PROMETHEUS_URL": { "description": "Prometheus server URL", "required": true }
+        "PROMETHEUS_URL": {
+          "description": "Prometheus server URL",
+          "required": true
+        }
       },
-      "tags": ["monitoring", "metrics", "devops"]
+      "tags": [
+        "monitoring",
+        "metrics",
+        "devops"
+      ]
     },
     "newrelic": {
       "name": "New Relic",
       "description": "Monitor application performance via New Relic",
       "command": "npx",
-      "args": ["-y", "newrelic-mcp"],
+      "args": [
+        "-y",
+        "newrelic-mcp"
+      ],
       "env": {
-        "NEW_RELIC_API_KEY": { "description": "New Relic API key", "required": true },
-        "NEW_RELIC_ACCOUNT_ID": { "description": "New Relic account ID", "required": true }
+        "NEW_RELIC_API_KEY": {
+          "description": "New Relic API key",
+          "required": true
+        },
+        "NEW_RELIC_ACCOUNT_ID": {
+          "description": "New Relic account ID",
+          "required": true
+        }
       },
-      "tags": ["monitoring", "observability", "apm"]
+      "tags": [
+        "monitoring",
+        "observability",
+        "apm"
+      ]
     },
     "amplitude": {
       "name": "Amplitude",
       "description": "Query product analytics and user behavior via Amplitude",
       "command": "npx",
-      "args": ["-y", "amplitude-mcp-server"],
+      "args": [
+        "-y",
+        "amplitude-mcp-server"
+      ],
       "env": {
-        "AMPLITUDE_API_KEY": { "description": "Amplitude API key", "required": true },
-        "AMPLITUDE_SECRET_KEY": { "description": "Amplitude secret key", "required": true }
+        "AMPLITUDE_API_KEY": {
+          "description": "Amplitude API key",
+          "required": true
+        },
+        "AMPLITUDE_SECRET_KEY": {
+          "description": "Amplitude secret key",
+          "required": true
+        }
       },
-      "tags": ["analytics", "product", "data"]
+      "tags": [
+        "analytics",
+        "product",
+        "data"
+      ]
     },
     "terraform": {
       "name": "Terraform",
       "description": "Manage Terraform infrastructure as code",
       "command": "npx",
-      "args": ["-y", "mcp-server-terraform"],
+      "args": [
+        "-y",
+        "mcp-server-terraform"
+      ],
       "env": {},
-      "tags": ["devops", "infrastructure", "iac"]
+      "tags": [
+        "devops",
+        "infrastructure",
+        "iac"
+      ]
     },
     "jenkins": {
       "name": "Jenkins",
       "description": "Trigger and monitor Jenkins CI/CD pipelines",
       "command": "npx",
-      "args": ["-y", "jenkins-mcp"],
+      "args": [
+        "-y",
+        "jenkins-mcp"
+      ],
       "env": {
-        "JENKINS_URL": { "description": "Jenkins server URL", "required": true },
-        "JENKINS_USER": { "description": "Jenkins username", "required": true },
-        "JENKINS_TOKEN": { "description": "Jenkins API token", "required": true }
+        "JENKINS_URL": {
+          "description": "Jenkins server URL",
+          "required": true
+        },
+        "JENKINS_USER": {
+          "description": "Jenkins username",
+          "required": true
+        },
+        "JENKINS_TOKEN": {
+          "description": "Jenkins API token",
+          "required": true
+        }
       },
-      "tags": ["ci-cd", "devops", "automation"]
+      "tags": [
+        "ci-cd",
+        "devops",
+        "automation"
+      ]
     },
     "git": {
       "name": "Git",
-      "description": "Git repository operations — log, diff, blame, commit",
+      "description": "Git repository operations \u2014 log, diff, blame, commit",
       "command": "uvx",
-      "args": ["mcp-server-git"],
+      "args": [
+        "mcp-server-git"
+      ],
       "env": {},
-      "tags": ["git", "version-control", "local", "python"],
+      "tags": [
+        "git",
+        "version-control",
+        "local",
+        "python"
+      ],
       "runtime": "python"
     },
     "time": {
       "name": "Time",
       "description": "Current time, timezone conversion, and date arithmetic",
       "command": "uvx",
-      "args": ["mcp-server-time"],
+      "args": [
+        "mcp-server-time"
+      ],
       "env": {},
-      "tags": ["time", "timezone", "utilities", "python"],
+      "tags": [
+        "time",
+        "timezone",
+        "utilities",
+        "python"
+      ],
       "runtime": "python"
     },
     "duckduckgo": {
       "name": "DuckDuckGo Search",
-      "description": "Private web search via DuckDuckGo — no API key needed",
+      "description": "Private web search via DuckDuckGo \u2014 no API key needed",
       "command": "uvx",
-      "args": ["duckduckgo-mcp-server"],
+      "args": [
+        "duckduckgo-mcp-server"
+      ],
       "env": {},
-      "tags": ["search", "web", "free", "python"],
+      "tags": [
+        "search",
+        "web",
+        "free",
+        "python"
+      ],
       "runtime": "python"
     },
     "neo4j": {
       "name": "Neo4j",
       "description": "Query and explore Neo4j graph databases with Cypher",
       "command": "uvx",
-      "args": ["mcp-server-neo4j"],
+      "args": [
+        "mcp-server-neo4j"
+      ],
       "env": {
-        "NEO4J_URI": { "description": "Neo4j connection URI (bolt://localhost:7687)", "required": true },
-        "NEO4J_USERNAME": { "description": "Neo4j username", "required": true },
-        "NEO4J_PASSWORD": { "description": "Neo4j password", "required": true }
+        "NEO4J_URI": {
+          "description": "Neo4j connection URI (bolt://localhost:7687)",
+          "required": true
+        },
+        "NEO4J_USERNAME": {
+          "description": "Neo4j username",
+          "required": true
+        },
+        "NEO4J_PASSWORD": {
+          "description": "Neo4j password",
+          "required": true
+        }
       },
-      "tags": ["database", "graph", "nosql", "python"],
+      "tags": [
+        "database",
+        "graph",
+        "nosql",
+        "python"
+      ],
       "runtime": "python"
     },
     "snowflake": {
       "name": "Snowflake",
       "description": "Query Snowflake data warehouse",
       "command": "uvx",
-      "args": ["mcp-server-snowflake"],
+      "args": [
+        "mcp-server-snowflake"
+      ],
       "env": {
-        "SNOWFLAKE_ACCOUNT": { "description": "Snowflake account identifier", "required": true },
-        "SNOWFLAKE_USER": { "description": "Snowflake username", "required": true },
-        "SNOWFLAKE_PASSWORD": { "description": "Snowflake password", "required": true },
-        "SNOWFLAKE_DATABASE": { "description": "Snowflake database", "required": true }
+        "SNOWFLAKE_ACCOUNT": {
+          "description": "Snowflake account identifier",
+          "required": true
+        },
+        "SNOWFLAKE_USER": {
+          "description": "Snowflake username",
+          "required": true
+        },
+        "SNOWFLAKE_PASSWORD": {
+          "description": "Snowflake password",
+          "required": true
+        },
+        "SNOWFLAKE_DATABASE": {
+          "description": "Snowflake database",
+          "required": true
+        }
       },
-      "tags": ["database", "data-warehouse", "analytics", "python"],
+      "tags": [
+        "database",
+        "data-warehouse",
+        "analytics",
+        "python"
+      ],
       "runtime": "python"
     },
     "bigquery": {
       "name": "BigQuery",
       "description": "Query Google BigQuery datasets and tables",
       "command": "uvx",
-      "args": ["mcp-server-bigquery"],
+      "args": [
+        "mcp-server-bigquery"
+      ],
       "env": {
-        "GOOGLE_APPLICATION_CREDENTIALS": { "description": "Path to GCP service account key JSON", "required": true },
-        "BIGQUERY_PROJECT_ID": { "description": "GCP project ID", "required": true }
+        "GOOGLE_APPLICATION_CREDENTIALS": {
+          "description": "Path to GCP service account key JSON",
+          "required": true
+        },
+        "BIGQUERY_PROJECT_ID": {
+          "description": "GCP project ID",
+          "required": true
+        }
       },
-      "tags": ["database", "data-warehouse", "google", "python"],
+      "tags": [
+        "database",
+        "data-warehouse",
+        "google",
+        "python"
+      ],
       "runtime": "python"
     },
     "outlook": {
       "name": "Outlook",
       "description": "Read, send, and manage Outlook emails and calendar",
       "command": "uvx",
-      "args": ["mcp-server-outlook"],
+      "args": [
+        "mcp-server-outlook"
+      ],
       "env": {
-        "OUTLOOK_CLIENT_ID": { "description": "Azure app client ID", "required": true },
-        "OUTLOOK_CLIENT_SECRET": { "description": "Azure app client secret", "required": true }
+        "OUTLOOK_CLIENT_ID": {
+          "description": "Azure app client ID",
+          "required": true
+        },
+        "OUTLOOK_CLIENT_SECRET": {
+          "description": "Azure app client secret",
+          "required": true
+        }
       },
-      "tags": ["email", "microsoft", "calendar", "python"],
+      "tags": [
+        "email",
+        "microsoft",
+        "calendar",
+        "python"
+      ],
       "runtime": "python"
     },
     "s3": {
       "name": "AWS S3",
       "description": "Browse, upload, and download files from AWS S3 buckets",
       "command": "uvx",
-      "args": ["mcp-server-s3"],
+      "args": [
+        "mcp-server-s3"
+      ],
       "env": {
-        "AWS_ACCESS_KEY_ID": { "description": "AWS Access Key ID", "required": true },
-        "AWS_SECRET_ACCESS_KEY": { "description": "AWS Secret Access Key", "required": true },
-        "AWS_REGION": { "description": "AWS region", "required": true }
+        "AWS_ACCESS_KEY_ID": {
+          "description": "AWS Access Key ID",
+          "required": true
+        },
+        "AWS_SECRET_ACCESS_KEY": {
+          "description": "AWS Secret Access Key",
+          "required": true
+        },
+        "AWS_REGION": {
+          "description": "AWS region",
+          "required": true
+        }
       },
-      "tags": ["aws", "storage", "cloud", "python"],
+      "tags": [
+        "aws",
+        "storage",
+        "cloud",
+        "python"
+      ],
       "runtime": "python"
     },
     "bitbucket": {
       "name": "Bitbucket",
       "description": "Manage Bitbucket repos, PRs, and pipelines",
       "command": "uvx",
-      "args": ["mcp-server-bitbucket"],
+      "args": [
+        "mcp-server-bitbucket"
+      ],
       "env": {
-        "BITBUCKET_USERNAME": { "description": "Bitbucket username", "required": true },
-        "BITBUCKET_APP_PASSWORD": { "description": "Bitbucket app password", "required": true }
+        "BITBUCKET_USERNAME": {
+          "description": "Bitbucket username",
+          "required": true
+        },
+        "BITBUCKET_APP_PASSWORD": {
+          "description": "Bitbucket app password",
+          "required": true
+        }
       },
-      "tags": ["git", "code", "collaboration", "python"],
+      "tags": [
+        "git",
+        "code",
+        "collaboration",
+        "python"
+      ],
       "runtime": "python"
     },
     "duckdb": {
       "name": "DuckDB",
       "description": "Run analytical SQL queries on DuckDB databases",
       "command": "uvx",
-      "args": ["mcp-server-duckdb"],
+      "args": [
+        "mcp-server-duckdb"
+      ],
       "env": {
-        "DUCKDB_PATH": { "description": "Path to DuckDB database file", "required": true }
+        "DUCKDB_PATH": {
+          "description": "Path to DuckDB database file",
+          "required": true
+        }
       },
-      "tags": ["database", "analytics", "sql", "python"],
+      "tags": [
+        "database",
+        "analytics",
+        "sql",
+        "python"
+      ],
       "runtime": "python"
     },
     "milvus": {
       "name": "Milvus",
       "description": "Vector search and similarity queries via Milvus",
       "command": "uvx",
-      "args": ["mcp-server-milvus"],
+      "args": [
+        "mcp-server-milvus"
+      ],
       "env": {
-        "MILVUS_URI": { "description": "Milvus server URI", "required": true }
+        "MILVUS_URI": {
+          "description": "Milvus server URI",
+          "required": true
+        }
       },
-      "tags": ["vector", "search", "rag", "ai", "python"],
+      "tags": [
+        "vector",
+        "search",
+        "rag",
+        "ai",
+        "python"
+      ],
       "runtime": "python"
     },
     "tavily": {
       "name": "Tavily",
       "description": "AI-optimized web search via Tavily",
       "command": "uvx",
-      "args": ["tavily-mcp"],
+      "args": [
+        "tavily-mcp"
+      ],
       "env": {
-        "TAVILY_API_KEY": { "description": "Tavily API key", "required": true }
+        "TAVILY_API_KEY": {
+          "description": "Tavily API key",
+          "required": true
+        }
       },
-      "tags": ["search", "web", "ai", "python"],
+      "tags": [
+        "search",
+        "web",
+        "ai",
+        "python"
+      ],
       "runtime": "python"
     },
     "chroma": {
       "name": "Chroma",
       "description": "Open-source vector database for AI applications",
       "command": "uvx",
-      "args": ["chroma-mcp"],
+      "args": [
+        "chroma-mcp"
+      ],
       "env": {
-        "CHROMA_HOST": { "description": "Chroma server host", "required": false },
-        "CHROMA_PORT": { "description": "Chroma server port", "required": false }
+        "CHROMA_HOST": {
+          "description": "Chroma server host",
+          "required": false
+        },
+        "CHROMA_PORT": {
+          "description": "Chroma server port",
+          "required": false
+        }
       },
-      "tags": ["vector", "database", "rag", "ai", "python"],
+      "tags": [
+        "vector",
+        "database",
+        "rag",
+        "ai",
+        "python"
+      ],
       "runtime": "python"
     },
     "grafana": {
       "name": "Grafana",
       "description": "Query dashboards, alerts, and datasources via Grafana",
       "command": "uvx",
-      "args": ["mcp-grafana"],
+      "args": [
+        "mcp-grafana"
+      ],
       "env": {
-        "GRAFANA_URL": { "description": "Grafana server URL", "required": true },
-        "GRAFANA_API_KEY": { "description": "Grafana API key", "required": true }
+        "GRAFANA_URL": {
+          "description": "Grafana server URL",
+          "required": true
+        },
+        "GRAFANA_API_KEY": {
+          "description": "Grafana API key",
+          "required": true
+        }
       },
-      "tags": ["monitoring", "dashboards", "devops", "python"],
+      "tags": [
+        "monitoring",
+        "dashboards",
+        "devops",
+        "python"
+      ],
       "runtime": "python"
     },
     "whatsapp": {
       "name": "WhatsApp",
       "description": "Send and receive WhatsApp messages",
       "command": "uvx",
-      "args": ["whatsapp-mcp"],
+      "args": [
+        "whatsapp-mcp"
+      ],
       "env": {
-        "WHATSAPP_PHONE_NUMBER_ID": { "description": "WhatsApp phone number ID", "required": true },
-        "WHATSAPP_ACCESS_TOKEN": { "description": "WhatsApp Cloud API access token", "required": true }
+        "WHATSAPP_PHONE_NUMBER_ID": {
+          "description": "WhatsApp phone number ID",
+          "required": true
+        },
+        "WHATSAPP_ACCESS_TOKEN": {
+          "description": "WhatsApp Cloud API access token",
+          "required": true
+        }
       },
-      "tags": ["messaging", "communication", "python"],
+      "tags": [
+        "messaging",
+        "communication",
+        "python"
+      ],
       "runtime": "python"
     },
     "telegram": {
       "name": "Telegram",
       "description": "Send messages and manage Telegram bots",
       "command": "uvx",
-      "args": ["telegram-mcp"],
+      "args": [
+        "telegram-mcp"
+      ],
       "env": {
-        "TELEGRAM_BOT_TOKEN": { "description": "Telegram bot token from @BotFather", "required": true }
+        "TELEGRAM_BOT_TOKEN": {
+          "description": "Telegram bot token from @BotFather",
+          "required": true
+        }
       },
-      "tags": ["messaging", "bots", "communication", "python"],
+      "tags": [
+        "messaging",
+        "bots",
+        "communication",
+        "python"
+      ],
       "runtime": "python"
     },
     "clickhouse": {
       "name": "ClickHouse",
       "description": "Run OLAP queries on ClickHouse columnar database",
       "command": "uvx",
-      "args": ["mcp-clickhouse"],
+      "args": [
+        "mcp-clickhouse"
+      ],
       "env": {
-        "CLICKHOUSE_HOST": { "description": "ClickHouse server host", "required": true },
-        "CLICKHOUSE_USER": { "description": "ClickHouse username", "required": true },
-        "CLICKHOUSE_PASSWORD": { "description": "ClickHouse password", "required": true }
+        "CLICKHOUSE_HOST": {
+          "description": "ClickHouse server host",
+          "required": true
+        },
+        "CLICKHOUSE_USER": {
+          "description": "ClickHouse username",
+          "required": true
+        },
+        "CLICKHOUSE_PASSWORD": {
+          "description": "ClickHouse password",
+          "required": true
+        }
       },
-      "tags": ["database", "analytics", "olap", "python"],
+      "tags": [
+        "database",
+        "analytics",
+        "olap",
+        "python"
+      ],
       "runtime": "python"
     },
     "mixpanel": {
       "name": "Mixpanel",
       "description": "Query product analytics and user events via Mixpanel",
       "command": "uvx",
-      "args": ["mcp-mixpanel"],
+      "args": [
+        "mcp-mixpanel"
+      ],
       "env": {
-        "MIXPANEL_TOKEN": { "description": "Mixpanel project token", "required": true },
-        "MIXPANEL_SECRET": { "description": "Mixpanel API secret", "required": true }
+        "MIXPANEL_TOKEN": {
+          "description": "Mixpanel project token",
+          "required": true
+        },
+        "MIXPANEL_SECRET": {
+          "description": "Mixpanel API secret",
+          "required": true
+        }
       },
-      "tags": ["analytics", "product", "data", "python"],
+      "tags": [
+        "analytics",
+        "product",
+        "data",
+        "python"
+      ],
       "runtime": "python"
+    },
+    "vault": {
+      "name": "HashiCorp Vault",
+      "description": "Read secrets from HashiCorp Vault",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-vault"
+      ],
+      "env": {
+        "VAULT_ADDR": {
+          "description": "Vault server URL",
+          "required": true
+        },
+        "VAULT_TOKEN": {
+          "description": "Vault token",
+          "required": true
+        }
+      },
+      "tags": [
+        "secrets",
+        "security",
+        "devops"
+      ]
+    },
+    "paypal": {
+      "name": "PayPal",
+      "description": "Create and manage PayPal payments and orders",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-paypal"
+      ],
+      "env": {
+        "PAYPAL_CLIENT_ID": {
+          "description": "PayPal client ID",
+          "required": true
+        },
+        "PAYPAL_CLIENT_SECRET": {
+          "description": "PayPal client secret",
+          "required": true
+        }
+      },
+      "tags": [
+        "payments",
+        "billing",
+        "ecommerce"
+      ]
+    },
+    "woocommerce": {
+      "name": "WooCommerce",
+      "description": "Manage WooCommerce products, orders, and customers",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-woocommerce"
+      ],
+      "env": {
+        "WC_URL": {
+          "description": "WooCommerce store URL",
+          "required": true
+        },
+        "WC_CONSUMER_KEY": {
+          "description": "WooCommerce consumer key",
+          "required": true
+        },
+        "WC_CONSUMER_SECRET": {
+          "description": "WooCommerce consumer secret",
+          "required": true
+        }
+      },
+      "tags": [
+        "ecommerce",
+        "wordpress",
+        "products"
+      ]
+    },
+    "magento": {
+      "name": "Magento",
+      "description": "Manage Magento e-commerce stores and catalogs",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-magento"
+      ],
+      "env": {
+        "MAGENTO_BASE_URL": {
+          "description": "Magento store base URL",
+          "required": true
+        },
+        "MAGENTO_ACCESS_TOKEN": {
+          "description": "Magento admin access token",
+          "required": true
+        }
+      },
+      "tags": [
+        "ecommerce",
+        "products",
+        "enterprise"
+      ]
+    },
+    "bigcommerce": {
+      "name": "BigCommerce",
+      "description": "Manage BigCommerce stores, products, and orders",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-bigcommerce"
+      ],
+      "env": {
+        "BC_STORE_HASH": {
+          "description": "BigCommerce store hash",
+          "required": true
+        },
+        "BC_ACCESS_TOKEN": {
+          "description": "BigCommerce access token",
+          "required": true
+        }
+      },
+      "tags": [
+        "ecommerce",
+        "products",
+        "cloud"
+      ]
+    },
+    "coda": {
+      "name": "Coda",
+      "description": "Read and write Coda docs, tables, and pages",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-coda"
+      ],
+      "env": {
+        "CODA_API_KEY": {
+          "description": "Coda API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "productivity",
+        "documents",
+        "database"
+      ]
+    },
+    "bear": {
+      "name": "Bear Notes",
+      "description": "Access and manage notes in Bear (macOS)",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-bear"
+      ],
+      "env": {},
+      "tags": [
+        "notes",
+        "macos",
+        "local"
+      ]
+    },
+    "onenote": {
+      "name": "OneNote",
+      "description": "Read and write Microsoft OneNote notebooks",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-onenote"
+      ],
+      "env": {
+        "MICROSOFT_CLIENT_ID": {
+          "description": "Azure app client ID",
+          "required": true
+        },
+        "MICROSOFT_CLIENT_SECRET": {
+          "description": "Azure app client secret",
+          "required": true
+        }
+      },
+      "tags": [
+        "notes",
+        "microsoft",
+        "productivity"
+      ]
+    },
+    "linode": {
+      "name": "Linode / Akamai Cloud",
+      "description": "Manage Linode compute instances and storage",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-linode"
+      ],
+      "env": {
+        "LINODE_TOKEN": {
+          "description": "Linode personal access token",
+          "required": true
+        }
+      },
+      "tags": [
+        "cloud",
+        "hosting",
+        "compute"
+      ]
+    },
+    "vultr": {
+      "name": "Vultr",
+      "description": "Manage Vultr cloud servers and infrastructure",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-vultr"
+      ],
+      "env": {
+        "VULTR_API_KEY": {
+          "description": "Vultr API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "cloud",
+        "hosting",
+        "compute"
+      ]
+    },
+    "fly": {
+      "name": "Fly.io",
+      "description": "Deploy and manage apps on Fly.io",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-fly"
+      ],
+      "env": {
+        "FLY_API_TOKEN": {
+          "description": "Fly.io API token",
+          "required": true
+        }
+      },
+      "tags": [
+        "deployment",
+        "cloud",
+        "containers"
+      ]
+    },
+    "render": {
+      "name": "Render",
+      "description": "Manage Render web services and deployments",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-render"
+      ],
+      "env": {
+        "RENDER_API_KEY": {
+          "description": "Render API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "deployment",
+        "cloud",
+        "hosting"
+      ]
+    },
+    "netlify": {
+      "name": "Netlify",
+      "description": "Manage Netlify sites, deploys, and functions",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-netlify"
+      ],
+      "env": {
+        "NETLIFY_AUTH_TOKEN": {
+          "description": "Netlify personal access token",
+          "required": true
+        }
+      },
+      "tags": [
+        "deployment",
+        "cloud",
+        "hosting",
+        "frontend"
+      ]
+    },
+    "fastly": {
+      "name": "Fastly",
+      "description": "Manage Fastly CDN, caching, and edge configurations",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-fastly"
+      ],
+      "env": {
+        "FASTLY_API_KEY": {
+          "description": "Fastly API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "cdn",
+        "edge",
+        "performance"
+      ]
+    },
+    "binance": {
+      "name": "Binance",
+      "description": "Access Binance crypto market data and trading",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-binance"
+      ],
+      "env": {
+        "BINANCE_API_KEY": {
+          "description": "Binance API key",
+          "required": true
+        },
+        "BINANCE_SECRET_KEY": {
+          "description": "Binance secret key",
+          "required": true
+        }
+      },
+      "tags": [
+        "crypto",
+        "trading",
+        "finance"
+      ]
+    },
+    "coinbase": {
+      "name": "Coinbase",
+      "description": "Access Coinbase accounts and cryptocurrency data",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-coinbase"
+      ],
+      "env": {
+        "COINBASE_API_KEY": {
+          "description": "Coinbase API key",
+          "required": true
+        },
+        "COINBASE_API_SECRET": {
+          "description": "Coinbase API secret",
+          "required": true
+        }
+      },
+      "tags": [
+        "crypto",
+        "finance",
+        "wallet"
+      ]
+    },
+    "monday": {
+      "name": "Monday.com",
+      "description": "Manage Monday.com boards, items, and workflows",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-monday"
+      ],
+      "env": {
+        "MONDAY_API_KEY": {
+          "description": "Monday.com API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "project-management",
+        "tasks",
+        "productivity"
+      ]
+    },
+    "anthropic-api": {
+      "name": "Anthropic API",
+      "description": "Access Claude models and Anthropic API features",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-anthropic"
+      ],
+      "env": {
+        "ANTHROPIC_API_KEY": {
+          "description": "Anthropic API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "ai",
+        "llm",
+        "claude"
+      ]
+    },
+    "cohere": {
+      "name": "Cohere",
+      "description": "Access Cohere language models, embeddings, and reranking",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-cohere"
+      ],
+      "env": {
+        "COHERE_API_KEY": {
+          "description": "Cohere API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "ai",
+        "llm",
+        "embeddings"
+      ]
+    },
+    "alpha-vantage": {
+      "name": "Alpha Vantage",
+      "description": "Stock, forex, and crypto market data via Alpha Vantage",
+      "command": "npx",
+      "args": [
+        "-y",
+        "alpha-vantage-mcp"
+      ],
+      "env": {
+        "ALPHA_VANTAGE_API_KEY": {
+          "description": "Alpha Vantage API key (free tier available)",
+          "required": true
+        }
+      },
+      "tags": [
+        "finance",
+        "stocks",
+        "market-data"
+      ]
+    },
+    "polygon": {
+      "name": "Polygon.io",
+      "description": "Real-time and historical US market data via Polygon.io",
+      "command": "npx",
+      "args": [
+        "-y",
+        "polygon-mcp"
+      ],
+      "env": {
+        "POLYGON_API_KEY": {
+          "description": "Polygon.io API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "finance",
+        "stocks",
+        "market-data"
+      ]
+    },
+    "finnhub": {
+      "name": "Finnhub",
+      "description": "Stock prices, earnings, and financial news via Finnhub",
+      "command": "npx",
+      "args": [
+        "-y",
+        "finnhub-mcp"
+      ],
+      "env": {
+        "FINNHUB_API_KEY": {
+          "description": "Finnhub API key (free tier available)",
+          "required": true
+        }
+      },
+      "tags": [
+        "finance",
+        "stocks",
+        "market-data"
+      ]
+    },
+    "coinmarketcap": {
+      "name": "CoinMarketCap",
+      "description": "Cryptocurrency prices, rankings, and market data",
+      "command": "npx",
+      "args": [
+        "-y",
+        "coinmarketcap-mcp"
+      ],
+      "env": {
+        "CMC_API_KEY": {
+          "description": "CoinMarketCap API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "crypto",
+        "finance",
+        "market-data"
+      ]
+    },
+    "etherscan": {
+      "name": "Etherscan",
+      "description": "Ethereum blockchain explorer \u2014 transactions, contracts, tokens",
+      "command": "npx",
+      "args": [
+        "-y",
+        "etherscan-mcp"
+      ],
+      "env": {
+        "ETHERSCAN_API_KEY": {
+          "description": "Etherscan API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "blockchain",
+        "ethereum",
+        "web3"
+      ]
+    },
+    "weatherapi": {
+      "name": "WeatherAPI",
+      "description": "Current weather, forecasts, and historical data",
+      "command": "npx",
+      "args": [
+        "-y",
+        "weatherapi-mcp"
+      ],
+      "env": {
+        "WEATHERAPI_KEY": {
+          "description": "WeatherAPI.com API key (free tier available)",
+          "required": true
+        }
+      },
+      "tags": [
+        "weather",
+        "geolocation",
+        "data"
+      ]
+    },
+    "newsapi": {
+      "name": "NewsAPI",
+      "description": "Latest news articles from thousands of sources",
+      "command": "npx",
+      "args": [
+        "-y",
+        "newsapi-mcp"
+      ],
+      "env": {
+        "NEWS_API_KEY": {
+          "description": "NewsAPI.org API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "news",
+        "content",
+        "search"
+      ]
+    },
+    "wikipedia": {
+      "name": "Wikipedia",
+      "description": "Search and retrieve Wikipedia articles",
+      "command": "npx",
+      "args": [
+        "-y",
+        "wikipedia-mcp"
+      ],
+      "env": {},
+      "tags": [
+        "knowledge",
+        "search",
+        "free"
+      ]
+    },
+    "wolfram": {
+      "name": "Wolfram Alpha",
+      "description": "Computational answers via Wolfram Alpha \u2014 math, science, data",
+      "command": "npx",
+      "args": [
+        "-y",
+        "wolfram-mcp"
+      ],
+      "env": {
+        "WOLFRAM_APP_ID": {
+          "description": "Wolfram Alpha App ID",
+          "required": true
+        }
+      },
+      "tags": [
+        "knowledge",
+        "math",
+        "science"
+      ]
+    },
+    "replicate": {
+      "name": "Replicate",
+      "description": "Run AI models for images, video, audio, and text via Replicate",
+      "command": "npx",
+      "args": [
+        "-y",
+        "replicate-mcp"
+      ],
+      "env": {
+        "REPLICATE_API_TOKEN": {
+          "description": "Replicate API token",
+          "required": true
+        }
+      },
+      "tags": [
+        "ai",
+        "images",
+        "models"
+      ]
+    },
+    "sendgrid": {
+      "name": "SendGrid",
+      "description": "Send transactional and marketing emails via SendGrid",
+      "command": "npx",
+      "args": [
+        "-y",
+        "sendgrid-mcp"
+      ],
+      "env": {
+        "SENDGRID_API_KEY": {
+          "description": "SendGrid API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "email",
+        "marketing",
+        "notifications"
+      ]
+    },
+    "teams": {
+      "name": "Microsoft Teams",
+      "description": "Send messages and manage Microsoft Teams channels",
+      "command": "npx",
+      "args": [
+        "-y",
+        "teams-mcp"
+      ],
+      "env": {
+        "TEAMS_BOT_ID": {
+          "description": "Teams bot application ID",
+          "required": true
+        },
+        "TEAMS_BOT_PASSWORD": {
+          "description": "Teams bot password",
+          "required": true
+        }
+      },
+      "tags": [
+        "messaging",
+        "microsoft",
+        "collaboration"
+      ]
+    },
+    "google-meet": {
+      "name": "Google Meet",
+      "description": "Create and manage Google Meet video conferences",
+      "command": "npx",
+      "args": [
+        "-y",
+        "google-meet-mcp"
+      ],
+      "env": {
+        "GOOGLE_CLIENT_ID": {
+          "description": "Google OAuth client ID",
+          "required": true
+        },
+        "GOOGLE_CLIENT_SECRET": {
+          "description": "Google OAuth client secret",
+          "required": true
+        }
+      },
+      "tags": [
+        "video",
+        "meetings",
+        "google"
+      ]
+    },
+    "loom": {
+      "name": "Loom",
+      "description": "Access and manage Loom video recordings",
+      "command": "npx",
+      "args": [
+        "-y",
+        "loom-mcp"
+      ],
+      "env": {
+        "LOOM_API_KEY": {
+          "description": "Loom API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "video",
+        "communication",
+        "async"
+      ]
+    },
+    "crisp": {
+      "name": "Crisp",
+      "description": "Manage Crisp customer conversations and support",
+      "command": "npx",
+      "args": [
+        "-y",
+        "crisp-mcp"
+      ],
+      "env": {
+        "CRISP_API_IDENTIFIER": {
+          "description": "Crisp API identifier",
+          "required": true
+        },
+        "CRISP_API_KEY": {
+          "description": "Crisp API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "support",
+        "chat",
+        "customer-service"
+      ]
+    },
+    "drift": {
+      "name": "Drift",
+      "description": "Access Drift conversations and customer interactions",
+      "command": "npx",
+      "args": [
+        "-y",
+        "drift-mcp"
+      ],
+      "env": {
+        "DRIFT_API_KEY": {
+          "description": "Drift API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "chat",
+        "marketing",
+        "sales"
+      ]
+    },
+    "whisper": {
+      "name": "Whisper",
+      "description": "Speech-to-text transcription via OpenAI Whisper",
+      "command": "npx",
+      "args": [
+        "-y",
+        "whisper-mcp"
+      ],
+      "env": {
+        "OPENAI_API_KEY": {
+          "description": "OpenAI API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "audio",
+        "transcription",
+        "ai"
+      ]
+    },
+    "stability": {
+      "name": "Stability AI",
+      "description": "AI image generation via Stable Diffusion",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-stability"
+      ],
+      "env": {
+        "STABILITY_API_KEY": {
+          "description": "Stability AI API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "images",
+        "ai",
+        "generation"
+      ]
+    },
+    "elevenlabs": {
+      "name": "ElevenLabs",
+      "description": "Text-to-speech and voice cloning via ElevenLabs",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-elevenlabs"
+      ],
+      "env": {
+        "ELEVENLABS_API_KEY": {
+          "description": "ElevenLabs API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "audio",
+        "tts",
+        "voice",
+        "ai"
+      ]
+    },
+    "deepgram": {
+      "name": "Deepgram",
+      "description": "Speech-to-text and audio transcription via Deepgram",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-deepgram"
+      ],
+      "env": {
+        "DEEPGRAM_API_KEY": {
+          "description": "Deepgram API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "audio",
+        "transcription",
+        "speech",
+        "ai"
+      ]
+    },
+    "weather": {
+      "name": "Weather",
+      "description": "Current weather and forecasts for any location",
+      "command": "uvx",
+      "args": [
+        "mcp-server-weather"
+      ],
+      "env": {
+        "OPENWEATHER_API_KEY": {
+          "description": "OpenWeatherMap API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "weather",
+        "data",
+        "free",
+        "python"
+      ],
+      "runtime": "python"
+    },
+    "wikipedia-py": {
+      "name": "Wikipedia (Python)",
+      "description": "Search and retrieve Wikipedia content",
+      "command": "uvx",
+      "args": [
+        "mcp-server-wikipedia"
+      ],
+      "env": {},
+      "tags": [
+        "knowledge",
+        "search",
+        "free",
+        "python"
+      ],
+      "runtime": "python"
+    },
+    "arxiv": {
+      "name": "ArXiv",
+      "description": "Search and read scientific papers from ArXiv",
+      "command": "uvx",
+      "args": [
+        "arxiv-mcp"
+      ],
+      "env": {},
+      "tags": [
+        "research",
+        "papers",
+        "science",
+        "python"
+      ],
+      "runtime": "python"
+    },
+    "ansible": {
+      "name": "Ansible",
+      "description": "Run Ansible playbooks and manage automation tasks",
+      "command": "uvx",
+      "args": [
+        "ansible-mcp"
+      ],
+      "env": {},
+      "tags": [
+        "devops",
+        "automation",
+        "infrastructure",
+        "python"
+      ],
+      "runtime": "python"
+    },
+    "numpy": {
+      "name": "NumPy",
+      "description": "Numerical computation and array operations via NumPy",
+      "command": "uvx",
+      "args": [
+        "numpy-mcp"
+      ],
+      "env": {},
+      "tags": [
+        "data-science",
+        "math",
+        "python"
+      ],
+      "runtime": "python"
+    },
+    "jupyter": {
+      "name": "Jupyter",
+      "description": "Execute code and manage Jupyter notebooks",
+      "command": "uvx",
+      "args": [
+        "mcp-server-jupyter"
+      ],
+      "env": {
+        "JUPYTER_SERVER_URL": {
+          "description": "Jupyter server URL",
+          "required": true
+        },
+        "JUPYTER_TOKEN": {
+          "description": "Jupyter server token",
+          "required": false
+        }
+      },
+      "tags": [
+        "data-science",
+        "notebooks",
+        "code",
+        "python"
+      ],
+      "runtime": "python"
+    },
+    "replicate-py": {
+      "name": "Replicate (Python)",
+      "description": "Run open-source AI models via Replicate",
+      "command": "uvx",
+      "args": [
+        "mcp-server-replicate"
+      ],
+      "env": {
+        "REPLICATE_API_TOKEN": {
+          "description": "Replicate API token",
+          "required": true
+        }
+      },
+      "tags": [
+        "ai",
+        "images",
+        "models",
+        "python"
+      ],
+      "runtime": "python"
+    },
+    "elevenlabs-py": {
+      "name": "ElevenLabs (Python)",
+      "description": "Text-to-speech synthesis via ElevenLabs API",
+      "command": "uvx",
+      "args": [
+        "elevenlabs-mcp"
+      ],
+      "env": {
+        "ELEVENLABS_API_KEY": {
+          "description": "ElevenLabs API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "audio",
+        "tts",
+        "voice",
+        "python"
+      ],
+      "runtime": "python"
+    },
+    "deepgram-py": {
+      "name": "Deepgram (Python)",
+      "description": "Speech recognition and transcription via Deepgram",
+      "command": "uvx",
+      "args": [
+        "deepgram-mcp"
+      ],
+      "env": {
+        "DEEPGRAM_API_KEY": {
+          "description": "Deepgram API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "audio",
+        "transcription",
+        "ai",
+        "python"
+      ],
+      "runtime": "python"
+    },
+    "mailchimp": {
+      "name": "Mailchimp",
+      "description": "Manage Mailchimp campaigns, audiences, and automations",
+      "command": "uvx",
+      "args": [
+        "mailchimp-mcp"
+      ],
+      "env": {
+        "MAILCHIMP_API_KEY": {
+          "description": "Mailchimp API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "email",
+        "marketing",
+        "automation",
+        "python"
+      ],
+      "runtime": "python"
+    },
+    "pagerduty": {
+      "name": "PagerDuty",
+      "description": "Manage PagerDuty incidents, alerts, and on-call schedules",
+      "command": "uvx",
+      "args": [
+        "pagerduty-mcp"
+      ],
+      "env": {
+        "PAGERDUTY_API_KEY": {
+          "description": "PagerDuty API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "monitoring",
+        "incidents",
+        "on-call",
+        "python"
+      ],
+      "runtime": "python"
+    },
+    "weaviate": {
+      "name": "Weaviate",
+      "description": "AI-native vector database for semantic search",
+      "command": "uvx",
+      "args": [
+        "weaviate-mcp"
+      ],
+      "env": {
+        "WEAVIATE_URL": {
+          "description": "Weaviate instance URL",
+          "required": true
+        },
+        "WEAVIATE_API_KEY": {
+          "description": "Weaviate API key",
+          "required": false
+        }
+      },
+      "tags": [
+        "vector",
+        "database",
+        "rag",
+        "ai",
+        "python"
+      ],
+      "runtime": "python"
+    },
+    "sequential-thinking": {
+      "name": "Sequential Thinking",
+      "description": "Dynamic chain-of-thought reasoning \u2014 break down complex problems step by step",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/sequentialthinking"
+      ],
+      "env": {},
+      "tags": [
+        "reasoning",
+        "thinking",
+        "ai",
+        "official"
+      ],
+      "runtime": "docker"
+    },
+    "docker-fetch": {
+      "name": "Fetch (Docker)",
+      "description": "Official Anthropic fetch server \u2014 convert web pages to markdown",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/fetch"
+      ],
+      "env": {},
+      "tags": [
+        "web",
+        "scraping",
+        "official"
+      ],
+      "runtime": "docker"
+    },
+    "metoro": {
+      "name": "Metoro",
+      "description": "Kubernetes observability \u2014 metrics, logs, traces for k8s clusters",
+      "command": "go",
+      "args": [
+        "run",
+        "github.com/metoro-io/metoro-mcp-server@latest"
+      ],
+      "env": {
+        "METORO_API_TOKEN": {
+          "description": "Metoro API token",
+          "required": true
+        }
+      },
+      "tags": [
+        "kubernetes",
+        "observability",
+        "monitoring"
+      ],
+      "runtime": "go"
     }
   },
   "bundles": {
     "webdev": {
       "name": "Web Dev",
       "description": "Essential tools for web developers",
-      "servers": ["github", "postgres", "fetch", "playwright", "filesystem", "context7"]
+      "servers": [
+        "github",
+        "postgres",
+        "fetch",
+        "playwright",
+        "filesystem",
+        "context7"
+      ]
     },
     "ai": {
       "name": "AI & Search",
       "description": "Web search, scraping, and AI-powered retrieval",
-      "servers": ["brave-search", "exa", "perplexity", "firecrawl", "memory", "tavily", "duckduckgo"]
+      "servers": [
+        "brave-search",
+        "exa",
+        "perplexity",
+        "firecrawl",
+        "memory",
+        "tavily",
+        "duckduckgo"
+      ]
     },
     "data": {
       "name": "Data Stack",
       "description": "Databases and data tools",
-      "servers": ["postgres", "sqlite", "redis", "supabase", "elasticsearch", "duckdb", "clickhouse"]
+      "servers": [
+        "postgres",
+        "sqlite",
+        "redis",
+        "supabase",
+        "elasticsearch",
+        "duckdb",
+        "clickhouse"
+      ]
     },
     "devops": {
       "name": "DevOps",
       "description": "Infrastructure and deployment tools",
-      "servers": ["github", "docker", "kubernetes", "sentry", "vercel", "datadog", "terraform"]
+      "servers": [
+        "github",
+        "docker",
+        "kubernetes",
+        "sentry",
+        "vercel",
+        "datadog",
+        "terraform"
+      ]
     },
     "productivity": {
       "name": "Productivity",
       "description": "Communication and project management tools",
-      "servers": ["slack", "notion", "linear", "github", "obsidian", "gmail", "google-calendar", "todoist"]
+      "servers": [
+        "slack",
+        "notion",
+        "linear",
+        "github",
+        "obsidian",
+        "gmail",
+        "google-calendar",
+        "todoist"
+      ]
     },
     "startup": {
       "name": "Startup Stack",
       "description": "Everything a startup needs",
-      "servers": ["github", "stripe", "postgres", "slack", "notion", "sentry", "vercel", "hubspot", "resend"]
+      "servers": [
+        "github",
+        "stripe",
+        "postgres",
+        "slack",
+        "notion",
+        "sentry",
+        "vercel",
+        "hubspot",
+        "resend"
+      ]
     },
     "social": {
       "name": "Social Media",
       "description": "Social networks and community platforms",
-      "servers": ["twitter", "reddit", "linkedin", "instagram", "discord", "telegram"]
+      "servers": [
+        "twitter",
+        "reddit",
+        "linkedin",
+        "instagram",
+        "discord",
+        "telegram"
+      ]
     },
     "cloud": {
       "name": "Cloud Providers",
       "description": "Major cloud platform integrations",
-      "servers": ["aws-kb", "s3", "azure", "cloudflare", "heroku", "vercel", "supabase"]
+      "servers": [
+        "aws-kb",
+        "s3",
+        "azure",
+        "cloudflare",
+        "heroku",
+        "vercel",
+        "supabase"
+      ]
+    },
+    "finance": {
+      "name": "Finance & Crypto",
+      "description": "Market data, payments, and crypto tools",
+      "servers": [
+        "stripe",
+        "paypal",
+        "alpha-vantage",
+        "polygon",
+        "finnhub",
+        "coinmarketcap",
+        "binance",
+        "etherscan"
+      ]
+    },
+    "ai-tools": {
+      "name": "AI Toolkit",
+      "description": "Models, image generation, voice, and more",
+      "servers": [
+        "openai",
+        "anthropic-api",
+        "cohere",
+        "replicate",
+        "stability",
+        "elevenlabs",
+        "whisper",
+        "everart"
+      ]
+    },
+    "media": {
+      "name": "Media & Content",
+      "description": "Video, audio, images, and content tools",
+      "servers": [
+        "youtube",
+        "spotify",
+        "loom",
+        "whisper",
+        "elevenlabs",
+        "deepgram",
+        "stability"
+      ]
     }
   }
 }

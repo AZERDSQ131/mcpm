@@ -16,7 +16,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
@@ -26,65 +25,94 @@ jobs:
           node --input-type=module <<'EOF'
           import { readFileSync } from "fs";
           import { execSync } from "child_process";
-
           const registry = JSON.parse(readFileSync("packages/registry/registry.json", "utf-8"));
           let failed = 0;
-
           for (const [id, server] of Object.entries(registry.servers)) {
             if (server.command !== "npx") continue;
             const pkg = server.args.find(a => !a.startsWith("-") && a !== "-y");
             if (!pkg) continue;
-
             try {
-              const version = execSync(`npm view ${pkg} version`, {
-                stdio: "pipe",
-                timeout: 15000,
-              }).toString().trim();
-              console.log(`✓ ${id} — ${pkg}@${version}`);
+              const v = execSync(`npm view ${pkg} version`, { stdio: "pipe", timeout: 15000 }).toString().trim();
+              console.log(`✓ ${id} — ${pkg}@${v}`);
             } catch {
-              console.error(`✗ ${id} — package not found on npm: ${pkg}`);
+              console.error(`✗ ${id} — not found on npm: ${pkg}`);
               failed++;
             }
           }
-
-          if (failed > 0) {
-            console.error(`\n${failed} npm package(s) failed validation.`);
-            process.exit(1);
-          }
+          if (failed > 0) { console.error(`\n${failed} npm package(s) failed.`); process.exit(1); }
           EOF
 
-      - name: Validate Python packages
+      - name: Validate Python packages (PyPI)
         run: |
           node --input-type=module <<'EOF'
           import { readFileSync } from "fs";
           import { execSync } from "child_process";
-
           const registry = JSON.parse(readFileSync("packages/registry/registry.json", "utf-8"));
           let failed = 0;
-
           for (const [id, server] of Object.entries(registry.servers)) {
             if (server.command !== "uvx") continue;
             const pkg = server.args.find(a => !a.startsWith("-") && a !== "--from");
             if (!pkg) continue;
-
             try {
-              const res = execSync(`curl -sf "https://pypi.org/pypi/${pkg}/json"`, {
-                stdio: "pipe",
-                timeout: 15000,
-              });
-              const data = JSON.parse(res.toString());
-              const version = data.info?.version ?? "?";
-              console.log(`✓ ${id} — ${pkg}@${version} (PyPI)`);
+              const out = execSync(`curl -sf "https://pypi.org/pypi/${pkg}/json"`, { stdio: "pipe", timeout: 15000 });
+              const v = JSON.parse(out.toString()).info?.version ?? "?";
+              console.log(`✓ ${id} — ${pkg}@${v} (PyPI)`);
             } catch {
-              console.error(`✗ ${id} — package not found on PyPI: ${pkg}`);
+              console.error(`✗ ${id} — not found on PyPI: ${pkg}`);
               failed++;
             }
           }
+          if (failed > 0) { console.error(`\n${failed} Python package(s) failed.`); process.exit(1); }
+          EOF
 
-          if (failed > 0) {
-            console.error(`\n${failed} Python package(s) failed validation.`);
-            process.exit(1);
+      - name: Validate Docker images
+        run: |
+          node --input-type=module <<'EOF'
+          import { readFileSync } from "fs";
+          import { execSync } from "child_process";
+          const registry = JSON.parse(readFileSync("packages/registry/registry.json", "utf-8"));
+          let failed = 0;
+          for (const [id, server] of Object.entries(registry.servers)) {
+            if (server.command !== "docker") continue;
+            const image = server.args.find(a => !a.startsWith("-") && !["run","-i","--rm"].includes(a));
+            if (!image) continue;
+            try {
+              const [repo, tag = "latest"] = image.split(":");
+              const url = repo.includes("/")
+                ? `https://hub.docker.com/v2/repositories/${repo}/tags/${tag}/`
+                : `https://hub.docker.com/v2/repositories/library/${repo}/tags/${tag}/`;
+              execSync(`curl -sf "${url}"`, { stdio: "pipe", timeout: 15000 });
+              console.log(`✓ ${id} — ${image} (Docker Hub)`);
+            } catch {
+              console.error(`✗ ${id} — not found on Docker Hub: ${image}`);
+              failed++;
+            }
           }
+          if (failed > 0) { console.error(`\n${failed} Docker image(s) failed.`); process.exit(1); }
+          EOF
+
+      - name: Validate Go modules
+        run: |
+          node --input-type=module <<'EOF'
+          import { readFileSync } from "fs";
+          import { execSync } from "child_process";
+          const registry = JSON.parse(readFileSync("packages/registry/registry.json", "utf-8"));
+          let failed = 0;
+          for (const [id, server] of Object.entries(registry.servers)) {
+            if (server.command !== "go") continue;
+            const mod = server.args.find(a => !a.startsWith("-") && a !== "run");
+            if (!mod) continue;
+            const modPath = mod.replace(/@[^@]+$/, "");
+            try {
+              const out = execSync(`curl -sf "https://proxy.golang.org/${modPath}/@latest"`, { stdio: "pipe", timeout: 15000 });
+              const v = JSON.parse(out.toString()).Version ?? "?";
+              console.log(`✓ ${id} — ${mod}@${v} (Go)`);
+            } catch {
+              console.error(`✗ ${id} — not found on Go proxy: ${mod}`);
+              failed++;
+            }
+          }
+          if (failed > 0) { console.error(`\n${failed} Go module(s) failed.`); process.exit(1); }
           EOF
 
       - name: Summary
@@ -92,8 +120,10 @@ jobs:
           node --input-type=module <<'EOF'
           import { readFileSync } from "fs";
           const registry = JSON.parse(readFileSync("packages/registry/registry.json", "utf-8"));
-          const total = Object.keys(registry.servers).length;
-          const npm = Object.values(registry.servers).filter(s => s.command === "npx").length;
-          const python = Object.values(registry.servers).filter(s => s.command === "uvx").length;
-          console.log(`\n✓ Registry: ${total} servers total (${npm} npm, ${python} Python)\n`);
+          const s = registry.servers;
+          const total = Object.keys(s).length;
+          const counts = {};
+          for (const srv of Object.values(s)) counts[srv.command] = (counts[srv.command] ?? 0) + 1;
+          const parts = Object.entries(counts).map(([cmd, n]) => `${n} ${cmd}`).join(", ");
+          console.log(`\n✓ Registry: ${total} servers (${parts}), ${Object.keys(registry.bundles).length} bundles\n`);
           EOF

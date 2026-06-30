@@ -55,7 +55,7 @@ export async function publish(): Promise<void> {
     id: string;
     displayName: string;
     description: string;
-    runtime: "node" | "python";
+    runtime: "node" | "python" | "docker" | "go" | "deno";
     packageName: string;
     tags: string;
     hasEnv: boolean;
@@ -86,15 +86,24 @@ export async function publish(): Promise<void> {
       name: "runtime",
       message: "Runtime:",
       choices: [
-        { name: "Node.js (npm / npx)", value: "node" },
-        { name: "Python (PyPI / uvx)", value: "python" },
+        { name: "Node.js  — npm / npx",       value: "node" },
+        { name: "Python   — PyPI / uvx",       value: "python" },
+        { name: "Docker   — Docker Hub image", value: "docker" },
+        { name: "Go       — go run module",    value: "go" },
+        { name: "Deno     — deno run",         value: "deno" },
       ],
       default: "node",
     },
     {
       type: "input",
       name: "packageName",
-      message: (a: { runtime: string }) => a.runtime === "python" ? "PyPI package name:" : "npm package name:",
+      message: (a: { runtime: string }) => {
+        if (a.runtime === "python") return "PyPI package name:";
+        if (a.runtime === "docker") return "Docker image (e.g. mcp/fetch or ghcr.io/org/repo):";
+        if (a.runtime === "go") return "Go module path (e.g. github.com/org/repo):";
+        if (a.runtime === "deno") return "Deno URL or JSR specifier (e.g. jsr:@scope/pkg):";
+        return "npm package name:";
+      },
       default: detected.name ?? "",
       validate: (v: string) => v.trim().length > 0 || "Required",
     },
@@ -133,12 +142,25 @@ export async function publish(): Promise<void> {
     }
   }
 
-  const isPython = answers.runtime === "python";
+  const { runtime, packageName } = answers;
+  let command: string;
+  let args: string[];
+  if (runtime === "python") {
+    command = "uvx"; args = [packageName];
+  } else if (runtime === "docker") {
+    command = "docker"; args = ["run", "-i", "--rm", packageName];
+  } else if (runtime === "go") {
+    command = "go"; args = ["run", packageName];
+  } else if (runtime === "deno") {
+    command = "deno"; args = ["run", "--allow-net", "--allow-env", packageName];
+  } else {
+    command = "npx"; args = ["-y", packageName];
+  }
   const entry: RegistryEntry = {
     name: answers.displayName,
     description: answers.description,
-    command: isPython ? "uvx" : "npx",
-    args: isPython ? [answers.packageName] : ["-y", answers.packageName],
+    command,
+    args,
     env: envVars,
     tags: answers.tags.split(",").map((t) => t.trim()).filter(Boolean),
   };

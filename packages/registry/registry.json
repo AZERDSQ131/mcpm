@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0",
+  "version": "1.3.0",
   "servers": {
     "github": {
       "name": "GitHub",
@@ -3214,6 +3214,4745 @@
         "monitoring"
       ],
       "runtime": "go"
+    },
+    "postman": {
+      "name": "Postman MCP Server",
+      "description": "A simple MCP server to operate on the Postman API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@postman/postman-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "dynatrace": {
+      "name": "Dynatrace MCP Server",
+      "description": "Model Context Protocol (MCP) server for Dynatrace.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@dynatrace-oss/dynatrace-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "clarity": {
+      "name": "Clarity MCP Server",
+      "description": "MCP Server for Microsoft Clarity based on data export API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@microsoft/clarity-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "dynatrace-managed": {
+      "name": "Dynatrace Managed MCP Server",
+      "description": "Model Context Protocol (MCP) server for Dynatrace Managed (self-hosted).",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@dynatrace-oss/dynatrace-managed-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "run-mcp-servers-with-aws-lambd": {
+      "name": "Run MCP Servers With AWS Lambda",
+      "description": "Run Model Context Protocol (MCP) servers with AWS Lambda.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@aws/run-mcp-servers-with-aws-lambda"
+      ],
+      "env": {},
+      "tags": [
+        "aws",
+        "cloud"
+      ]
+    },
+    "fiori": {
+      "name": "Fiori MCP Server",
+      "description": "SAP Fiori - Model Context Protocol (MCP) server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@sap-ux/fiori-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "admin": {
+      "name": "MCP Server Admin",
+      "description": "Transcend MCP Server \u2014 Admin tools.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@transcend-io/mcp-server-admin"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "assessment": {
+      "name": "MCP Server Assessment",
+      "description": "Transcend MCP Server \u2014 Assessments tools.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@transcend-io/mcp-server-assessment"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "dsr": {
+      "name": "MCP Server Dsr",
+      "description": "Transcend MCP Server \u2014 DSR Automation tools.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@transcend-io/mcp-server-dsr"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "consent": {
+      "name": "MCP Server Consent",
+      "description": "Transcend MCP Server \u2014 Consent Management tools.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@transcend-io/mcp-server-consent"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "workflows": {
+      "name": "MCP Server Workflows",
+      "description": "Transcend MCP Server \u2014 Workflows tools.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@transcend-io/mcp-server-workflows"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "winor30-datadog": {
+      "name": "MCP Server Datadog",
+      "description": "MCP server for interacting with Datadog API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@winor30/mcp-server-datadog"
+      ],
+      "env": {},
+      "tags": [
+        "devops",
+        "monitoring"
+      ]
+    },
+    "roychri-asana": {
+      "name": "MCP Server Asana",
+      "description": "MCP Server for Asana.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@roychri/mcp-server-asana"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm",
+        "project-management",
+        "tasks"
+      ]
+    },
+    "slite": {
+      "name": "Slite MCP Server",
+      "description": "Slite MCP server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "slite-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "preferences": {
+      "name": "MCP Server Preferences",
+      "description": "Transcend MCP Server \u2014 Preference Management tools.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@transcend-io/mcp-server-preferences"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "benborla-mysql": {
+      "name": "MCP Server Mysql",
+      "description": "MCP server for interacting with MySQL databases with write operations support.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@benborla29/mcp-server-mysql"
+      ],
+      "env": {},
+      "tags": [
+        "database",
+        "sql"
+      ]
+    },
+    "inventory": {
+      "name": "MCP Server Inventory",
+      "description": "Transcend MCP Server \u2014 Data Inventory tools.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@transcend-io/mcp-server-inventory"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "discovery": {
+      "name": "MCP Server Discovery",
+      "description": "Transcend MCP Server \u2014 Data Discovery tools.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@transcend-io/mcp-server-discovery"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "redmine": {
+      "name": "Redmine MCP Server",
+      "description": "MCP server for Redmine.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@onozaty/redmine-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "mantine-server": {
+      "name": "MCP Server",
+      "description": "MCP server for Mantine documentation.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mantine/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "openapi": {
+      "name": "Openapi MCP Server",
+      "description": "An MCP server that exposes OpenAPI endpoints as resources.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@ivotoby/openapi-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "ragieai-server": {
+      "name": "MCP Server",
+      "description": "A Model Context Protocol (MCP) server for Ragie.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@ragieai/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm"
+      ]
+    },
+    "contentf-server": {
+      "name": "MCP Server",
+      "description": "Contentful MCP Server - Model Context Protocol server for Contentful.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@contentful/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "postgrest": {
+      "name": "MCP Server Postgrest",
+      "description": "MCP server for PostgREST.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-postgrest"
+      ],
+      "env": {},
+      "tags": [
+        "backend",
+        "database",
+        "sql"
+      ]
+    },
+    "touchdesigner": {
+      "name": "Touchdesigner MCP Server",
+      "description": "MCP server for TouchDesigner.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "touchdesigner-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "polaris": {
+      "name": "Polaris MCP Server",
+      "description": "Shopify Polaris UI Components MCP Server for AI assistants.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "polaris-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ecommerce",
+        "products"
+      ]
+    },
+    "lsp": {
+      "name": "Lsp MCP Server",
+      "description": "MCP server bridging Claude Code to Language Server Protocol servers.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "lsp-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "voltagen-server": {
+      "name": "MCP Server",
+      "description": "VoltAgent MCP server implementation for exposing agents, tools, and workflows via the Model Context Protocol.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@voltagent/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "nexus252-bitbucket": {
+      "name": "Bitbucket MCP Server",
+      "description": "MCP server for Bitbucket API integration - supports both Cloud and Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@nexus2520/bitbucket-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "code",
+        "collaboration",
+        "git"
+      ]
+    },
+    "bitwarde-server": {
+      "name": "MCP Server",
+      "description": "Bitwarden MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@bitwarden/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "unthread-server": {
+      "name": "MCP Server",
+      "description": "Unthread MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@unthread-io/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "brave-brave-search": {
+      "name": "Brave Search MCP Server",
+      "description": "Brave Search MCP Server: web results, images, videos, rich results, AI summaries, and more.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@brave/brave-search-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "images",
+        "search",
+        "web"
+      ]
+    },
+    "socialne-server": {
+      "name": "MCP Server",
+      "description": "MCP server for Social Neuron - AI content creation platform.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@socialneuron/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "content",
+        "video"
+      ]
+    },
+    "phantom-server": {
+      "name": "MCP Server",
+      "description": "MCP Server for Phantom Wallet.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@phantom/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "runpod-server": {
+      "name": "MCP Server",
+      "description": "MCP server for interacting with Runpod API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@runpod/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "deepl": {
+      "name": "Deepl MCP Server",
+      "description": "MCP server for DeepL translation API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "deepl-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "browser": {
+      "name": "MCP Server Browser",
+      "description": "MCP server for browser use access.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@agent-infra/mcp-server-browser"
+      ],
+      "env": {},
+      "tags": [
+        "automation",
+        "browser"
+      ]
+    },
+    "regle-server": {
+      "name": "MCP Server",
+      "description": "MCP Server for Regle.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@regle/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "zeroheig-server": {
+      "name": "MCP Server",
+      "description": "MCP server for zeroheight.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@zeroheight/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "codex": {
+      "name": "Codex MCP Server",
+      "description": "MCP server wrapper for OpenAI Codex CLI.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "codex-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm"
+      ]
+    },
+    "nexus252-jira": {
+      "name": "Jira MCP Server",
+      "description": "MCP server for Jira API integration - supports Jira Cloud.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@nexus2520/jira-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "issues",
+        "project-management"
+      ]
+    },
+    "linkup": {
+      "name": "Linkup MCP Server",
+      "description": "Linkup MCP server for web search.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "linkup-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "ssh": {
+      "name": "Ssh MCP Server",
+      "description": "SSH-based MCP Server (\u57fa\u4e8e SSH \u7684 MCP \u670d\u52a1\u5668).",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@fangjunjie/ssh-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "kusto": {
+      "name": "Kusto MCP Server",
+      "description": "MCP server for interacting with Kusto databases.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mcp-apps/kusto-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "cloud",
+        "microsoft"
+      ]
+    },
+    "nationalparks": {
+      "name": "MCP Server Nationalparks",
+      "description": "MCP Server for the National Park Service (NPS) API, providing real-time information about U.S. National Parks, including",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-nationalparks"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm"
+      ]
+    },
+    "retellai": {
+      "name": "Retellai MCP Server",
+      "description": "RetellAi MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@abhaybabbar/retellai-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "eventcat-server": {
+      "name": "MCP Server",
+      "description": "MCP server for EventCatalog.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@eventcatalog/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "docs": {
+      "name": "Docs MCP Server",
+      "description": "MCP server for fetching and searching documentation.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@arabold/docs-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "docusaurus-plugin": {
+      "name": "Docusaurus Plugin MCP Server",
+      "description": "A Docusaurus plugin that exposes an MCP server endpoint for AI agents to search and retrieve documentation.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "docusaurus-plugin-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "oneuptim-server": {
+      "name": "MCP Server",
+      "description": "OneUptime MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@oneuptime/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "zubeid-youtube": {
+      "name": "Zubeid Youtube MCP Server",
+      "description": "YouTube MCP Server Implementation.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "zubeid-youtube-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "content",
+        "llm",
+        "video"
+      ]
+    },
+    "retell-server": {
+      "name": "MCP Server",
+      "description": "The official MCP Server for the Retell API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@retell-ai/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "kintone-server": {
+      "name": "MCP Server",
+      "description": "The official MCP Server for kintone.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@kintone/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "rosetta": {
+      "name": "Rosetta MCP Server",
+      "description": "MCP server for Rosetta/PyRosetta functions and properties.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "rosetta-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "clipform-server": {
+      "name": "MCP Server",
+      "description": "MCP server for building and managing Clipform video forms.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@clipform/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "delorenj-trello": {
+      "name": "MCP Server Trello",
+      "description": "An MCP server for Trello boards, powered by Bun for maximum performance.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@delorenj/mcp-server-trello"
+      ],
+      "env": {},
+      "tags": [
+        "kanban",
+        "project-management"
+      ]
+    },
+    "plugin": {
+      "name": "Plugin MCP Server",
+      "description": "An MCP server for building NocoBase systems and supporting business workflows.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@nocobase/plugin-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "admina": {
+      "name": "Admina MCP Server",
+      "description": "An MCP server for Admina.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@moneyforward_i/admina-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "angelogi-elevenlabs": {
+      "name": "Elevenlabs MCP Server",
+      "description": "An ElevenLabs MCP server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@angelogiacco/elevenlabs-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "kernlang-server": {
+      "name": "MCP Server",
+      "description": "KERN MCP server \u2014 compile, review, and analyze .kern files via MCP.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@kernlang/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "graphlit": {
+      "name": "Graphlit MCP Server",
+      "description": "Graphlit MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "graphlit-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "documents",
+        "files",
+        "llm",
+        "memory"
+      ]
+    },
+    "targetprocess": {
+      "name": "Targetprocess MCP Server",
+      "description": "MCP server for Tartget Process.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "targetprocess-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "strava": {
+      "name": "Strava MCP Server",
+      "description": "MCP server for Strava API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@r-huijts/strava-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "solapi-server": {
+      "name": "MCP Server",
+      "description": "MCP server for SOLAPI document search and integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@solapi/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "ticktick": {
+      "name": "MCP Server Ticktick",
+      "description": "MCP Server for TickTick todo-list application. This is a convenience wrapper for @fractalizer/mcp-server-ticktick.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-ticktick"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "cariot": {
+      "name": "Cariot MCP Server",
+      "description": "MCP server for Cariot.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cariot-labs/cariot-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "henkey-postgres": {
+      "name": "Postgres MCP Server",
+      "description": "A Model Context Protocol (MCP) server that provides comprehensive PostgreSQL database management capabilities for AI ass",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@henkey/postgres-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "database",
+        "sql"
+      ]
+    },
+    "ollama": {
+      "name": "Ollama MCP Server",
+      "description": "Modern MCP server for Ollama \u2013 rebooted and actively maintained.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "ollama-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "yandex-wiki": {
+      "name": "MCP Server Yandex Wiki",
+      "description": "MCP Server for Yandex Wiki API integration. This is a convenience wrapper for @fractalizer/mcp-server-yandex-wiki.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-yandex-wiki"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "dataforseo": {
+      "name": "Dataforseo MCP Server",
+      "description": "A Model Context Protocol (MCP) server for the DataForSEO API, enabling modular and extensible integration of DataForSEO.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "dataforseo-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "trustpag-server": {
+      "name": "MCP Server",
+      "description": "MCP server for TrustPager \u00e2\u20ac\u201d connect Claude to your CRM.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@trustpager/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "outline": {
+      "name": "Outline MCP Server",
+      "description": "An MCP server for interacting with Outline's API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "outline-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "youtube-data": {
+      "name": "Youtube Data MCP Server",
+      "description": "YouTube MCP Server Implementation.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "youtube-data-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "content",
+        "video"
+      ]
+    },
+    "boondmanager": {
+      "name": "Boondmanager MCP Server",
+      "description": "MCP Server for BoondManager API - 180 tools, 11 prompts, 22 resources (ERP/CRM).",
+      "command": "npx",
+      "args": [
+        "-y",
+        "boondmanager-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "vendure-server": {
+      "name": "MCP Server",
+      "description": "The official Vendure MCP server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@vendure/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "dopplerh-server": {
+      "name": "MCP Server",
+      "description": "MCP server for Doppler API with auto-generated tools from OpenAPI specification.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@dopplerhq/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "sas-score-mcp-serverjs": {
+      "name": "Sas Score MCP Serverjs",
+      "description": "A mcp server for SAS Viya.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@sassoftware/sas-score-mcp-serverjs"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "deerdawn-server": {
+      "name": "MCP Server",
+      "description": "MCP server for DeerDawn \u2014 AI session memory that briefs every new AI session.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@deerdawn/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "memory"
+      ]
+    },
+    "configure": {
+      "name": "Configure MCP Server",
+      "description": "MCP server configurator for Glean.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@gleanwork/configure-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "memberju-ai": {
+      "name": "AI MCP Server",
+      "description": "MemberJunction: Model Context Protocol (MCP) - Server Implementation.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@memberjunction/ai-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "cls": {
+      "name": "Cls MCP Server",
+      "description": "[![npm version](https://img.shields.io/npm/v/cls-mcp-server)](https://www.npmjs.com/package/cls-mcp-server) [![license](",
+      "command": "npx",
+      "args": [
+        "-y",
+        "cls-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "code",
+        "collaboration",
+        "git"
+      ]
+    },
+    "cexll-codex": {
+      "name": "Codex MCP Server",
+      "description": "MCP server for Codex CLI integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cexll/codex-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "ges": {
+      "name": "Ges MCP Server",
+      "description": "GESF MCP Server - AI Compliance Assistant for GDPR, OWASP, NIST, CIS. Check compliance, generate policies, assess risks.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@greenarmor/ges-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "blackhole": {
+      "name": "Blackhole MCP Server",
+      "description": "MCP Server for Blackhole DEX Skills.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@blackhole-dex/blackhole-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "ralph-hero": {
+      "name": "Ralph Hero MCP Server",
+      "description": "MCP server for GitHub Projects V2 - Ralph workflow automation.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "ralph-hero-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "code",
+        "collaboration",
+        "git"
+      ]
+    },
+    "automata-playwright": {
+      "name": "MCP Server Playwright",
+      "description": "MCP server for browser automation using Playwright.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@automatalabs/mcp-server-playwright"
+      ],
+      "env": {},
+      "tags": [
+        "automation",
+        "browser",
+        "testing"
+      ]
+    },
+    "wundr.io-server": {
+      "name": "MCP Server",
+      "description": "MCP Server - Model Context Protocol server for Claude Code integration with stdio transport.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@wundr.io/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "nuvex": {
+      "name": "Nuvex MCP Server",
+      "description": "MCP server for Nuvex \u2014 generate app store screenshots from Claude Desktop.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "nuvex-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "zeplin-server": {
+      "name": "MCP Server",
+      "description": "Zeplin\u2019s official MCP server for AI-assisted UI development.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@zeplin/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "cyanhead-git": {
+      "name": "Git MCP Server",
+      "description": "A secure and scalable Git MCP server enabling AI agents to perform comprehensive Git version control operations via STDI",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cyanheads/git-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "matillio-server": {
+      "name": "MCP Server",
+      "description": "MCP Server for Matillion Data Productivity Cloud Public API integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@matillion/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "deepseek": {
+      "name": "Deepseek MCP Server",
+      "description": "MCP Server for DeepSeek API integration - enables Claude Code to use DeepSeek Chat and Reasoner models.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@arikusi/deepseek-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "containers",
+        "devops",
+        "llm"
+      ]
+    },
+    "pl": {
+      "name": "Pl MCP Server",
+      "description": "MCP server for Platforma Desktop.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@milaboratories/pl-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "fdic": {
+      "name": "Fdic MCP Server",
+      "description": "MCP server for the FDIC BankFind Suite API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "fdic-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "realvest-server": {
+      "name": "MCP Server",
+      "description": "MCP server providing real estate investment calculators and resources for AI assistants.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@realvest/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "functype": {
+      "name": "Functype MCP Server",
+      "description": "MCP server for functype documentation lookup and TypeScript code validation.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "functype-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "apple-shortcuts": {
+      "name": "MCP Server Apple Shortcuts",
+      "description": "MCP server for automation using Apple Shortcuts.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-apple-shortcuts"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "ncloud": {
+      "name": "Ncloud MCP Server",
+      "description": "MCP server for managing Naver Cloud Platform (Ncloud) infrastructure.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "ncloud-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "workday-studio": {
+      "name": "Workday Studio MCP Server",
+      "description": "Workday Studio MCP Server \u2014 production build.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "workday-studio-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "converse": {
+      "name": "Converse MCP Server",
+      "description": "Converse MCP Server - Converse with other LLMs with chat and consensus tools.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "converse-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm"
+      ]
+    },
+    "processon-node": {
+      "name": "MCP Server Processon Node",
+      "description": "ProcessOn MCP Server - create mind maps from markdown.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@processon/mcp-server-processon-node"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "elnora-server": {
+      "name": "MCP Server",
+      "description": "MCP server for Elnora Platform \u2014 AI-powered bioprotocol optimization.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@elnora-ai/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "dialtone": {
+      "name": "Dialtone MCP Server",
+      "description": "MCP Server for Dialtone Design System.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@dialpad/dialtone-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "agent-filesystem": {
+      "name": "MCP Server Filesystem",
+      "description": "MCP server for filesystem access.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@agent-infra/mcp-server-filesystem"
+      ],
+      "env": {},
+      "tags": [
+        "files",
+        "local"
+      ]
+    },
+    "accessflow": {
+      "name": "Accessflow MCP Server",
+      "description": "AccessFlow MCP Server for accessibility issue remediation.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "accessflow-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "wuying-agentbay": {
+      "name": "Wuying Agentbay MCP Server",
+      "description": "Wuying AgentBay MCP Server is a Node.js package that provides seamless integration with Alibaba Cloud's Wuying AgentBay.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "wuying-agentbay-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "sbox": {
+      "name": "Sbox MCP Server",
+      "description": "MCP Server for s&box game engine \u2014 enables Claude to build games through conversation.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "sbox-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "kickflow-server": {
+      "name": "MCP Server",
+      "description": "MCP Server for kickflow API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@kickflow/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "skillsmp": {
+      "name": "Skillsmp MCP Server",
+      "description": "MCP server for SkillsMP - Search, discover, and install AI coding skills.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "skillsmp-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "illustrator": {
+      "name": "Illustrator MCP Server",
+      "description": "MCP server for reading, manipulating, and exporting Adobe Illustrator design data.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "illustrator-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "axiom": {
+      "name": "MCP Server Axiom",
+      "description": "An MCP server implementation for Axiom that enables AI agents to query data using Axiom Processing Language (APL).",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-axiom"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "freedcamp": {
+      "name": "Freedcamp MCP Server",
+      "description": "MCP server for using the Freedcamp API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "freedcamp-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "vscode": {
+      "name": "Vscode MCP Server",
+      "description": "MCP Server that connects to VSCode Extension via Unix Socket.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@vscode-mcp/vscode-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "gorgias": {
+      "name": "Gorgias MCP Server",
+      "description": "MCP server exposing the full Gorgias helpdesk API to AI assistants.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "gorgias-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "node-red": {
+      "name": "Node Red MCP Server",
+      "description": "Model Context Protocol (MCP) server for interacting with Node-RED.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "node-red-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "fuul-server": {
+      "name": "MCP Server",
+      "description": "Fuul MCP server for program management via MCP-compatible clients.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@fuul/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "withpica-server": {
+      "name": "MCP Server",
+      "description": "MCP Server for withPICA \u2014 enables AI assistants to interact with your withPICA music catalog.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@withpica/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "leadshar-server": {
+      "name": "MCP Server",
+      "description": "LeadShark MCP Server - Control LinkedIn automations with natural language.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@leadshark/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "hourei": {
+      "name": "Hourei MCP Server",
+      "description": "MCP server for Japanese law information using e-Gov API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "hourei-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "fractali-ticktick": {
+      "name": "MCP Server Ticktick",
+      "description": "MCP Server for TickTick todo-list application.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@fractalizer/mcp-server-ticktick"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "rushdb-server": {
+      "name": "MCP Server",
+      "description": "RushDB MCP Server - Model Context Protocol server for RushDB.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@rushdb/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "memory"
+      ]
+    },
+    "diviops-server": {
+      "name": "MCP Server",
+      "description": "MCP server exposing Divi 5 Visual Builder as tools for Claude.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@diviops/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "itm-server": {
+      "name": "MCP Server",
+      "description": "MCP server for ITM Platform.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@itm-platform/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "mieubris-notion": {
+      "name": "Notion MCP Server",
+      "description": "A maintained fork of the official Notion MCP server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mieubrisse/notion-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "notes",
+        "productivity"
+      ]
+    },
+    "yandex-tracker": {
+      "name": "MCP Server Yandex Tracker",
+      "description": "MCP Server for Yandex Tracker API integration. This is a convenience wrapper for @fractalizer/mcp-server-yandex-tracker.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-yandex-tracker"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "dekause-trello": {
+      "name": "MCP Server Trello",
+      "description": "An MCP server for Trello boards, powered by Bun for maximum performance. Fork of @delorenj/mcp-server-trello.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@dekause/mcp-server-trello"
+      ],
+      "env": {},
+      "tags": [
+        "kanban",
+        "project-management"
+      ]
+    },
+    "jamf-docs": {
+      "name": "Jamf Docs MCP Server",
+      "description": "MCP Server for accessing Jamf Documentation (learn.jamf.com).",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@get-technology-inc/jamf-docs-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "wechat": {
+      "name": "Wechat MCP Server",
+      "description": "MCP Server for WeChat Video Automation.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "wechat-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "memlab-server": {
+      "name": "MCP Server",
+      "description": "MCP server for MemLab heap snapshot analysis \u2014 gives AI coding assistants tools to explore JavaScript heap snapshots, fi",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@memlab/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "memory"
+      ]
+    },
+    "fractali-yandex-wiki": {
+      "name": "MCP Server Yandex Wiki",
+      "description": "MCP Server for Yandex Wiki API integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@fractalizer/mcp-server-yandex-wiki"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "agledger-server": {
+      "name": "MCP Server",
+      "description": "AGLedger MCP Server: thin API pass-through for AI agents via MCP protocol.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@agledger/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "usevyre-server": {
+      "name": "MCP Server",
+      "description": "useVyre MCP server \u2014 gives Claude Desktop real-time access to component context.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@usevyre/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "nodit": {
+      "name": "Nodit MCP Server",
+      "description": "nodit-mcp-server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@noditlabs/nodit-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "leetcode": {
+      "name": "Leetcode MCP Server",
+      "description": "MCP Server for LeetCode API (supports leetcode.com and leetcode.cn).",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@jinzcdev/leetcode-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "fractali-yandex-tracker": {
+      "name": "MCP Server Yandex Tracker",
+      "description": "MCP Server for Yandex Tracker API integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@fractalizer/mcp-server-yandex-tracker"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "huly": {
+      "name": "Huly MCP Server",
+      "description": "MCP server for Huly issue tracking with stdio and Streamable HTTP transports.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@bgx4k3p/huly-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "bamboo": {
+      "name": "Bamboo MCP Server",
+      "description": "MCP server for Atlassian Bamboo.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "bamboo-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "togello": {
+      "name": "Togello MCP Server",
+      "description": "MCP server for Togello tasks, calendar memos, calendar events, and activity logs.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "togello-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "calendar",
+        "productivity"
+      ]
+    },
+    "mssql": {
+      "name": "Mssql MCP Server",
+      "description": "MCP server for Microsoft SQL Server database access and comprehensive schema exploration using tedious. Includes enhance",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mssql-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "api": {
+      "name": "API MCP Server",
+      "description": "Moralis MCP server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@moralisweb3/api-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "planfix": {
+      "name": "Planfix MCP Server",
+      "description": "MCP server for Planfix API integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@popstas/planfix-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "spor": {
+      "name": "Spor MCP Server",
+      "description": "MCP server for Spor Design System.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@vygruppen/spor-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "mymagicp-server": {
+      "name": "MCP Server",
+      "description": "Model Context Protocol (MCP) Server for My Magic Pencil.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mymagicpencil/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "contexti-server": {
+      "name": "MCP Server",
+      "description": "MCP server for Contextium \u2014 pipe team SOPs, coding standards, and AI context directly into Claude, Cursor, and other AI.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@contextium/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm"
+      ]
+    },
+    "practica-reddit": {
+      "name": "Reddit MCP Server",
+      "description": "Reddit MCP Server via Apify.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@practicaltools/reddit-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "scf": {
+      "name": "MCP Server Scf",
+      "description": "MCP server for the SCF Controls Platform \u2014 security compliance controls, frameworks, evidence, and risk management for A",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-scf"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "promptx-server": {
+      "name": "MCP Server",
+      "description": "MCP Server implementation for PromptX.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@promptx/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "qatouch": {
+      "name": "Qatouch MCP Server",
+      "description": "QA Touch MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "qatouch-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "streamli-server": {
+      "name": "MCP Server",
+      "description": "MCP server exposing Streamline API capabilities as tools and resources for AI agents.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@streamlinevrs/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "bitrix24": {
+      "name": "Bitrix24 MCP Server",
+      "description": "Bitrix24 MCP Server for AI Agent Integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@x0333/bitrix24-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "aether": {
+      "name": "Aether MCP Server",
+      "description": "Aether MCP Server - AI Browser Controller.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "aether-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "automation",
+        "browser"
+      ]
+    },
+    "blocks-server": {
+      "name": "MCP Server",
+      "description": "MCP server for Blocks Network consumer operations.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@blocks-network/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "daileyos-server": {
+      "name": "MCP Server",
+      "description": "Dailey OS MCP server for Claude Code and AI assistants.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@daileyos/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "bit2me-server": {
+      "name": "MCP Server",
+      "description": "Bit2Me MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@bit2me/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "cplace-server": {
+      "name": "MCP Server",
+      "description": "MCP server that provides Claude Desktop with tools to interact with cplace APIs.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cplace/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "aig": {
+      "name": "AIg MCP Server",
+      "description": "AI Git checkpoint MCP server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "aig-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "geunoh-s3": {
+      "name": "S3 MCP Server",
+      "description": "MCP Server for accessing S3 bucket.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@geunoh/s3-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "aws",
+        "cloud"
+      ]
+    },
+    "multimodal-rag": {
+      "name": "Multimodal Rag MCP Server",
+      "description": "MCP server for Calypso (AIcore) agents via OpenAI-compatible API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@calypsohq/multimodal-rag-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm"
+      ]
+    },
+    "bugsnag": {
+      "name": "Bugsnag MCP Server",
+      "description": "A Bugsnag MCP server for interacting with Bugsnag API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "bugsnag-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "reactbits-dev": {
+      "name": "Reactbits Dev MCP Server",
+      "description": "MCP server providing access to 135+ animated React components from ReactBits.dev.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "reactbits-dev-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "relay": {
+      "name": "Relay MCP Server",
+      "description": "OfficeClaw MCP server package.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@openjiuwen/relay-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "baidu-map": {
+      "name": "MCP Server Baidu Map",
+      "description": "MCP server for using the Baidu Map API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@baidumap/mcp-server-baidu-map"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "burger-server": {
+      "name": "MCP Server",
+      "description": "MCP Server for BurgerEditor.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@burger-editor/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "sshadows-zendesk": {
+      "name": "Zendesk MCP Server",
+      "description": "MCP Server for Zendesk API with enhanced features.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@sshadows/zendesk-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm"
+      ]
+    },
+    "tapd": {
+      "name": "Tapd MCP Server",
+      "description": "TAPD MCP Server - \u5728 Cursor/Copilot \u4e2d\u67e5\u8be2\u3001\u5206\u6790\u548c\u56de\u586b TAPD bug / \u9700\u6c42.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "tapd-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "aibtc-server": {
+      "name": "MCP Server",
+      "description": "Bitcoin-native MCP server for AI agents: BTC/STX wallets, DeFi yield, sBTC peg, NFTs, and x402 payments.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@aibtc/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "blockchain",
+        "crypto",
+        "finance"
+      ]
+    },
+    "staticx": {
+      "name": "Staticx MCP Server",
+      "description": "Official API-token-first MCP server for deploying and operating StaticX static sites.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "staticx-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "code-review": {
+      "name": "Code Review MCP Server",
+      "description": "MCP Server with Code Review.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "code-review-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "code",
+        "collaboration",
+        "git",
+        "notes",
+        "productivity"
+      ]
+    },
+    "semgrep": {
+      "name": "MCP Server Semgrep",
+      "description": "MCP Server for Semgrep Integration - static code analysis with AI.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-semgrep"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm"
+      ]
+    },
+    "liveauth-server": {
+      "name": "MCP Server",
+      "description": "MCP server for LiveAuth - PoW and Lightning authentication for AI agents.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@liveauth-labs/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "blockchain",
+        "crypto"
+      ]
+    },
+    "yirifi-server": {
+      "name": "MCP Server",
+      "description": "MCP server for Yirifi GRC Platform external APIs.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@yirifi-org/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "thecorpo-server": {
+      "name": "MCP Server",
+      "description": "MCP server for agent-native corporate operations.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@thecorporation/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "madeonsol": {
+      "name": "MCP Server Madeonsol",
+      "description": "MCP server for MadeOnSol Solana KOL intelligence API \u2014 use from Claude, Cursor, or any MCP client.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-madeonsol"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "pdfgate-server": {
+      "name": "MCP Server",
+      "description": "PDFGate MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@pdfgate/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "documents",
+        "files"
+      ]
+    },
+    "tigris": {
+      "name": "Tigris MCP Server",
+      "description": "MCP server for Tigris Data.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@tigrisdata/tigris-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "decodo-server": {
+      "name": "MCP Server",
+      "description": "Decodo MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@decodo/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "vorim-server": {
+      "name": "MCP Server",
+      "description": "MCP server for Vorim AI \u2014 AI agent identity, permissions, and audit trails.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@vorim/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "timbreed-jira": {
+      "name": "Jira MCP Server",
+      "description": "Jira MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@timbreeding/jira-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "issues",
+        "project-management"
+      ]
+    },
+    "atlassian": {
+      "name": "Atlassian MCP Server",
+      "description": "MCP server for Atlassian APIs (Jira, Confluence, Bitbucket).",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@jagadeesh52423/atlassian-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "code",
+        "collaboration",
+        "git",
+        "issues",
+        "project-management"
+      ]
+    },
+    "imap": {
+      "name": "Imap MCP Server",
+      "description": "A powerful Model Context Protocol (MCP) server for IMAP email integration with Claude.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "imap-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "email",
+        "notifications"
+      ]
+    },
+    "sprout": {
+      "name": "Sprout MCP Server",
+      "description": "MCP server for Sprout Social API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@oliverames/sprout-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "yhy2001-figma": {
+      "name": "Figma MCP Server",
+      "description": "MCP server for Figma design integration with AI coding tools.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@yhy2001/figma-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "design",
+        "ui"
+      ]
+    },
+    "ttpears-gitlab": {
+      "name": "Gitlab MCP Server",
+      "description": "GitLab MCP Server with GraphQL discovery.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@ttpears/gitlab-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "code",
+        "collaboration",
+        "git"
+      ]
+    },
+    "creatrip-server": {
+      "name": "MCP Server",
+      "description": "Creatrip internal MCP server for Jira, Notion, and Slack integrations.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@creatrip/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "collaboration",
+        "issues",
+        "messaging",
+        "notes",
+        "productivity"
+      ]
+    },
+    "efficient-gitlab": {
+      "name": "Efficient Gitlab MCP Server",
+      "description": "Production-ready GitLab MCP Server with progressive disclosure pattern.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "efficient-gitlab-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "code",
+        "collaboration",
+        "git"
+      ]
+    },
+    "codeql-development": {
+      "name": "Codeql Development MCP Server",
+      "description": "An MCP server supporting LLM requests for CodeQL development tools and resources.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "codeql-development-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "mail": {
+      "name": "MCP Server Mail",
+      "description": "MCP server for interacting with Infomaniak Mail via web API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@infomaniak/mcp-server-mail"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "apple-doc": {
+      "name": "Apple Doc MCP Server",
+      "description": "MCP server providing seamless access to Apple Developer Documentation with smart search and wildcard support.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "apple-doc-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "hypnosis-docker": {
+      "name": "Docker MCP Server",
+      "description": "Universal Docker MCP server for AI assistants (Cursor, Claude Desktop).",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@hypnosis/docker-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "containers",
+        "devops"
+      ]
+    },
+    "fcp": {
+      "name": "Fcp MCP Server",
+      "description": "MCP Server for FCP Launch Coordination System - enables Claude Code to interact with FCP launches and track development.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@fruition/fcp-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm"
+      ]
+    },
+    "android": {
+      "name": "Android MCP Server",
+      "description": "MCP server for controlling Android emulators via ADB.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "android-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "penpot": {
+      "name": "MCP Server Penpot",
+      "description": "MCP server for Penpot design tool integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-penpot"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "liquidmo-server": {
+      "name": "MCP Server",
+      "description": "AI-powered Minecraft build concept generator MCP server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@liquidmongoose/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "images"
+      ]
+    },
+    "expandfi-server": {
+      "name": "MCP Server",
+      "description": "ExpandFi MCP server for Claude Desktop and Claude Code.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@expandfi/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "sprigr-server": {
+      "name": "MCP Server",
+      "description": "Sprigr MCP server \u2014 local AI agent search with WASM-powered full-text search and hybrid semantic search. Also exports a.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@sprigr/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "cloud",
+        "edge",
+        "rag",
+        "search",
+        "vector"
+      ]
+    },
+    "octopusd-server": {
+      "name": "MCP Server",
+      "description": "The Octopus MCP Server provides your AI assistant with powerful tools that allow it to inspect, query, and diagnose prob",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@octopusdeploy/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "real-browser": {
+      "name": "Real Browser MCP Server",
+      "description": "MCP Server for Real Browser - Patchright (undetected Playwright fork) with Stealth Mode, Ad Blocker, and Turnstile Auto-",
+      "command": "npx",
+      "args": [
+        "-y",
+        "real-browser-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "automation",
+        "browser",
+        "cloud",
+        "edge",
+        "testing"
+      ]
+    },
+    "boostifai": {
+      "name": "Boostifai MCP Server",
+      "description": "MCP server for Boostifai. AI powered SEO blog generation and CMS publishing.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "boostifai-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ecommerce",
+        "products"
+      ]
+    },
+    "jishi": {
+      "name": "Jishi MCP Server",
+      "description": "MCP Server for JiShi Design.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@jiujiang/jishi-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "hetzner": {
+      "name": "Hetzner MCP Server",
+      "description": "MCP server for the Hetzner Cloud API \u2014 manage servers, networks, volumes, and more.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@lazyants/hetzner-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "wunderva-server": {
+      "name": "MCP Server",
+      "description": "MCP server for Wundervault zero-knowledge secret management.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@wundervault/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "kdrive": {
+      "name": "MCP Server Kdrive",
+      "description": "MCP server for interacting with Infomaniak kDrive.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@infomaniak/mcp-server-kdrive"
+      ],
+      "env": {},
+      "tags": [
+        "files",
+        "storage"
+      ]
+    },
+    "igniteui-server": {
+      "name": "MCP Server",
+      "description": "Unified MCP server for Ignite UI \u2014 documentation, GitHub API, and CLI scaffolding.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@igniteui/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "code",
+        "collaboration",
+        "git"
+      ]
+    },
+    "dev-workflow": {
+      "name": "Dev Workflow MCP Server",
+      "description": "MCP server to enforce development workflow discipline.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@programinglive/dev-workflow-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "genlobe-server": {
+      "name": "MCP Server",
+      "description": "MCP Server for GenLobe SaaS API - Provides AI assistants with comprehensive API documentation for building frontend appl",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@genlobe/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "al": {
+      "name": "Al MCP Server",
+      "description": "Model Context Protocol (MCP) server providing intelligent AL (Application Language) code assistance for Microsoft Dynami",
+      "command": "npx",
+      "args": [
+        "-y",
+        "al-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "mulesoft-server": {
+      "name": "MCP Server",
+      "description": "Mulesoft MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mulesoft/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "omnisoci-server": {
+      "name": "MCP Server",
+      "description": "MCP server for OmniSocials API - manage social media posts, media, accounts, analytics, and webhooks.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@omnisocials/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "pipedrive": {
+      "name": "Pipedrive MCP Server",
+      "description": "MCP server for Pipedrive CRM integration with Claude Code.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@ckalima/pipedrive-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "files",
+        "storage"
+      ]
+    },
+    "aot-jira": {
+      "name": "Jira MCP Server",
+      "description": "JIRA MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@aot-tech/jira-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "issues",
+        "project-management"
+      ]
+    },
+    "lighthouse": {
+      "name": "Lighthouse MCP Server",
+      "description": "MCP server for using the Lighthouse AI API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "lighthouse-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "mulesoft": {
+      "name": "Mulesoft MCP Server",
+      "description": "Mule MCP Server for Cursor and Windsurf IDE integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mulesoft-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "camoufox": {
+      "name": "Camoufox MCP Server",
+      "description": "MCP server for browser automation using Camoufox - a privacy-focused Firefox fork with advanced anti-detection features.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "camoufox-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "automation",
+        "browser"
+      ]
+    },
+    "centia-server": {
+      "name": "MCP Server",
+      "description": "Centia MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@centia-io/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "pinepape-server": {
+      "name": "MCP Server",
+      "description": "MCP Server for PinePaper Studio - Create animated graphics with AI.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@pinepaper.studio/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm"
+      ]
+    },
+    "kip": {
+      "name": "Kip MCP Server",
+      "description": "An MCP server that reads your boat's Signal K data and helps AI assistants design and install KIP dashboards.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "kip-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "puppeteer-real-browser": {
+      "name": "Puppeteer Real Browser MCP Server",
+      "description": "MCP server for puppeteer-real-browser.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "puppeteer-real-browser-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "automation",
+        "browser"
+      ]
+    },
+    "lottiefiles": {
+      "name": "MCP Server Lottiefiles",
+      "description": "A Model Context Protocol (MCP) server for searching and retrieving Lottie animations from LottieFiles.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-lottiefiles"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "ide": {
+      "name": "Ide MCP Server",
+      "description": "MCP Server for enhance IntelliJ IDEA abilities.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@hoshikawashiro/ide-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "vantage": {
+      "name": "Vantage MCP Server",
+      "description": "Our locally ran MCP server that runs the same logic as our remote MCP for tooling. To use this, simply install the packa",
+      "command": "npx",
+      "args": [
+        "-y",
+        "vantage-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "greptile": {
+      "name": "Greptile MCP Server",
+      "description": "Modern TypeScript MCP server for AI-powered code search and querying with Greptile API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "greptile-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "agentx-mailchimp": {
+      "name": "Mailchimp MCP Server",
+      "description": "AgentX MCP server for Mailchimp Automations API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@agentx-ai/mailchimp-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "email",
+        "notifications"
+      ]
+    },
+    "coolify": {
+      "name": "Coolify MCP Server",
+      "description": "MCP server for Coolify v4.1.1 API \u2014 full coverage of all endpoints.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "coolify-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "etoro": {
+      "name": "Etoro MCP Server",
+      "description": "MCP server wrapping the eToro public API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "etoro-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "crypto",
+        "data",
+        "finance"
+      ]
+    },
+    "fireflies": {
+      "name": "Fireflies MCP Server",
+      "description": "MCP server for Fireflies.ai API integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "fireflies-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "iconify": {
+      "name": "Iconify MCP Server",
+      "description": "MCP server for Iconify.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "iconify-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "kchat": {
+      "name": "MCP Server Kchat",
+      "description": "MCP server for interacting with Infomaniak kChat.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@infomaniak/mcp-server-kchat"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "commands": {
+      "name": "MCP Server Commands",
+      "description": "An MCP server to run arbitrary commands.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@agent-infra/mcp-server-commands"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "ccxt": {
+      "name": "MCP Server Ccxt",
+      "description": "High-performance CCXT MCP server for cryptocurrency exchange integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mcpfun/mcp-server-ccxt"
+      ],
+      "env": {},
+      "tags": [
+        "crypto",
+        "finance"
+      ]
+    },
+    "fruggr-zendesk": {
+      "name": "Zendesk MCP Server",
+      "description": "Model Context Protocol (MCP) server for the Zendesk Support & Help Center APIs \u2014 runs locally (stdio) or as a private re",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@fruggr/zendesk-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm"
+      ]
+    },
+    "dwolla-server": {
+      "name": "MCP Server",
+      "description": "Model Context Protocol (MCP) Server for the _Dwolla_ API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@dwolla/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "mealie": {
+      "name": "Mealie MCP Server",
+      "description": "MCP server for Mealie recipe management.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mealie-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "taxorio-server": {
+      "name": "MCP Server",
+      "description": "MCP Server for Taxorio - Control your invoicing from AI assistants.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@taxorio/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "calendar": {
+      "name": "MCP Server Calendar",
+      "description": "MCP server for interacting with Infomaniak Calendar.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@infomaniak/mcp-server-calendar"
+      ],
+      "env": {},
+      "tags": [
+        "calendar",
+        "productivity"
+      ]
+    },
+    "github-mcp-server-sls-c4d5e6f7": {
+      "name": "Github MCP Server Sls C4D5E6F7 A8B9 4012",
+      "description": "MCP server with github integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@coretext-ai/github-mcp-server-sls-c4d5e6f7-a8b9-4012-b345-456789012345"
+      ],
+      "env": {},
+      "tags": [
+        "code",
+        "collaboration",
+        "git"
+      ]
+    },
+    "xcode": {
+      "name": "Xcode MCP Server",
+      "description": "An MCP server for Xcode integration, enabling AI assistants to interact with Xcode projects.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "xcode-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "coldbird-server": {
+      "name": "MCP Server",
+      "description": "MCP server for ColdBirds Sequence \u2014 control campaigns, contacts, and mailboxes from AI assistants like Claude Desktop, C",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@coldbirds/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "email",
+        "notifications"
+      ]
+    },
+    "bookstack": {
+      "name": "Bookstack MCP Server",
+      "description": "MCP server providing comprehensive access to BookStack knowledge management system.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "bookstack-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "taketime-server": {
+      "name": "MCP Server",
+      "description": "MCP Server for Take Time \u2014 manage study blocks, activities, and schedules via AI assistants.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@taketimemcp/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "hevy": {
+      "name": "Hevy MCP Server",
+      "description": "A MCP server for Hevy.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@vreippainen/hevy-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "joplin": {
+      "name": "Joplin MCP Server",
+      "description": "MCP server for Joplin.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "joplin-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "mycobrai-server": {
+      "name": "MCP Server",
+      "description": "Self-hosted memory layer for AI agents \u2014 MCP server backed by Postgres + pgvector + knowledge graph.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mycobrain/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "database",
+        "memory",
+        "rag",
+        "sql"
+      ]
+    },
+    "graylog": {
+      "name": "Graylog MCP Server",
+      "description": "MCP server for fetching data from Graylog.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@lcaliani/graylog-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "knowledge": {
+      "name": "Knowledge MCP Server",
+      "description": "MCP server implementation for agentic knowledge guidance system.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@codemcp/knowledge-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "hostsmit-server": {
+      "name": "MCP Server",
+      "description": "MCP server for the Hostsmith hosting platform.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@hostsmith/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "advanced-salesforce": {
+      "name": "Salesforce MCP Server",
+      "description": "MCP server enabling AI assistants to interact with Salesforce orgs through the Salesforce CLI.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@advanced-communities/salesforce-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "for-revit": {
+      "name": "MCP Server For Revit",
+      "description": "MCP server for interacting with Autodesk Revit through AI assistants like Claude.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-for-revit"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "decantr-server": {
+      "name": "MCP Server",
+      "description": "MCP server for Decantr \u2014 exposes Contract context, typed graph artifacts, and verification evidence to AI coding assista",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@decantr/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "jina-ai": {
+      "name": "Jina AI MCP Server",
+      "description": "MCP server for Jina AI services.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "jina-ai-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "fortnox": {
+      "name": "Fortnox MCP Server",
+      "description": "MCP server for Fortnox Swedish accounting API integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "fortnox-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "serper": {
+      "name": "MCP Server Serper",
+      "description": "Serper MCP Server supporting search and webpage scraping.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-serper"
+      ],
+      "env": {},
+      "tags": [
+        "scraping",
+        "search",
+        "web"
+      ]
+    },
+    "mcplab": {
+      "name": "MCPlab MCP Server",
+      "description": "MCP server that exposes MCPLab evaluation tools \u2014 query runs, results, and traces via the Model Context Protocol.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@inspectr/mcplab-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "aliyun-supabase": {
+      "name": "MCP Server Supabase",
+      "description": "MCP server for interacting with Supabase.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@aliyun-supabase/mcp-server-supabase"
+      ],
+      "env": {},
+      "tags": [
+        "backend",
+        "database"
+      ]
+    },
+    "search-server": {
+      "name": "MCP Server",
+      "description": "MCP Server for search-docs - Claude Code integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@search-docs/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "rag",
+        "search",
+        "vector",
+        "web"
+      ]
+    },
+    "nilsir-mysql": {
+      "name": "MCP Server Mysql",
+      "description": "MCP server for MySQL database operations.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@nilsir/mcp-server-mysql"
+      ],
+      "env": {},
+      "tags": [
+        "database",
+        "sql"
+      ]
+    },
+    "cascade-cms": {
+      "name": "Cascade Cms MCP Server",
+      "description": "MCP server exposing Cascade CMS API operations to LLMs and agents.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "cascade-cms-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "wireweav-server": {
+      "name": "MCP Server",
+      "description": "MCP server for Wireweave DSL - Thin client for API Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@wireweave/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "islamic-content": {
+      "name": "Islamic Content MCP Server",
+      "description": "Model Context Protocol (MCP) server for Islamic Content SDK.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "islamic-content-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "scenory-youtube": {
+      "name": "Scenory Youtube MCP Server",
+      "description": "Scenory AI YouTube Intelligence MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "scenory-youtube-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "content",
+        "video"
+      ]
+    },
+    "ggdeals": {
+      "name": "MCP Server Ggdeals",
+      "description": "Model Context Protocol (MCP) server for fetching video game deals, historical lows, and bundles from gg.deals.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-ggdeals"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "assetlab-server": {
+      "name": "MCP Server",
+      "description": "MCP server for AssetLab \u2014 connect Claude or ChatGPT to your asset management data.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@assetlab/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm"
+      ]
+    },
+    "archery": {
+      "name": "Archery MCP Server",
+      "description": "MCP server for Archery SQL audit platform.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "archery-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "openscad": {
+      "name": "Openscad MCP Server",
+      "description": "An MCP server that renders PNG previews and STL geometry from OpenSCAD (SCAD) source code.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "openscad-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "kirkdeam-puppeteer": {
+      "name": "Puppeteer MCP Server",
+      "description": "Puppeteer MCP Server for browser automation via Model Context Protocol.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@kirkdeam/puppeteer-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "automation",
+        "browser",
+        "scraping",
+        "web"
+      ]
+    },
+    "compared-server": {
+      "name": "MCP Server",
+      "description": "MCP server for ComparEdge: verified pricing, alternatives, and feature comparisons for 495+ SaaS and AI tools.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@comparedge/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "code",
+        "collaboration",
+        "git"
+      ]
+    },
+    "neolith": {
+      "name": "Neolith MCP Server",
+      "description": "MCP Server for Neolith - Exposes Neolith workspace actions as MCP tools for OrchestratorDaemon integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@wundr.io/neolith-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "rightcodes-image": {
+      "name": "Rightcodes Image MCP Server",
+      "description": "MCP server for Right Codes image generation API (gpt-image-2).",
+      "command": "npx",
+      "args": [
+        "-y",
+        "rightcodes-image-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "images"
+      ]
+    },
+    "studiosi-server": {
+      "name": "MCP Server",
+      "description": "Studio Signal MCP Server \u2014 AI-powered M&E intelligence via Model Context Protocol.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@studiosignal/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "bitsboun-server": {
+      "name": "MCP Server",
+      "description": "BitsBound MCP Server - AI-powered contract analysis for Claude, ChatGPT, and Gemini.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@bitsbound/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "lightnin-server": {
+      "name": "MCP Server",
+      "description": "MCP server that gives AI agents LightningChart JS source-of-truth guidance.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@lightningchart/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "decaf-server": {
+      "name": "MCP Server",
+      "description": "mcp server for code assistance of decaf-ts projects.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@decaf-ts/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "apollo": {
+      "name": "Apollo MCP Server",
+      "description": "MCP server for Apollo.io \u2014 people search, contact management, sequences, and organization enrichment via the Model Conte",
+      "command": "npx",
+      "args": [
+        "-y",
+        "apollo-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "lexware": {
+      "name": "Lexware MCP Server",
+      "description": "MCP server for the Lexware Office API \u2014 manage invoices, contacts, articles, vouchers, and more.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@lazyants/lexware-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "mermaid": {
+      "name": "Mermaid MCP Server",
+      "description": "Mermaid diagram MCP server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mermaid-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "flowrela-server": {
+      "name": "MCP Server",
+      "description": "Flow Relay MCP Server for Claude Desktop and Claude Code \u2013 handoffs, integrations, and context events via natural conver",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@flowrelay/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "postoria-server": {
+      "name": "MCP Server",
+      "description": "MCP server for the Postoria Public API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@postoria/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "infranodus": {
+      "name": "Infranodus MCP Server",
+      "description": "InfraNodus MCP server - A Model Context Protocol server for network thinking and graph analysis.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "infranodus-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "excalidraw": {
+      "name": "Excalidraw MCP Server",
+      "description": "Security-hardened MCP server for Excalidraw with API key auth, rate limiting, and real-time canvas sync.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "excalidraw-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "spindle": {
+      "name": "Spindle MCP Server",
+      "description": "MCP server for Ameba Design System Spindle.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@openameba/spindle-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "lhtdeg-ssh": {
+      "name": "Ssh MCP Server",
+      "description": "SSH-based MCP Server (\u57fa\u4e8e SSH \u7684 MCP \u670d\u52a1\u5668).",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@lhtdeg/ssh-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "velora": {
+      "name": "Velora MCP Server",
+      "description": "Official Velora AI Video Studio MCP Server \u2014 exposes Velora's plans, pricing, and AI model data to any MCP-compatible AI",
+      "command": "npx",
+      "args": [
+        "-y",
+        "velora-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "morphed": {
+      "name": "Morphed MCP Server",
+      "description": "Morphed Intelligence Platform MCP Server for governed HubSpot operations in Claude, ChatGPT, and compatible MCP clients.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "morphed-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "fred": {
+      "name": "Fred MCP Server",
+      "description": "Federal Reserve Economic Data (FRED) MCP Server - Access all 800,000+ economic time series with search, browse, and data",
+      "command": "npx",
+      "args": [
+        "-y",
+        "fred-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "yuemingr-codex": {
+      "name": "Codex MCP Server",
+      "description": "MCP server for Codex CLI integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@yuemingruoan/codex-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "bitrix24-tasks": {
+      "name": "Bitrix24 Tasks MCP Server",
+      "description": "Bitrix24 MCP server for tasks, projects, and users.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "bitrix24-tasks-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "atlassian-jira": {
+      "name": "MCP Server Atlassian Jira",
+      "description": "Node.js/TypeScript MCP server for Atlassian Jira. Equips AI systems (LLMs) with tools to list/get projects, search/get i",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@aashari/mcp-server-atlassian-jira"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "issues",
+        "llm",
+        "project-management",
+        "search"
+      ]
+    },
+    "fmea-api": {
+      "name": "Fmea API MCP Server",
+      "description": "MCP server for serving API documentation from endpoints directory.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "fmea-api-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "gremlin-server": {
+      "name": "MCP Server",
+      "description": "Gremlin MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@gremlin/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "dokobot": {
+      "name": "Dokobot MCP Server",
+      "description": "Dokobot MCP server for AI agents - parallel web search with real browser.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "dokobot-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "automation",
+        "browser",
+        "search",
+        "web"
+      ]
+    },
+    "cristip7-asana": {
+      "name": "MCP Server Asana",
+      "description": "MCP Server for Asana API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cristip73/mcp-server-asana"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm",
+        "project-management",
+        "tasks"
+      ]
+    },
+    "mtop-server": {
+      "name": "MCP Server",
+      "description": "MCP Server for Mtop DevTools - enables AI to interact with Chrome browser requests and logs.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mtop-devtools/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "automation",
+        "browser"
+      ]
+    },
+    "bitget": {
+      "name": "Bitget MCP Server",
+      "description": "Official Bitget MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "bitget-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "ds": {
+      "name": "Ds MCP Server",
+      "description": "MCP server for the Red Sift Design System \u2014 provides component lookup, prop documentation, and code generation tools for",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@redsift/ds-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "envault": {
+      "name": "Envault MCP Server",
+      "description": "MCP server for Envault CLI operations.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@dinanathdash/envault-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "smtp": {
+      "name": "Smtp MCP Server",
+      "description": "MCP server for sending email via SMTP relay.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@teamnetwork-nz/smtp-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "email",
+        "notifications"
+      ]
+    },
+    "slidemas-server": {
+      "name": "MCP Server",
+      "description": "MCP server for SlideMaster - create AI presentation videos from Claude Desktop.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@slidemaster/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "sutraspa-server": {
+      "name": "MCP Server",
+      "description": "MCP server for the Sutra Admin API \u2014 manage spaces, members, contacts, content, and more via AI agents.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@sutraspaces/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "meta-ads": {
+      "name": "Meta Ads MCP Server",
+      "description": "MCP server for Meta (Facebook) Ads API integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "meta-ads-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "dataset": {
+      "name": "Dataset MCP Server",
+      "description": "MCP server for Lovrabet Dataset access.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@lovrabet/dataset-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "syncline-mcp-server-go": {
+      "name": "Syncline MCP Server Go",
+      "description": "Syncline MCP Server (Go) - Fast, standalone binaries for AI-powered meeting scheduling.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@kekwanulabs/syncline-mcp-server-go"
+      ],
+      "env": {},
+      "tags": [
+        "calendar",
+        "productivity"
+      ]
+    },
+    "appflowy": {
+      "name": "Appflowy MCP Server",
+      "description": "MCP Server for AppFlowy Self-Hosted - Connect your IDE to your AppFlowy workspace.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mtcsistemas/appflowy-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "notes",
+        "productivity"
+      ]
+    },
+    "hechtcar-mysql": {
+      "name": "Mysql MCP Server",
+      "description": "A Model Context Protocol (MCP) server that provides LLMs with flexible, safe access to MySQL databases.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@hechtcarmel/mysql-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "database",
+        "llm",
+        "sql"
+      ]
+    },
+    "docx": {
+      "name": "Docx MCP Server",
+      "description": "MCP server for DOCX document editing \u2014 read, edit, format, comment, highlight, and track changes in Word documents.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@knorq/docx-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "photos": {
+      "name": "Photos MCP Server",
+      "description": "Per-app MCP server for macOS Photos \u2014 hardcoded AppleScript only, no shell script access.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "photos-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "precepta-server": {
+      "name": "MCP Server",
+      "description": "Precept MCP Server for lead and company B2B intelligence.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@preceptai/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "email",
+        "notifications"
+      ]
+    },
+    "tba": {
+      "name": "Tba MCP Server",
+      "description": "The Blue Alliance MCP Server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@withinfocus/tba-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "firecms-server": {
+      "name": "MCP Server",
+      "description": "MCP server for FireCMS Cloud \u2014 manage projects, collections, users, and AI features via the Model Context Protocol.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@firecms/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "zapsign": {
+      "name": "MCP Server Zapsign",
+      "description": "MCP Server for ZapSign API Integration - Complete electronic signature solution.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-zapsign"
+      ],
+      "env": {},
+      "tags": [
+        "documents",
+        "files"
+      ]
+    },
+    "ucm": {
+      "name": "Ucm MCP Server",
+      "description": "Universal Context Manager MCP Server - AI Productivity Platform.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "ucm-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "learndash": {
+      "name": "Learndash MCP Server",
+      "description": "A LearnDash MCP Server implementation.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@stellarwp/learndash-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "iuk-binance": {
+      "name": "Binance MCP Server",
+      "description": "MCP server for Binance Futures and technical indicators.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@iuk-ink/binance-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "connectiq": {
+      "name": "Connectiq MCP Server",
+      "description": "MCP server for Garmin ConnectIQ SDK documentation and resources.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "connectiq-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "contentful-management": {
+      "name": "Contentful Management MCP Server",
+      "description": "MCP server for Contentful Content Management API integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@ivotoby/contentful-management-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "magiclan-server": {
+      "name": "MCP Server",
+      "description": "Magic Lane MCP server for geospatial tools.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@magiclane/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "ifcx": {
+      "name": "Ifcx MCP Server",
+      "description": "MCP server for querying IFCX building data with natural language.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "ifcx-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "eikaramb-puppeteer-real-browse": {
+      "name": "Puppeteer Real Browser MCP Server",
+      "description": "MCP server for puppeteer-real-browser.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@eikaramba/puppeteer-real-browser-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "automation",
+        "browser"
+      ]
+    },
+    "mantisbt": {
+      "name": "Mantisbt MCP Server",
+      "description": "MCP server for MantisBT REST API \u2013 read and manage bug tracker issues.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@dpesch/mantisbt-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "tempo": {
+      "name": "Tempo MCP Server",
+      "description": "MCP server for managing Tempo worklogs in Jira.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@ivelin-web/tempo-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "issues",
+        "project-management"
+      ]
+    },
+    "h-server": {
+      "name": "MCP Server",
+      "description": "MCP server for the H-ear World audio classification API \u2014 connect Claude, ChatGPT, and other AI agents to 521+ sound cla",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@h-ear/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "audio"
+      ]
+    },
+    "gtcx-server": {
+      "name": "MCP Server",
+      "description": "GTCX Ledger design-system MCP server.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@gtcx/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "yahoo-finance": {
+      "name": "Yahoo Finance MCP Server",
+      "description": "Yahoo Finance MCP Server - Real-time stock data, company info, financial statements, and market analysis via Model Conte",
+      "command": "npx",
+      "args": [
+        "-y",
+        "yahoo-finance-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "data",
+        "finance"
+      ]
+    },
+    "replenis-server": {
+      "name": "MCP Server",
+      "description": "ReplenishRadar MCP server - connects Claude Desktop and other MCP clients to the ReplenishRadar REST API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@replenishradar/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ecommerce",
+        "products"
+      ]
+    },
+    "botcommu-server": {
+      "name": "MCP Server",
+      "description": "BotCommunity MCP Server for AI agent integration.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@botcommunity/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "krutov-yandex-metrika": {
+      "name": "Krutov Yandex Metrika MCP Server",
+      "description": "MCP server for the Yandex Metrika.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "krutov-yandex-metrika-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "neuranix-server": {
+      "name": "MCP Server",
+      "description": "Neuranix MCP Server \u2014 autonomous persistent memory for IDE AI agents (Cursor, VS Code, Claude Code, Windsurf).",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@neuranix/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "memory"
+      ]
+    },
+    "garoon-server": {
+      "name": "MCP Server",
+      "description": "The official MCP Server for Garoon.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@garoon/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "es-server": {
+      "name": "MCP Server",
+      "description": "MCP Server for es-plus (Vue 3 / Vue 2) - AI coding tool integration for CRUD page generation.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@es-plus/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "secondbrainos": {
+      "name": "Secondbrainos MCP Server",
+      "description": "Second Brain OS MCP Server for Claude Desktop.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "secondbrainos-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "context": {
+      "name": "Context MCP Server",
+      "description": "Persistent AI memory + codebase knowledge graph MCP server. Works across Claude Code, Cursor, Gemini CLI, Codex, Windsur",
+      "command": "npx",
+      "args": [
+        "-y",
+        "context-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "memory"
+      ]
+    },
+    "merk.a2a-server": {
+      "name": "MCP Server",
+      "description": "MCP server for Merka2a B2B Exchange \u2014 enables Claude and AI assistants to search, negotiate, and order wholesale product",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@merk.a2a/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "kubectl": {
+      "name": "Kubectl MCP Server",
+      "description": "A Model Context Protocol (MCP) server for Kubernetes with 270+ tools, 8 resources, and 8 prompts for AI assistants.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "kubectl-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "containers",
+        "devops"
+      ]
+    },
+    "aem": {
+      "name": "Aem MCP Server",
+      "description": "AEM MCP server. Chat with your AEM instance for content, component, and asset operations.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "aem-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "hacktricks": {
+      "name": "Hacktricks MCP Server",
+      "description": "MCP server for searching HackTricks documentation.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "hacktricks-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "optimizely": {
+      "name": "Optimizely MCP Server",
+      "description": "Optimizely MCP Server for AI assistants with integrated CLI tools.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@simonecoelhosfo/optimizely-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "anyforge-server": {
+      "name": "MCP Server",
+      "description": "AnyForge MCP Server \u2014 drive AnyForge (HIL approvals, initiatives, work items, crews) from Claude CLI, Cursor, and other.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@anyforge/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "files",
+        "storage"
+      ]
+    },
+    "mneme": {
+      "name": "Mneme MCP Server",
+      "description": "MCP server for mneme: 9 tools for vault-native memory in Claude Code and MCP-compatible clients.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mneme-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "memory"
+      ]
+    },
+    "open-server": {
+      "name": "MCP Server",
+      "description": "MCP server for Open Loyalty API - enables AI agents to manage loyalty programs, members, points, rewards, and transactio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@open-loyalty/mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "llm"
+      ]
+    },
+    "apple-events": {
+      "name": "MCP Server Apple Events",
+      "description": "MCP server that provides native integration with Apple Reminders and Calendar on macOS.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-apple-events"
+      ],
+      "env": {},
+      "tags": [
+        "calendar",
+        "productivity"
+      ]
+    },
+    "goldrush": {
+      "name": "Goldrush MCP Server",
+      "description": "GoldRush MCP Server for interacting with Covalent GoldRush API.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@covalenthq/goldrush-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "crypto",
+        "finance"
+      ]
+    },
+    "calendly": {
+      "name": "Calendly MCP Server",
+      "description": "MCP server for Calendly API integration with email automation support.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "calendly-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "email",
+        "notifications"
+      ]
+    },
+    "siri-shortcuts": {
+      "name": "MCP Server Siri Shortcuts",
+      "description": "MCP server that provides access to Siri shortcuts.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-server-siri-shortcuts"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "atlassian-bitbucket": {
+      "name": "MCP Server Atlassian Bitbucket",
+      "description": "Node.js/TypeScript MCP server for Atlassian Bitbucket. Enables AI systems (LLMs) to interact with workspaces, repositori",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@aashari/mcp-server-atlassian-bitbucket"
+      ],
+      "env": {},
+      "tags": [
+        "ai",
+        "code",
+        "collaboration",
+        "git",
+        "llm"
+      ]
+    },
+    "shadcn-ui": {
+      "name": "Shadcn Ui MCP Server",
+      "description": "MCP server for shadcn/ui component references.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@heilgar/shadcn-ui-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "tools"
+      ]
+    },
+    "atlassian-confluence": {
+      "name": "Atlassian Confluence MCP Server",
+      "description": "Model Context Protocol (MCP) server for Atlassian Confluence. Enables AI assistants like Claude and Windsurf to read, cr",
+      "command": "npx",
+      "args": [
+        "-y",
+        "atlassian-confluence-mcp-server"
+      ],
+      "env": {},
+      "tags": [
+        "search",
+        "web"
+      ]
+    },
+    "openweather": {
+      "name": "OpenWeather",
+      "description": "Real-time and forecast weather data via OpenWeatherMap.",
+      "command": "uvx",
+      "args": [
+        "openweather-mcp"
+      ],
+      "env": {
+        "OPENWEATHER_API_KEY": {
+          "description": "OpenWeatherMap API key",
+          "required": true
+        }
+      },
+      "tags": [
+        "weather",
+        "data",
+        "python"
+      ],
+      "runtime": "python"
+    },
+    "youtube-py": {
+      "name": "YouTube (Python)",
+      "description": "Search videos and fetch transcripts from YouTube.",
+      "command": "uvx",
+      "args": [
+        "mcp-server-youtube"
+      ],
+      "env": {},
+      "tags": [
+        "video",
+        "content",
+        "python"
+      ],
+      "runtime": "python"
+    },
+    "docker-puppeteer": {
+      "name": "Puppeteer (Docker)",
+      "description": "Official Anthropic Puppeteer server \u2014 browser automation in a container.",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/puppeteer"
+      ],
+      "env": {},
+      "tags": [
+        "browser",
+        "automation",
+        "official"
+      ],
+      "runtime": "docker"
+    },
+    "docker-sqlite": {
+      "name": "SQLite (Docker)",
+      "description": "Official Anthropic SQLite server \u2014 zero-install local database.",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/sqlite"
+      ],
+      "env": {},
+      "tags": [
+        "database",
+        "sql",
+        "official"
+      ],
+      "runtime": "docker"
+    },
+    "postmark": {
+      "name": "Postmark",
+      "description": "Send transactional emails via Postmark.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "postmark-mcp"
+      ],
+      "env": {
+        "POSTMARK_SERVER_TOKEN": {
+          "description": "Postmark server token",
+          "required": true
+        }
+      },
+      "tags": [
+        "email",
+        "notifications"
+      ]
     }
   },
   "bundles": {

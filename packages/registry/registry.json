@@ -7941,7 +7941,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "postmark-mcp"
+        "@activecampaign/postmark-mcp"
       ],
       "env": {
         "POSTMARK_SERVER_TOKEN": {

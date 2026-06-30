@@ -76,7 +76,7 @@ async function installOne(
   console.log(chalk.bold(`Installing ${server.name}...`));
 
   const envValues: Record<string, string> = {};
-  const envKeys = Object.entries(server.env);
+  const envKeys = Object.entries(server.env ?? {});
 
   if (envKeys.length > 0) {
     console.log(chalk.dim("  This server requires environment variables:"));

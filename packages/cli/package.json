@@ -1,6 +1,6 @@
 {
   "name": "mcp-fleet",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Universal MCP server manager — install, configure, and update MCP servers across all AI clients",
   "type": "module",
   "bin": {

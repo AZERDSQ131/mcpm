@@ -1,15 +1,43 @@
+import fs from "fs";
+import path from "path";
 import chalk from "chalk";
 import inquirer from "inquirer";
 import { spawn } from "child_process";
 import { getServer } from "../registry.js";
+import type { RegistryServer } from "../types.js";
 
 interface McpTool {
   name: string;
   description?: string;
 }
 
+function resolveLocal(serverId: string): RegistryServer | null {
+  if (serverId !== "." && !serverId.startsWith("./") && !serverId.startsWith("/")) return null;
+  const dir = serverId === "." ? process.cwd() : path.resolve(serverId);
+  const pkgPath = path.join(dir, "package.json");
+  if (!fs.existsSync(pkgPath)) return null;
+  try {
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8")) as {
+      name?: string; description?: string; scripts?: Record<string, string>;
+    };
+    const startScript = pkg.scripts?.start ?? `node dist/index.js`;
+    const [cmd, ...args] = startScript.split(" ");
+    return {
+      name: pkg.name ?? dir,
+      description: pkg.description ?? "Local MCP server",
+      command: cmd,
+      args,
+      env: {},
+      tags: ["local"],
+    };
+  } catch {
+    return null;
+  }
+}
+
 export async function run(serverId: string): Promise<void> {
-  const server = await getServer(serverId);
+  const local = resolveLocal(serverId);
+  const server = local ?? (await getServer(serverId));
 
   if (!server) {
     console.log(chalk.red(`\nUnknown server: ${chalk.bold(serverId)}`));

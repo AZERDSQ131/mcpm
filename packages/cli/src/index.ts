@@ -13,6 +13,8 @@ import { run } from "./commands/run.js";
 import { sync } from "./commands/sync.js";
 import { exportConfig, importConfig } from "./commands/exportImport.js";
 import { completion, printCompletionHelp } from "./commands/completion.js";
+import { create } from "./commands/create.js";
+import { publish } from "./commands/publish.js";
 
 const program = new Command();
 
@@ -69,8 +71,22 @@ program
   });
 
 program
+  .command("create [name]")
+  .description("Scaffold a new MCP server project")
+  .action(async (name?: string) => {
+    await create(name);
+  });
+
+program
+  .command("publish")
+  .description("Submit your MCP server to the registry")
+  .action(async () => {
+    await publish();
+  });
+
+program
   .command("run <server>")
-  .description("Run a server temporarily to see its tools (nothing is saved)")
+  .description("Run a server temporarily to see its tools — use '.' for local server")
   .action(async (server: string) => {
     await run(server);
   });
@@ -142,7 +158,10 @@ ${chalk.dim("Examples:")}
   ${chalk.italic("mcpm doctor")}                          check server health
   ${chalk.italic("mcpm export ~/my-mcp-setup.json")}      backup your setup
   ${chalk.italic("mcpm import ~/my-mcp-setup.json")}      restore on a new machine
-  ${chalk.italic('eval "$(mcpm completion zsh)"')}        enable tab completion
+  ${chalk.italic("mcpm create my-server")}               scaffold a new MCP server
+  ${chalk.italic("mcpm run .")}                          test your local server
+  ${chalk.italic("mcpm publish")}                        submit your server to registry
+  ${chalk.italic('eval "$(mcpm completion zsh)"')}       enable tab completion
 `
 );
 

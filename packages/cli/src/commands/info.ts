@@ -10,8 +10,35 @@ export async function info(serverId: string): Promise<void> {
     return;
   }
 
-  const pkg = server.args.find((a) => !a.startsWith("-") && a !== "-y") ?? "";
-  const npmUrl = pkg ? `https://www.npmjs.com/package/${pkg}` : null;
+  const DOCKER_SKIP = new Set(["run", "-i", "--rm"]);
+  const skipMap: Record<string, Set<string>> = {
+    npx: new Set(["-y"]),
+    uvx: new Set(["--from"]),
+    docker: DOCKER_SKIP,
+    go: new Set(["run"]),
+    deno: new Set(["run", "--allow-net", "--allow-env", "--allow-read", "--allow-write", "--allow-all"]),
+  };
+  const skip = skipMap[server.command] ?? new Set<string>();
+  const pkg = server.args.find((a) => !a.startsWith("-") && !skip.has(a)) ?? "";
+
+  let pkgUrl: string | null = null;
+  let pkgLabel = "Package";
+  if (pkg) {
+    if (server.command === "uvx") {
+      pkgUrl = `https://pypi.org/project/${pkg}`;
+      pkgLabel = "PyPI";
+    } else if (server.command === "docker") {
+      const repo = pkg.split(":")[0];
+      pkgUrl = repo.includes("/") ? `https://hub.docker.com/r/${repo}` : `https://hub.docker.com/_/${repo}`;
+      pkgLabel = "Docker Hub";
+    } else if (server.command === "go") {
+      pkgUrl = `https://pkg.go.dev/${pkg.replace(/@[^@]+$/, "")}`;
+      pkgLabel = "pkg.go.dev";
+    } else if (server.command === "npx") {
+      pkgUrl = `https://www.npmjs.com/package/${pkg}`;
+      pkgLabel = "npm";
+    }
+  }
 
   console.log();
   console.log(chalk.bold(server.name));
@@ -38,9 +65,9 @@ export async function info(serverId: string): Promise<void> {
   console.log("  " + server.tags.map((t) => chalk.cyan(`#${t}`)).join("  "));
   console.log();
 
-  if (npmUrl) {
-    console.log(chalk.bold("Package"));
-    console.log(`  ${chalk.underline(npmUrl)}`);
+  if (pkgUrl) {
+    console.log(chalk.bold(pkgLabel));
+    console.log(`  ${chalk.underline(pkgUrl)}`);
     console.log();
   }
 

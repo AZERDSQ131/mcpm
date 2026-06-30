@@ -5,6 +5,18 @@ import { detectClients } from "../clients/detect.js";
 import { listInstalledServers } from "../clients/config.js";
 import { getServer } from "../registry.js";
 
+function extractPkg(command: string, args: string[]): string {
+  const SKIP: Record<string, string[]> = {
+    npx: ["-y"],
+    uvx: ["--from"],
+    docker: ["run", "-i", "--rm"],
+    go: ["run"],
+    deno: ["run", "--allow-net", "--allow-env", "--allow-read", "--allow-write", "--allow-all"],
+  };
+  const skip = new Set(SKIP[command] ?? []);
+  return args.find((a) => !a.startsWith("-") && !skip.has(a)) ?? "";
+}
+
 interface ServerStatus {
   id: string;
   currentPkg: string;
@@ -40,8 +52,8 @@ export async function outdated(): Promise<void> {
 
   for (const [id, config] of installed) {
     const known = await getServer(id);
-    const currentPkg = config.args.find((a) => !a.startsWith("-") && a !== "-y") ?? "";
-    const registryPkg = known?.args.find((a) => !a.startsWith("-") && a !== "-y") ?? null;
+    const currentPkg = extractPkg(config.command, config.args);
+    const registryPkg = known ? extractPkg(known.command, known.args) : null;
     const pkgToCheck = registryPkg ?? currentPkg;
     const pkgMismatch = !!registryPkg && registryPkg !== currentPkg;
 

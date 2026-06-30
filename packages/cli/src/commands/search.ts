@@ -8,21 +8,29 @@ export async function search(query?: string, showBundles?: boolean): Promise<voi
     return;
   }
 
-  const results = query ? await searchServers(query) : await getAllServers();
+  const DEFAULT_LIMIT = 50;
+  const all = query ? await searchServers(query) : await getAllServers();
 
-  if (results.length === 0) {
+  if (all.length === 0) {
     console.log(chalk.yellow(`\nNo servers found matching "${query}"\n`));
     return;
   }
 
+  const results = query ? all : all.slice(0, DEFAULT_LIMIT);
+  const total = all.length;
+
   const label = query
-    ? `${results.length} server${results.length > 1 ? "s" : ""} matching "${chalk.bold(query)}"`
-    : `${results.length} servers available`;
+    ? `${total} server${total > 1 ? "s" : ""} matching "${chalk.bold(query)}"`
+    : `Showing ${results.length} of ${total} servers`;
 
   console.log(chalk.dim(`\n${label}\n`));
 
   for (const [id, server] of results) {
     printServer(id, server);
+  }
+
+  if (!query && total > DEFAULT_LIMIT) {
+    console.log(chalk.dim(`  … and ${total - DEFAULT_LIMIT} more — use `) + chalk.italic(`mcpm search <query>`) + chalk.dim(` to filter\n`));
   }
 
   console.log(chalk.dim(`Install: `) + chalk.italic(`mcpm install <name>`));

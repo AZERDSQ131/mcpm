@@ -32,26 +32,35 @@ export async function update(): Promise<void> { // eslint-disable-line
 
   for (const serverId of installed) {
     const server = await getServer(serverId);
-    if (!server || server.command !== "npx") continue;
+    if (!server) continue;
 
-    const pkg = server.args.find((a: string) => a.startsWith("@") || (!a.startsWith("-") && a !== "-y"));
-    if (!pkg) continue;
-
+    const { command, args } = server;
     const spinner = ora(`Updating ${chalk.bold(serverId)}...`).start();
+
     try {
-      execSync(`npm install -g ${pkg}@latest`, {
-        stdio: "pipe",
-        timeout: 60_000,
-      });
-      spinner.succeed(
-        chalk.green(`✓ `) + chalk.bold(serverId) + chalk.dim(` updated`)
-      );
+      if (command === "npx") {
+        const pkg = args.find((a: string) => !a.startsWith("-") && a !== "-y");
+        if (!pkg) { spinner.stop(); continue; }
+        execSync(`npm install -g ${pkg}@latest`, { stdio: "pipe", timeout: 60_000 });
+      } else if (command === "uvx") {
+        const pkg = args.find((a: string) => !a.startsWith("-") && a !== "--from");
+        if (!pkg) { spinner.stop(); continue; }
+        execSync(`uv tool upgrade ${pkg}`, { stdio: "pipe", timeout: 60_000 });
+      } else if (command === "docker") {
+        const image = args.find((a: string) => !a.startsWith("-") && !["run", "-i", "--rm"].includes(a));
+        if (!image) { spinner.stop(); continue; }
+        execSync(`docker pull ${image}`, { stdio: "pipe", timeout: 120_000 });
+      } else if (command === "go") {
+        const mod = args.find((a: string) => !a.startsWith("-") && a !== "run");
+        if (!mod) { spinner.stop(); continue; }
+        execSync(`go install ${mod.replace(/@[^@]+$/, "")}@latest`, { stdio: "pipe", timeout: 120_000 });
+      } else {
+        spinner.stop();
+        continue;
+      }
+      spinner.succeed(chalk.green(`✓ `) + chalk.bold(serverId) + chalk.dim(` updated`));
     } catch {
-      spinner.warn(
-        chalk.yellow(`~ `) +
-          chalk.bold(serverId) +
-          chalk.dim(` — could not update (package may be npx-only)`)
-      );
+      spinner.warn(chalk.yellow(`~ `) + chalk.bold(serverId) + chalk.dim(` — could not update`));
     }
   }
 

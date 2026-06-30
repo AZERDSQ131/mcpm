@@ -14748,6 +14748,52 @@
       "tags": [
         "tools"
       ]
+    },
+    "zambo": {
+      "name": "Zambo",
+      "description": "63 AI tools \u2014 strategy, on-chain execution, lead gen, wallet scoring, agent workflows. Free, no auth, no API key.",
+      "url": "https://zambo.dev/api/mcp",
+      "tags": [
+        "ai",
+        "agents",
+        "web3",
+        "search",
+        "onchain"
+      ],
+      "env": {}
+    },
+    "zambo-axis": {
+      "name": "Axis",
+      "description": "13 additional AI tools \u2014 companion server to Zambo. Free, no auth, no API key.",
+      "url": "https://zambo.dev/api/axis-mcp",
+      "tags": [
+        "ai",
+        "agents",
+        "web3",
+        "search",
+        "onchain"
+      ],
+      "env": {}
+    },
+    "gaal": {
+      "name": "Gaal",
+      "description": "CLI to keep local repos, AI agent skills, and MCP server configurations in sync. Supports Claude, Copilot, Cursor and more.",
+      "command": "curl",
+      "args": [
+        "-fsSL",
+        "https://raw.githubusercontent.com/getgaal/gaal/main/scripts/install.sh",
+        "|",
+        "sh"
+      ],
+      "url": "https://github.com/getgaal/gaal",
+      "tags": [
+        "cli",
+        "mcp",
+        "skills",
+        "sync",
+        "tools"
+      ],
+      "env": {}
     }
   },
   "bundles": {

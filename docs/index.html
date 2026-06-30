@@ -9,413 +9,795 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0d0d0d;
-      --surface: #141414;
-      --border: #222;
+      --bg: #080810;
+      --surface: #0f0f1a;
+      --surface2: #13131f;
+      --border: #1e1e30;
+      --border2: #2a2a40;
       --accent: #7c6aff;
       --accent2: #a78bfa;
-      --text: #e8e8e8;
-      --muted: #666;
+      --accent3: #c4b5fd;
+      --text: #eeeef0;
+      --text2: #a0a0b0;
+      --muted: #55556a;
       --green: #4ade80;
-      --yellow: #facc15;
-      --code-bg: #1a1a1a;
+      --yellow: #fbbf24;
+      --blue: #60a5fa;
+      --pink: #f472b6;
+      --teal: #2dd4bf;
+      --code-bg: #0c0c18;
+      --radius: 12px;
     }
 
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     a { color: var(--accent2); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    a:hover { color: var(--accent3); }
+
+    /* ── FADE IN ── */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
 
     /* ── NAV ── */
     nav {
-      position: sticky; top: 0; z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2rem; height: 56px;
-      background: rgba(13,13,13,.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      padding: 0 max(2rem, 5vw); height: 58px;
+      background: rgba(8,8,16,.8);
+      backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid rgba(124,106,255,.12);
+      transition: border-color .3s;
     }
-    .nav-logo { font-weight: 700; font-size: 1rem; color: var(--text); letter-spacing: -.02em; }
-    .nav-logo span { color: var(--accent2); }
-    .nav-links { display: flex; gap: 1.5rem; font-size: .875rem; color: var(--muted); }
-    .nav-links a { color: var(--muted); }
-    .nav-links a:hover { color: var(--text); text-decoration: none; }
-    .nav-cta {
-      background: var(--accent); color: #fff; padding: .35rem .9rem;
-      border-radius: 6px; font-size: .8rem; font-weight: 600;
+    nav.scrolled { border-color: var(--border); }
+    .nav-logo {
+      font-weight: 800; font-size: 1.05rem; letter-spacing: -.03em;
+      color: var(--text); display: flex; align-items: center; gap: .35rem;
     }
-    .nav-cta:hover { background: var(--accent2); text-decoration: none; }
+    .nav-logo-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent2);
+      box-shadow: 0 0 8px var(--accent);
+    }
+    .nav-links { display: flex; gap: 1.75rem; font-size: .85rem; }
+    .nav-links a { color: var(--text2); transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-gh {
+      display: flex; align-items: center; gap: .4rem;
+      background: var(--surface2); border: 1px solid var(--border2);
+      color: var(--text); padding: .35rem .9rem; border-radius: 8px;
+      font-size: .8rem; font-weight: 600; transition: border-color .2s, background .2s;
+    }
+    .nav-gh:hover { background: var(--surface); border-color: var(--accent); color: var(--text); }
+    .nav-gh svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* ── HERO BG ── */
+    .hero-wrap {
+      position: relative; overflow: hidden;
+      padding-top: 58px;
+    }
+    .glow-orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); pointer-events: none; opacity: .45;
+    }
+    .glow-1 { width: 600px; height: 600px; background: radial-gradient(circle, #7c6aff 0%, transparent 70%); top: -200px; left: 50%; transform: translateX(-50%); }
+    .glow-2 { width: 400px; height: 400px; background: radial-gradient(circle, #2dd4bf 0%, transparent 70%); top: 100px; right: -100px; opacity: .2; }
+    .glow-3 { width: 350px; height: 350px; background: radial-gradient(circle, #f472b6 0%, transparent 70%); top: 150px; left: -80px; opacity: .15; }
 
     /* ── HERO ── */
     .hero {
-      max-width: 760px; margin: 0 auto;
-      padding: 6rem 2rem 3rem;
+      position: relative; z-index: 1;
+      max-width: 780px; margin: 0 auto;
+      padding: 5.5rem 2rem 3.5rem;
       text-align: center;
     }
-    .badge {
-      display: inline-block;
-      background: rgba(124,106,255,.15); color: var(--accent2);
-      border: 1px solid rgba(124,106,255,.3);
-      padding: .25rem .75rem; border-radius: 99px;
-      font-size: .75rem; font-weight: 600; letter-spacing: .04em;
-      margin-bottom: 1.5rem;
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(124,106,255,.1); color: var(--accent2);
+      border: 1px solid rgba(124,106,255,.25);
+      padding: .3rem .85rem; border-radius: 99px;
+      font-size: .72rem; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase; margin-bottom: 2rem;
     }
-    h1 {
-      font-size: clamp(2rem, 6vw, 3.5rem);
-      font-weight: 800; letter-spacing: -.03em;
-      line-height: 1.1; margin-bottom: 1rem;
-    }
-    h1 em { font-style: normal; color: var(--accent2); }
-    .subtitle {
-      font-size: 1.1rem; color: var(--muted);
-      max-width: 500px; margin: 0 auto 2.5rem;
-    }
-    .hero-actions { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex; align-items: center; gap: .4rem;
-      padding: .6rem 1.4rem; border-radius: 8px;
-      font-size: .9rem; font-weight: 600; cursor: pointer;
-    }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent2); text-decoration: none; }
-    .btn-ghost {
-      background: transparent; color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover { border-color: #444; text-decoration: none; }
+    .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
 
-    /* ── INSTALL STRIP ── */
-    .install-strip {
-      max-width: 540px; margin: 3rem auto;
-      background: var(--code-bg); border: 1px solid var(--border);
-      border-radius: 10px; overflow: hidden;
+    h1 {
+      font-size: clamp(2.2rem, 6.5vw, 4rem);
+      font-weight: 900; letter-spacing: -.04em; line-height: 1.08;
+      margin-bottom: 1.25rem;
     }
-    .install-strip-label {
-      padding: .5rem 1rem;
-      font-size: .7rem; font-weight: 600; letter-spacing: .06em;
-      color: var(--muted); text-transform: uppercase;
-      border-bottom: 1px solid var(--border);
+    h1 .line2 {
+      background: linear-gradient(135deg, var(--accent2) 0%, var(--teal) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .install-strip code {
-      display: block; padding: .9rem 1.2rem;
-      font-family: "SF Mono", "Fira Code", monospace; font-size: .9rem;
-      color: var(--green);
+    .hero-sub {
+      font-size: 1.1rem; color: var(--text2); line-height: 1.7;
+      max-width: 520px; margin: 0 auto 2.5rem;
     }
+    .hero-actions { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .65rem 1.5rem; border-radius: 10px;
+      font-size: .9rem; font-weight: 700; cursor: pointer; transition: all .2s;
+    }
+    .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent) 0%, #9b87ff 100%);
+      color: #fff; box-shadow: 0 0 20px rgba(124,106,255,.4);
+    }
+    .btn-primary:hover { box-shadow: 0 0 32px rgba(124,106,255,.6); transform: translateY(-1px); color: #fff; }
+    .btn-ghost {
+      background: rgba(255,255,255,.04); color: var(--text);
+      border: 1px solid var(--border2);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,.07); border-color: var(--border2); color: var(--text); transform: translateY(-1px); }
+
+    /* ── INSTALL COMMAND ── */
+    .install-cmd {
+      display: inline-flex; align-items: center;
+      background: var(--code-bg); border: 1px solid var(--border2);
+      border-radius: var(--radius); overflow: hidden;
+      font-family: "SF Mono", "Fira Code", monospace; font-size: .88rem;
+    }
+    .install-cmd .prefix { padding: .7rem 1rem; color: var(--muted); user-select: none; border-right: 1px solid var(--border); }
+    .install-cmd .cmd-text { padding: .7rem 1.1rem; color: var(--green); flex: 1; }
+    .copy-btn {
+      padding: .7rem .9rem; background: none; border: none; border-left: 1px solid var(--border);
+      color: var(--muted); cursor: pointer; transition: color .2s;
+      display: flex; align-items: center;
+    }
+    .copy-btn:hover { color: var(--accent2); }
+    .copy-btn svg { width: 14px; height: 14px; }
+    .copy-btn.copied { color: var(--green); }
 
     /* ── STATS ── */
-    .stats {
-      display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
-      padding: 2.5rem 2rem 4rem;
-      border-bottom: 1px solid var(--border);
+    .stats-bar {
+      position: relative; z-index: 1;
+      display: flex; justify-content: center; gap: 0; flex-wrap: wrap;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: rgba(15,15,26,.6);
     }
-    .stat { text-align: center; }
-    .stat-value { font-size: 2rem; font-weight: 800; color: var(--accent2); }
-    .stat-label { font-size: .8rem; color: var(--muted); margin-top: .2rem; }
+    .stat {
+      flex: 1; min-width: 130px;
+      text-align: center; padding: 2.25rem 1rem;
+      border-right: 1px solid var(--border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-value {
+      font-size: 2.2rem; font-weight: 900; letter-spacing: -.04em;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent3) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { font-size: .78rem; color: var(--muted); margin-top: .3rem; }
 
-    /* ── SECTION ── */
-    section { max-width: 900px; margin: 0 auto; padding: 4rem 2rem; }
+    /* ── MAIN CONTENT ── */
+    .content { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
+
+    section { padding: 5rem 0; }
     section + section { border-top: 1px solid var(--border); }
-    .section-label {
-      font-size: .7rem; font-weight: 700; letter-spacing: .1em;
+
+    .eyebrow {
+      font-size: .7rem; font-weight: 800; letter-spacing: .12em;
       color: var(--accent); text-transform: uppercase; margin-bottom: .75rem;
     }
-    h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: -.02em; margin-bottom: 1rem; }
-    p { color: var(--muted); margin-bottom: 1rem; }
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 800; letter-spacing: -.03em; margin-bottom: .85rem;
+      line-height: 1.2;
+    }
+    .lead { font-size: 1rem; color: var(--text2); margin-bottom: 2rem; max-width: 560px; }
 
     /* ── TERMINAL ── */
     .terminal {
-      background: var(--code-bg); border: 1px solid var(--border);
-      border-radius: 10px; overflow: hidden; margin: 1.5rem 0;
+      background: var(--code-bg);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius); overflow: hidden;
     }
     .terminal-bar {
       display: flex; align-items: center; gap: .4rem;
-      padding: .6rem 1rem; border-bottom: 1px solid var(--border);
+      padding: .65rem 1rem; border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.02);
+    }
+    .terminal-bar .title {
+      font-size: .72rem; color: var(--muted);
+      margin-left: .5rem; font-family: "SF Mono", monospace;
     }
     .dot { width: 10px; height: 10px; border-radius: 50%; }
-    .dot-red { background: #ff5f57; }
-    .dot-yellow { background: #ffbd2e; }
-    .dot-green { background: #28c840; }
-    .terminal-body { padding: 1.2rem 1.4rem; font-family: "SF Mono", monospace; font-size: .82rem; line-height: 1.8; }
-    .t-prompt { color: var(--accent); }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+    .terminal-body {
+      padding: 1.25rem 1.5rem;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: .82rem; line-height: 2;
+    }
+    .t-prompt { color: var(--accent2); }
     .t-cmd { color: var(--text); }
     .t-ok { color: var(--green); }
     .t-dim { color: var(--muted); }
-    .t-yellow { color: var(--yellow); }
+    .t-warn { color: var(--yellow); }
+    .t-blue { color: var(--blue); }
 
-    /* ── GRID ── */
-    .grid { display: grid; gap: 1rem; }
-    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    /* Typewriter */
+    .typewriter { border-right: 2px solid var(--accent2); white-space: nowrap; overflow: hidden; display: inline-block; }
+
+    /* ── FEATURES GRID ── */
+    .features-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    .features-list { display: flex; flex-direction: column; gap: 1rem; }
+    .feature-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1.1rem 1.2rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .feature-item:hover, .feature-item.active {
+      border-color: var(--accent); background: rgba(124,106,255,.07);
+    }
+    .feature-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: .1rem; }
+    .feature-item h3 { font-size: .9rem; font-weight: 700; margin-bottom: .2rem; }
+    .feature-item p { font-size: .8rem; color: var(--text2); margin: 0; }
+
+    /* ── CARDS ── */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .85rem; }
     .card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 1.2rem 1.4rem;
+      border-radius: var(--radius); padding: 1.3rem;
+      transition: border-color .2s, transform .2s;
     }
-    .card-icon { font-size: 1.4rem; margin-bottom: .6rem; }
-    .card h3 { font-size: .95rem; font-weight: 700; margin-bottom: .3rem; }
-    .card p { font-size: .82rem; color: var(--muted); margin: 0; }
+    .card:hover { border-color: var(--border2); transform: translateY(-2px); }
+    .card-icon { font-size: 1.5rem; margin-bottom: .75rem; }
+    .card h3 { font-size: .9rem; font-weight: 700; margin-bottom: .35rem; }
+    .card p { font-size: .8rem; color: var(--text2); margin: 0; line-height: 1.6; }
 
-    /* ── CLIENT TABLE ── */
-    table { width: 100%; border-collapse: collapse; font-size: .85rem; }
-    th { text-align: left; padding: .5rem .75rem; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); }
-    td { padding: .55rem .75rem; border-bottom: 1px solid #1a1a1a; }
-    td:first-child { font-weight: 600; color: var(--text); }
-    td:last-child { color: var(--muted); font-family: "SF Mono", monospace; font-size: .78rem; }
+    /* ── COMPARISON (before/after) ── */
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .compare-label {
+      font-size: .72rem; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase; margin-bottom: .6rem;
+    }
+    .compare-label.bad { color: #f87171; }
+    .compare-label.good { color: var(--green); }
+
+    /* ── CLIENTS GRID ── */
+    .clients-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: .75rem; }
+    .client-card {
+      display: flex; align-items: center; gap: .75rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: .85rem 1rem;
+      transition: border-color .2s;
+    }
+    .client-card:hover { border-color: var(--border2); }
+    .client-logo { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .client-info { overflow: hidden; }
+    .client-name { font-size: .85rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .client-path { font-size: .68rem; color: var(--muted); font-family: "SF Mono", monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* ── RUNTIME TABLE ── */
+    .runtime-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: .75rem; margin-bottom: 2rem; }
+    .runtime-pill {
+      text-align: center; padding: 1.2rem .5rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; transition: border-color .2s;
+    }
+    .runtime-pill:hover { border-color: var(--border2); }
+    .runtime-pill .rt-icon { font-size: 1.6rem; margin-bottom: .5rem; }
+    .runtime-pill .rt-name { font-size: .78rem; font-weight: 700; }
+    .runtime-pill .rt-cmd { font-size: .68rem; color: var(--muted); margin-top: .2rem; font-family: "SF Mono", monospace; }
 
     /* ── BUNDLES ── */
-    .bundle-grid { display: flex; flex-wrap: wrap; gap: .5rem; }
-    .bundle-tag {
-      background: rgba(124,106,255,.1); border: 1px solid rgba(124,106,255,.2);
-      color: var(--accent2); padding: .3rem .75rem; border-radius: 99px;
-      font-size: .8rem; font-weight: 500;
+    .bundle-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .6rem; }
+    .bundle-item {
+      background: rgba(124,106,255,.07); border: 1px solid rgba(124,106,255,.18);
+      border-radius: 8px; padding: .6rem .9rem;
+      font-size: .82rem; font-weight: 600; color: var(--accent2);
+      font-family: "SF Mono", monospace; transition: background .2s;
     }
+    .bundle-item:hover { background: rgba(124,106,255,.14); }
 
-    /* ── RUNTIME PILLS ── */
-    .runtime-pills { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
-    .pill {
-      display: flex; align-items: center; gap: .5rem;
+    /* ── COMMANDS ── */
+    .cmd-list { display: flex; flex-direction: column; gap: .5rem; }
+    .cmd-row {
+      display: flex; align-items: baseline; gap: 1rem;
+      padding: .75rem 1rem;
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 8px; padding: .5rem .9rem; font-size: .82rem;
+      border-radius: 8px;
     }
-    .pill-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .cmd-name {
+      font-family: "SF Mono", monospace; font-size: .82rem;
+      color: var(--accent2); font-weight: 700; flex-shrink: 0; min-width: 200px;
+    }
+    .cmd-desc { font-size: .82rem; color: var(--text2); }
 
-    /* ── CTA FOOTER ── */
-    .cta-footer {
-      text-align: center;
-      padding: 5rem 2rem;
+    /* ── CTA ── */
+    .cta-section {
+      position: relative; overflow: hidden;
+      text-align: center; padding: 6rem 2rem;
       border-top: 1px solid var(--border);
     }
-    .cta-footer h2 { font-size: 2rem; margin-bottom: .75rem; }
-    .cta-footer p { color: var(--muted); margin-bottom: 2rem; }
+    .cta-glow {
+      position: absolute; width: 500px; height: 300px;
+      background: radial-gradient(ellipse, rgba(124,106,255,.2) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      pointer-events: none;
+    }
+    .cta-section h2 { font-size: 2.2rem; margin-bottom: .85rem; position: relative; }
+    .cta-section p { color: var(--text2); margin-bottom: 2.5rem; position: relative; }
+    .cta-section .actions { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; position: relative; }
 
     footer {
-      text-align: center; padding: 1.5rem;
+      text-align: center; padding: 1.75rem 2rem;
       font-size: .8rem; color: var(--muted);
       border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
     }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--text2); }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .nav-links { display: none; }
-      .stats { gap: 1.5rem; }
+      .features-layout { grid-template-columns: 1fr; }
+      .compare { grid-template-columns: 1fr; }
+      .runtime-grid { grid-template-columns: repeat(3, 1fr); }
+      .stat { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat:last-child { border-bottom: none; }
+    }
+    @media (max-width: 480px) {
+      .runtime-grid { grid-template-columns: repeat(2, 1fr); }
+      h1 { font-size: 2rem; }
+      .install-cmd { font-size: .78rem; }
     }
   </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
-  <div class="nav-logo">mcp<span>m</span></div>
+<nav id="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-dot"></div>
+    mcpm
+  </div>
   <div class="nav-links">
     <a href="#features">Features</a>
     <a href="#clients">Clients</a>
     <a href="#runtimes">Runtimes</a>
     <a href="#bundles">Bundles</a>
-    <a href="https://github.com/AZERDSQ131/mcp-forge">GitHub</a>
+    <a href="#commands">Commands</a>
   </div>
-  <a class="btn btn-primary nav-cta" href="https://github.com/AZERDSQ131/mcp-forge">Get started</a>
+  <a class="nav-gh" href="https://github.com/AZERDSQ131/mcp-forge" target="_blank">
+    <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    GitHub
+  </a>
 </nav>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="badge">Open Source · MIT · v1.0.0</div>
-  <h1>One command.<br><em>Every AI client.</em></h1>
-  <p class="subtitle">mcpm installs and manages MCP servers across Claude, Cursor, Windsurf, Zed, and 5 more — automatically.</p>
-  <div class="hero-actions">
-    <a class="btn btn-primary" href="https://github.com/AZERDSQ131/mcp-forge">View on GitHub</a>
-    <a class="btn btn-ghost" href="#features">See how it works</a>
-  </div>
-  <div class="install-strip">
-    <div class="install-strip-label">Install a server</div>
-    <code>npx mcp-fleet install github</code>
+<div class="hero-wrap">
+  <div class="glow-orb glow-1"></div>
+  <div class="glow-orb glow-2"></div>
+  <div class="glow-orb glow-3"></div>
+
+  <div class="hero">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Open Source · MIT · v1.0.0
+    </div>
+    <h1>
+      One command.<br>
+      <span class="line2">Every AI client.</span>
+    </h1>
+    <p class="hero-sub">
+      mcpm installs and manages MCP servers across Claude, Cursor, Windsurf, Zed, and 5 more — writing the right config for each one, automatically.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://github.com/AZERDSQ131/mcp-forge" target="_blank">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        View on GitHub
+      </a>
+      <a class="btn btn-ghost" href="#features">How it works ↓</a>
+    </div>
+
+    <div class="install-cmd" id="installCmd">
+      <span class="prefix">$</span>
+      <span class="cmd-text" id="installText">npx mcp-fleet install github</span>
+      <button class="copy-btn" id="copyBtn" title="Copy" onclick="copyInstall()">
+        <svg id="copyIcon" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+      </button>
+    </div>
   </div>
 </div>
 
 <!-- STATS -->
-<div class="stats">
-  <div class="stat">
-    <div class="stat-value">1000+</div>
+<div class="stats-bar">
+  <div class="stat reveal">
+    <div class="stat-value" data-count="1000" data-suffix="+">0</div>
     <div class="stat-label">verified MCP servers</div>
   </div>
-  <div class="stat">
-    <div class="stat-value">9</div>
+  <div class="stat reveal">
+    <div class="stat-value" data-count="9">0</div>
     <div class="stat-label">AI clients supported</div>
   </div>
-  <div class="stat">
-    <div class="stat-value">5</div>
-    <div class="stat-label">runtimes (npm, Python, Docker…)</div>
+  <div class="stat reveal">
+    <div class="stat-value" data-count="5">0</div>
+    <div class="stat-label">runtimes supported</div>
   </div>
-  <div class="stat">
-    <div class="stat-value">11</div>
+  <div class="stat reveal">
+    <div class="stat-value" data-count="11">0</div>
     <div class="stat-label">curated bundles</div>
   </div>
 </div>
 
+<div class="content">
+
 <!-- FEATURES -->
 <section id="features">
-  <div class="section-label">How it works</div>
-  <h2>Stop editing JSON configs by hand</h2>
-  <p>mcpm detects every AI client installed on your machine and writes the correct config format for each one — simultaneously.</p>
+  <div class="reveal">
+    <div class="eyebrow">How it works</div>
+    <h2>Stop editing JSON configs by hand</h2>
+    <p class="lead">One command installs a server into every AI client you have — using the right config format for each.</p>
+  </div>
 
-  <div class="terminal">
-    <div class="terminal-bar">
-      <div class="dot dot-red"></div>
-      <div class="dot dot-yellow"></div>
-      <div class="dot dot-green"></div>
+  <div class="compare reveal" style="margin-bottom:2.5rem">
+    <div>
+      <div class="compare-label bad">✗ Before — manual config editing</div>
+      <div class="terminal">
+        <div class="terminal-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><span class="title">~/.claude.json</span></div>
+        <div class="terminal-body" style="line-height:1.6">
+          <div class="t-dim"># Edit claude config</div>
+          <div style="color:#f87171">vim ~/.claude.json</div>
+          <div class="t-dim"># Then edit cursor...</div>
+          <div style="color:#f87171">vim ~/.cursor/mcp.json</div>
+          <div class="t-dim"># Then zed...</div>
+          <div style="color:#f87171">vim ~/.config/zed/settings.json</div>
+          <div class="t-dim"># ... (4 more clients)</div>
+          <div class="t-dim"># Hope you got the format right 🤞</div>
+        </div>
+      </div>
     </div>
-    <div class="terminal-body">
-      <div><span class="t-prompt">$</span> <span class="t-cmd">mcpm install github postgres filesystem</span></div>
-      <div class="t-dim">Installing 3 servers into 4 clients…</div>
-      <br>
-      <div><span class="t-ok">✓</span> Claude Code</div>
-      <div><span class="t-ok">✓</span> Cursor</div>
-      <div><span class="t-ok">✓</span> Windsurf</div>
-      <div><span class="t-ok">✓</span> Zed</div>
-      <br>
-      <div><span class="t-ok">✓</span> <span class="t-cmd">3 servers installed across 4 clients</span></div>
+    <div>
+      <div class="compare-label good">✓ After — one command</div>
+      <div class="terminal">
+        <div class="terminal-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><span class="title">terminal</span></div>
+        <div class="terminal-body" style="line-height:1.6">
+          <div><span class="t-prompt">$</span> <span class="t-cmd">mcpm install github</span></div>
+          <div class="t-dim">Detected 4 clients…</div>
+          <div><span class="t-ok">✓</span> Claude Code</div>
+          <div><span class="t-ok">✓</span> Cursor</div>
+          <div><span class="t-ok">✓</span> Zed</div>
+          <div><span class="t-ok">✓</span> Windsurf</div>
+          <br>
+          <div><span class="t-ok">✓</span> <span class="t-cmd">Done in 0.3s</span></div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="grid grid-2" style="margin-top:2rem">
+  <div class="card-grid reveal">
     <div class="card">
       <div class="card-icon">🔍</div>
       <h3>Search 1000+ servers</h3>
-      <p>Browse the registry by name, tag, or description. Find exactly what you need.</p>
+      <p>Browse by name, tag, or description. Find exactly what you need across 5 runtimes.</p>
     </div>
     <div class="card">
       <div class="card-icon">🩺</div>
       <h3>Doctor checks</h3>
-      <p>Verify all installed servers are reachable and correctly configured. Fix broken ones instantly.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">📦</div>
-      <h3>Curated bundles</h3>
-      <p>Install a full set of tools for web dev, data, DevOps, AI — in one command.</p>
+      <p>Verify all installed servers are reachable and correctly configured.</p>
     </div>
     <div class="card">
       <div class="card-icon">🔄</div>
       <h3>Auto-update</h3>
-      <p>Keep servers current across npm, PyPI, Docker Hub, and Go modules.</p>
+      <p>Keep servers current across npm, PyPI, Docker Hub, and the Go module proxy.</p>
     </div>
     <div class="card">
       <div class="card-icon">📋</div>
       <h3>Project config</h3>
-      <p>Pin servers in a <code style="font-size:.8rem;color:var(--accent2)">.mcpmrc</code> file. Teammates sync with one command.</p>
+      <p>Pin servers in <code style="font-size:.78rem;color:var(--accent2)">.mcpmrc</code>. Teammates sync with one command.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📤</div>
+      <h3>Import / Export</h3>
+      <p>Back up your setup or migrate to a new machine in seconds.</p>
     </div>
     <div class="card">
       <div class="card-icon">🚀</div>
-      <h3>Publish to registry</h3>
-      <p>Submit your MCP server to the public registry with <code style="font-size:.8rem;color:var(--accent2)">mcpm publish</code>.</p>
+      <h3>Publish</h3>
+      <p>Submit your MCP server to the registry. Opens a PR automatically.</p>
     </div>
   </div>
 </section>
 
 <!-- CLIENTS -->
 <section id="clients">
-  <div class="section-label">Clients</div>
-  <h2>Works with every major AI client</h2>
-  <p>mcpm detects installed clients automatically and writes the right config format for each one.</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Client</th>
-        <th>Config path</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Claude Code</td><td>~/.claude.json</td></tr>
-      <tr><td>Cursor</td><td>~/.cursor/mcp.json</td></tr>
-      <tr><td>VS Code Copilot</td><td>~/.vscode/mcp.json</td></tr>
-      <tr><td>Windsurf</td><td>~/.codeium/windsurf/mcp_config.json</td></tr>
-      <tr><td>Zed</td><td>~/.config/zed/settings.json</td></tr>
-      <tr><td>Gemini CLI</td><td>~/.gemini/settings.json</td></tr>
-      <tr><td>Cline</td><td>VS Code extension storage</td></tr>
-      <tr><td>Continue</td><td>~/.continue/config.json</td></tr>
-      <tr><td>OpenAI Codex</td><td>~/.codex/config.json</td></tr>
-    </tbody>
-  </table>
+  <div class="reveal">
+    <div class="eyebrow">Clients</div>
+    <h2>Works with every major AI client</h2>
+    <p class="lead">mcpm detects installed clients automatically and writes the correct config format — even Zed's unique <code style="font-size:.85rem;color:var(--accent2)">context_servers</code> structure.</p>
+  </div>
+
+  <div class="clients-grid reveal">
+    <div class="client-card">
+      <div class="client-logo" style="background:rgba(255,140,0,.12)">🤖</div>
+      <div class="client-info">
+        <div class="client-name">Claude Code</div>
+        <div class="client-path">~/.claude.json</div>
+      </div>
+    </div>
+    <div class="client-card">
+      <div class="client-logo" style="background:rgba(0,200,150,.12)">⚡</div>
+      <div class="client-info">
+        <div class="client-name">Cursor</div>
+        <div class="client-path">~/.cursor/mcp.json</div>
+      </div>
+    </div>
+    <div class="client-card">
+      <div class="client-logo" style="background:rgba(0,122,255,.12)">💙</div>
+      <div class="client-info">
+        <div class="client-name">VS Code Copilot</div>
+        <div class="client-path">~/.vscode/mcp.json</div>
+      </div>
+    </div>
+    <div class="client-card">
+      <div class="client-logo" style="background:rgba(50,200,100,.12)">🌊</div>
+      <div class="client-info">
+        <div class="client-name">Windsurf</div>
+        <div class="client-path">~/.codeium/windsurf/…</div>
+      </div>
+    </div>
+    <div class="client-card">
+      <div class="client-logo" style="background:rgba(200,100,100,.12)">🪨</div>
+      <div class="client-info">
+        <div class="client-name">Zed</div>
+        <div class="client-path">~/.config/zed/settings</div>
+      </div>
+    </div>
+    <div class="client-card">
+      <div class="client-logo" style="background:rgba(100,200,255,.12)">♊</div>
+      <div class="client-info">
+        <div class="client-name">Gemini CLI</div>
+        <div class="client-path">~/.gemini/settings.json</div>
+      </div>
+    </div>
+    <div class="client-card">
+      <div class="client-logo" style="background:rgba(180,100,255,.12)">🔌</div>
+      <div class="client-info">
+        <div class="client-name">Cline</div>
+        <div class="client-path">VS Code extension</div>
+      </div>
+    </div>
+    <div class="client-card">
+      <div class="client-logo" style="background:rgba(255,180,50,.12)">▶️</div>
+      <div class="client-info">
+        <div class="client-name">Continue</div>
+        <div class="client-path">~/.continue/config.json</div>
+      </div>
+    </div>
+    <div class="client-card">
+      <div class="client-logo" style="background:rgba(50,200,50,.12)">🧠</div>
+      <div class="client-info">
+        <div class="client-name">OpenAI Codex</div>
+        <div class="client-path">~/.codex/config.json</div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- RUNTIMES -->
 <section id="runtimes">
-  <div class="section-label">Runtimes</div>
-  <h2>npm, Python, Docker, Go, Deno</h2>
-  <p>mcpm manages servers across all major runtimes — not just npm packages.</p>
-  <div class="runtime-pills">
-    <div class="pill"><div class="pill-dot" style="background:#4ade80"></div> Node.js / npx</div>
-    <div class="pill"><div class="pill-dot" style="background:#facc15"></div> Python / uvx</div>
-    <div class="pill"><div class="pill-dot" style="background:#60a5fa"></div> Docker</div>
-    <div class="pill"><div class="pill-dot" style="background:#34d399"></div> Go</div>
-    <div class="pill"><div class="pill-dot" style="background:#f472b6"></div> Deno</div>
+  <div class="reveal">
+    <div class="eyebrow">Runtimes</div>
+    <h2>Not just npm</h2>
+    <p class="lead">mcpm manages servers across all major runtimes — install, update, and health-check them all with the same commands.</p>
   </div>
-  <div class="terminal" style="margin-top:1.5rem">
-    <div class="terminal-bar">
-      <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+
+  <div class="runtime-grid reveal">
+    <div class="runtime-pill">
+      <div class="rt-icon">🟢</div>
+      <div class="rt-name">Node.js</div>
+      <div class="rt-cmd">npx</div>
     </div>
+    <div class="runtime-pill">
+      <div class="rt-icon">🐍</div>
+      <div class="rt-name">Python</div>
+      <div class="rt-cmd">uvx</div>
+    </div>
+    <div class="runtime-pill">
+      <div class="rt-icon">🐳</div>
+      <div class="rt-name">Docker</div>
+      <div class="rt-cmd">docker run</div>
+    </div>
+    <div class="runtime-pill">
+      <div class="rt-icon">🦫</div>
+      <div class="rt-name">Go</div>
+      <div class="rt-cmd">go run</div>
+    </div>
+    <div class="runtime-pill">
+      <div class="rt-icon">🦕</div>
+      <div class="rt-name">Deno</div>
+      <div class="rt-cmd">deno run</div>
+    </div>
+  </div>
+
+  <div class="terminal reveal">
+    <div class="terminal-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><span class="title">mcpm doctor</span></div>
     <div class="terminal-body">
-      <div class="t-dim"># Node.js</div>
-      <div><span class="t-ok">✓</span> npx -y @modelcontextprotocol/server-github</div>
-      <div class="t-dim"># Python</div>
-      <div><span class="t-ok">✓</span> uvx mcp-server-fetch</div>
-      <div class="t-dim"># Docker</div>
-      <div><span class="t-ok">✓</span> docker run -i --rm mcp/puppeteer</div>
-      <div class="t-dim"># Go</div>
-      <div><span class="t-ok">✓</span> go run github.com/metoro-io/metoro-mcp-server@latest</div>
+      <div class="t-dim">Runtimes</div>
+      <div><span class="t-ok">✓</span> Node.js (npx)</div>
+      <div><span class="t-ok">✓</span> Python (uvx)</div>
+      <div><span class="t-ok">✓</span> Docker</div>
+      <div class="t-dim">○ Go  → <span style="color:var(--blue)">https://go.dev/dl</span></div>
+      <div class="t-dim">○ Deno  → <span style="color:var(--blue)">curl -fsSL https://deno.land/install.sh | sh</span></div>
+      <br>
+      <div><span class="t-ok">✓</span> github</div>
+      <div><span class="t-ok">✓</span> postgres</div>
+      <div><span class="t-ok">✓</span> puppeteer</div>
+      <div><span class="t-ok">✓</span> fetch  <span class="t-dim">(uvx)</span></div>
+      <br>
+      <div class="t-ok">✓ All servers healthy</div>
     </div>
   </div>
 </section>
 
 <!-- BUNDLES -->
 <section id="bundles">
-  <div class="section-label">Bundles</div>
-  <h2>Curated packs, installed in one command</h2>
-  <p>Bundles group the best servers for a use case. Install an entire workflow in seconds.</p>
-  <div class="terminal" style="margin-bottom:1.5rem">
-    <div class="terminal-bar">
-      <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
-    </div>
+  <div class="reveal">
+    <div class="eyebrow">Bundles</div>
+    <h2>An entire workflow in one command</h2>
+    <p class="lead">Bundles are curated packs of the best servers for a use case. Install all of them at once.</p>
+  </div>
+
+  <div class="terminal reveal" style="margin-bottom:2rem">
+    <div class="terminal-bar"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><span class="title">terminal</span></div>
     <div class="terminal-body">
       <div><span class="t-prompt">$</span> <span class="t-cmd">mcpm install @bundle/webdev</span></div>
-      <div class="t-dim">Installing 8 servers…</div>
-      <div><span class="t-ok">✓</span> github <span class="t-ok">✓</span> filesystem <span class="t-ok">✓</span> puppeteer <span class="t-ok">✓</span> fetch</div>
-      <div><span class="t-ok">✓</span> sqlite <span class="t-ok">✓</span> postgres <span class="t-ok">✓</span> sentry <span class="t-ok">✓</span> vercel</div>
+      <div class="t-dim">Resolving bundle… 8 servers</div>
+      <div><span class="t-ok">✓</span> github &nbsp; <span class="t-ok">✓</span> filesystem &nbsp; <span class="t-ok">✓</span> puppeteer &nbsp; <span class="t-ok">✓</span> fetch</div>
+      <div><span class="t-ok">✓</span> sqlite &nbsp; <span class="t-ok">✓</span> postgres &nbsp; <span class="t-ok">✓</span> sentry &nbsp; <span class="t-ok">✓</span> vercel</div>
+      <br>
+      <div><span class="t-ok">✓</span> <span class="t-cmd">8 servers installed across 3 clients</span></div>
     </div>
   </div>
-  <div class="bundle-grid">
-    <span class="bundle-tag">@bundle/webdev</span>
-    <span class="bundle-tag">@bundle/ai</span>
-    <span class="bundle-tag">@bundle/data</span>
-    <span class="bundle-tag">@bundle/devops</span>
-    <span class="bundle-tag">@bundle/cloud</span>
-    <span class="bundle-tag">@bundle/productivity</span>
-    <span class="bundle-tag">@bundle/finance</span>
-    <span class="bundle-tag">@bundle/social</span>
-    <span class="bundle-tag">@bundle/media</span>
-    <span class="bundle-tag">@bundle/startup</span>
-    <span class="bundle-tag">@bundle/ai-tools</span>
+
+  <div class="bundle-list reveal">
+    <div class="bundle-item">@bundle/webdev</div>
+    <div class="bundle-item">@bundle/ai</div>
+    <div class="bundle-item">@bundle/data</div>
+    <div class="bundle-item">@bundle/devops</div>
+    <div class="bundle-item">@bundle/cloud</div>
+    <div class="bundle-item">@bundle/productivity</div>
+    <div class="bundle-item">@bundle/finance</div>
+    <div class="bundle-item">@bundle/social</div>
+    <div class="bundle-item">@bundle/media</div>
+    <div class="bundle-item">@bundle/startup</div>
+    <div class="bundle-item">@bundle/ai-tools</div>
   </div>
 </section>
 
-<!-- CTA -->
-<div class="cta-footer">
-  <h2>Ready to supercharge your AI clients?</h2>
-  <p>Get started in 10 seconds — no account needed.</p>
-  <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
-    <a class="btn btn-primary" href="https://github.com/AZERDSQ131/mcp-forge">View on GitHub</a>
-    <a class="btn btn-ghost" href="https://github.com/AZERDSQ131/mcp-forge#commands">Full docs</a>
+<!-- COMMANDS -->
+<section id="commands">
+  <div class="reveal">
+    <div class="eyebrow">Reference</div>
+    <h2>All commands</h2>
   </div>
-  <div class="install-strip" style="margin:2rem auto 0">
-    <div class="install-strip-label">Try now</div>
-    <code>npx mcp-fleet install github</code>
+  <div class="cmd-list reveal">
+    <div class="cmd-row"><span class="cmd-name">mcpm install &lt;server&gt;</span><span class="cmd-desc">Install a server (or <code style="font-size:.78rem;color:var(--accent2)">@bundle/name</code>) into all detected clients</span></div>
+    <div class="cmd-row"><span class="cmd-name">mcpm uninstall &lt;server&gt;</span><span class="cmd-desc">Remove a server from all clients</span></div>
+    <div class="cmd-row"><span class="cmd-name">mcpm update</span><span class="cmd-desc">Update all installed servers (npm, uvx, docker, go)</span></div>
+    <div class="cmd-row"><span class="cmd-name">mcpm search [query]</span><span class="cmd-desc">Browse or filter the 1000-server registry</span></div>
+    <div class="cmd-row"><span class="cmd-name">mcpm info &lt;server&gt;</span><span class="cmd-desc">Show details, env vars, and package link</span></div>
+    <div class="cmd-row"><span class="cmd-name">mcpm list</span><span class="cmd-desc">List all installed servers per client</span></div>
+    <div class="cmd-row"><span class="cmd-name">mcpm outdated</span><span class="cmd-desc">Check which servers are out of date</span></div>
+    <div class="cmd-row"><span class="cmd-name">mcpm doctor</span><span class="cmd-desc">Verify runtimes and server health</span></div>
+    <div class="cmd-row"><span class="cmd-name">mcpm sync</span><span class="cmd-desc">Sync servers from .mcpmrc in current directory</span></div>
+    <div class="cmd-row"><span class="cmd-name">mcpm export [file]</span><span class="cmd-desc">Export your full config to JSON</span></div>
+    <div class="cmd-row"><span class="cmd-name">mcpm import &lt;file&gt;</span><span class="cmd-desc">Import a config from a file</span></div>
+    <div class="cmd-row"><span class="cmd-name">mcpm publish</span><span class="cmd-desc">Submit a server to the public registry via PR</span></div>
+    <div class="cmd-row"><span class="cmd-name">mcpm run &lt;server&gt;</span><span class="cmd-desc">Run a server directly in stdio mode</span></div>
+  </div>
+</section>
+
+</div><!-- /content -->
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-glow"></div>
+  <h2 class="reveal">Start in 10 seconds.</h2>
+  <p class="reveal">No account. No config. Just install and go.</p>
+  <div class="actions reveal">
+    <a class="btn btn-primary" href="https://github.com/AZERDSQ131/mcp-forge" target="_blank">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      View on GitHub
+    </a>
+    <a class="btn btn-ghost" href="https://github.com/AZERDSQ131/mcp-forge#readme" target="_blank">Full docs</a>
+  </div>
+  <div style="margin-top:2.5rem" class="reveal">
+    <div class="install-cmd" style="display:inline-flex">
+      <span class="prefix">$</span>
+      <span class="cmd-text">npx mcp-fleet install github</span>
+      <button class="copy-btn" title="Copy" onclick="copyInstall()">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+      </button>
+    </div>
   </div>
 </div>
 
 <footer>
-  mcpm · MIT License · <a href="https://github.com/AZERDSQ131/mcp-forge">github.com/AZERDSQ131/mcp-forge</a>
+  <span>mcpm · MIT · Built with ☕</span>
+  <span>·</span>
+  <a href="https://github.com/AZERDSQ131/mcp-forge" target="_blank">github.com/AZERDSQ131/mcp-forge</a>
 </footer>
 
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => io.observe(el));
+
+  // Count-up animation for stats
+  function animateCount(el) {
+    const target = parseInt(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1200;
+    const start = performance.now();
+    const update = (now) => {
+      const p = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(ease * target) + (p === 1 ? suffix : '');
+      if (p < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+  const statVals = document.querySelectorAll('[data-count]');
+  const statIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { animateCount(e.target); statIO.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+  statVals.forEach(el => statIO.observe(el));
+
+  // Copy button
+  function copyInstall() {
+    navigator.clipboard.writeText('npx mcp-fleet install github').then(() => {
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.classList.add('copied');
+        btn.innerHTML = '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.75.75 0 0 1 1.06-1.06L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"/></svg>';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>';
+        }, 2000);
+      });
+    });
+  }
+</script>
 </body>
 </html>

@@ -1,0 +1,9 @@
+{
+  "name": "mcpm-workspace",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "dev": "cd packages/cli && npm run dev"
+  }
+}

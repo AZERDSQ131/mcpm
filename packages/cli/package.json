@@ -1,0 +1,34 @@
+{
+  "name": "mcp-forge",
+  "version": "0.1.0",
+  "description": "Universal MCP server manager — install, configure, and update MCP servers across all AI clients",
+  "type": "module",
+  "bin": {
+    "mcpm": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "node --loader ts-node/esm src/index.ts",
+    "watch": "tsc -w",
+    "start": "node dist/index.js"
+  },
+  "files": ["dist"],
+  "keywords": ["mcp", "model-context-protocol", "claude", "cursor", "ai", "cli", "mcpm", "mcp-manager"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "inquirer": "^9.2.15",
+    "ora": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^20.14.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

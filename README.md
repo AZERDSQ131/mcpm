@@ -10,6 +10,10 @@
 npx mcp-fleet install github
 ```
 
+<p align="center">
+  <img src="./demo.gif" alt="mcpm demo" width="700">
+</p>
+
 ---
 
 ## What is mcpm?

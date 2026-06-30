@@ -14748,6 +14748,28 @@
       "tags": [
         "tools"
       ]
+    },
+    "zambo": {
+      "name": "Zambo",
+      "description": "50+ AI tools across web search, on-chain intelligence, lead generation, code audit, and strategy. No auth, no API key. Two MCP servers (Zambo + Axis). Free tier available.",
+      "url": "https://zambo.dev/api/mcp",
+      "tags": [
+        "ai",
+        "search",
+        "web3",
+        "productivity",
+        "tools"
+      ]
+    },
+    "zambo-axis": {
+      "name": "Zambo Axis",
+      "description": "Zambo Axis MCP \u2014 companion server to Zambo with additional AI tools for agents. No auth required.",
+      "url": "https://zambo.dev/api/axis-mcp",
+      "tags": [
+        "ai",
+        "tools",
+        "agents"
+      ]
     }
   },
   "bundles": {

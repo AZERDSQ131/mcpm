@@ -14814,6 +14814,19 @@
         "aggregation"
       ],
       "env": {}
+    },
+    "pairoa": {
+      "name": "Pairoa",
+      "description": "Private MCP-native matching for two-sided needs (cofounders, hires, testers, collaborators). No public listings \u2014 details unlock only on a real mutual fit.",
+      "url": "https://mcp.pairoa.com",
+      "tags": [
+        "matching",
+        "private",
+        "hiring",
+        "collaboration",
+        "oauth"
+      ],
+      "env": {}
     }
   },
   "bundles": {

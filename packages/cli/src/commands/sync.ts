@@ -1,9 +1,13 @@
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 import chalk from "chalk";
 import inquirer from "inquirer";
 import { install } from "./install.js";
-import { getBundle } from "../registry.js";
+import { getBundle, getServer } from "../registry.js";
+import { detectClients } from "../clients/detect.js";
+import { readConfig, renderConfigContent } from "../clients/config.js";
+import type { ClientConfig, DetectedClient, McpServerConfig } from "../types.js";
 
 interface McpmRC {
   servers?: string[];
@@ -11,6 +15,37 @@ interface McpmRC {
 }
 
 const RC_FILE = ".mcpmrc";
+
+interface SyncOptions {
+  dryRun?: boolean;
+  receipt?: string;
+}
+
+interface TargetReceipt {
+  client_id: string;
+  client_name: string;
+  config_path: string;
+  detected: boolean;
+  before_hash: string | null;
+  proposed_hash: string | null;
+  added_servers: string[];
+  removed_servers: string[];
+  changed_servers: string[];
+  unchanged_servers: string[];
+  missing_env: Array<{ server_id: string; keys: string[] }>;
+  rollback_snapshot: string | null;
+}
+
+interface SyncReceipt {
+  receipt_version: "mcpm.sync-rendered-output.v1";
+  generated_at: string;
+  command: string;
+  rc_path: string;
+  rc_hash: string;
+  desired_servers: string[];
+  unknown_servers: string[];
+  targets: TargetReceipt[];
+}
 
 export function readRC(dir = process.cwd()): McpmRC | null {
   const rcPath = path.join(dir, RC_FILE);
@@ -36,7 +71,7 @@ export function addToRC(serverId: string, dir = process.cwd()): void {
   }
 }
 
-export async function sync(): Promise<void> {
+export async function sync(opts: SyncOptions = {}): Promise<void> {
   const rc = readRC();
 
   if (!rc) {
@@ -73,6 +108,149 @@ export async function sync(): Promise<void> {
     return;
   }
 
+  if (opts.dryRun || opts.receipt) {
+    await dryRunSync(unique, opts.receipt);
+    return;
+  }
+
   console.log(chalk.dim(`\nSyncing ${unique.length} servers from ${RC_FILE}...\n`));
   await install(unique);
+}
+
+async function dryRunSync(serverIds: string[], receiptPath?: string): Promise<void> {
+  const desired: Record<string, McpServerConfig> = {};
+  const missingEnv: Record<string, string[]> = {};
+  const unknownServers: string[] = [];
+
+  for (const serverId of serverIds) {
+    const server = await getServer(serverId);
+    if (!server) {
+      unknownServers.push(serverId);
+      continue;
+    }
+    desired[serverId] = {
+      command: server.command,
+      args: server.args,
+    };
+    const requiredEnv = Object.entries(server.env ?? {})
+      .filter(([, meta]) => meta.required)
+      .map(([key]) => key);
+    if (requiredEnv.length > 0) missingEnv[serverId] = requiredEnv;
+  }
+
+  const clients = detectClients();
+  const targets = clients.map((client) => buildTargetReceipt(client, desired, missingEnv));
+  const rcPath = path.join(process.cwd(), RC_FILE);
+  const receipt: SyncReceipt = {
+    receipt_version: "mcpm.sync-rendered-output.v1",
+    generated_at: new Date().toISOString(),
+    command: receiptPath ? "mcpm sync --dry-run --receipt" : "mcpm sync --dry-run",
+    rc_path: rcPath,
+    rc_hash: hashFile(rcPath) ?? "",
+    desired_servers: Object.keys(desired).sort(),
+    unknown_servers: unknownServers.sort(),
+    targets,
+  };
+
+  console.log(chalk.dim(`\nDry run: ${receipt.desired_servers.length} known server${receipt.desired_servers.length === 1 ? "" : "s"} from ${RC_FILE}\n`));
+  for (const target of targets.filter((t) => t.detected)) {
+    const changed = target.added_servers.length + target.removed_servers.length + target.changed_servers.length;
+    const symbol = changed > 0 ? chalk.yellow("~") : chalk.green("✓");
+    console.log(`${symbol} ${chalk.bold(target.client_name)} ${chalk.dim(target.config_path)}`);
+    if (target.added_servers.length > 0) console.log(chalk.dim(`  added: ${target.added_servers.join(", ")}`));
+    if (target.changed_servers.length > 0) console.log(chalk.dim(`  changed: ${target.changed_servers.join(", ")}`));
+    if (target.missing_env.length > 0) {
+      const envText = target.missing_env.map((item) => `${item.server_id} (${item.keys.join(", ")})`).join("; ");
+      console.log(chalk.yellow(`  missing env values: ${envText}`));
+    }
+  }
+
+  if (unknownServers.length > 0) {
+    console.log(chalk.yellow(`\nUnknown servers skipped: ${unknownServers.join(", ")}`));
+  }
+
+  if (receiptPath) {
+    const resolved = path.resolve(receiptPath);
+    fs.mkdirSync(path.dirname(resolved), { recursive: true });
+    fs.writeFileSync(resolved, JSON.stringify(receipt, null, 2) + "\n", "utf-8");
+    console.log(chalk.green(`\n✓ Wrote dry-run receipt to ${chalk.bold(resolved)}\n`));
+  } else {
+    console.log(chalk.dim("\nRun with --receipt <file> to persist the rendered-output receipt.\n"));
+  }
+}
+
+function buildTargetReceipt(
+  client: DetectedClient,
+  desired: Record<string, McpServerConfig>,
+  missingEnv: Record<string, string[]>
+): TargetReceipt {
+  if (!client.detected) {
+    return {
+      client_id: client.id,
+      client_name: client.name,
+      config_path: client.configPath,
+      detected: false,
+      before_hash: null,
+      proposed_hash: null,
+      added_servers: [],
+      removed_servers: [],
+      changed_servers: [],
+      unchanged_servers: [],
+      missing_env: [],
+      rollback_snapshot: null,
+    };
+  }
+
+  const current = readConfig(client);
+  const proposed: ClientConfig = { mcpServers: { ...current.mcpServers } };
+  const added: string[] = [];
+  const changed: string[] = [];
+  const unchanged: string[] = [];
+
+  for (const [serverId, config] of Object.entries(desired)) {
+    const existing = current.mcpServers[serverId];
+    if (!existing) added.push(serverId);
+    else if (stableStringify(existing) !== stableStringify(config)) changed.push(serverId);
+    else unchanged.push(serverId);
+    proposed.mcpServers[serverId] = config;
+  }
+
+  const rendered = renderConfigContent(client, proposed);
+  return {
+    client_id: client.id,
+    client_name: client.name,
+    config_path: client.configPath,
+    detected: true,
+    before_hash: hashFile(client.configPath),
+    proposed_hash: sha256(rendered),
+    added_servers: added.sort(),
+    removed_servers: [],
+    changed_servers: changed.sort(),
+    unchanged_servers: unchanged.sort(),
+    missing_env: Object.entries(missingEnv).map(([server_id, keys]) => ({ server_id, keys })),
+    rollback_snapshot: hashFile(client.configPath),
+  };
+}
+
+function hashFile(filePath: string): string | null {
+  if (!fs.existsSync(filePath)) return null;
+  return sha256(fs.readFileSync(filePath));
+}
+
+function sha256(data: string | Buffer): string {
+  return `sha256:${crypto.createHash("sha256").update(data).digest("hex")}`;
+}
+
+function stableStringify(value: unknown): string {
+  return JSON.stringify(sortForHash(value));
+}
+
+function sortForHash(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(sortForHash);
+  if (!value || typeof value !== "object") return value;
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([key, val]) => [key, sortForHash(val)])
+  );
 }

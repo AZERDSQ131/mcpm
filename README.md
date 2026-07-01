@@ -114,6 +114,7 @@ Pin your project's MCP servers in a `.mcpmrc` file and let teammates sync in one
 
 ```bash
 mcpm sync
+mcpm sync --dry-run --receipt .mcpm/sync-receipt.json
 ```
 
 For team review flows, see [rendered output drift receipts](docs/rendered-output-drift-receipts.md):

@@ -95,8 +95,10 @@ program
 program
   .command("sync")
   .description("Install all servers listed in .mcpmrc")
-  .action(async () => {
-    await sync();
+  .option("--dry-run", "Preview rendered client config changes without writing")
+  .option("--receipt <file>", "Write a dry-run rendered-output receipt JSON")
+  .action(async (opts: { dryRun?: boolean; receipt?: string }) => {
+    await sync({ dryRun: opts.dryRun, receipt: opts.receipt });
   });
 
 program

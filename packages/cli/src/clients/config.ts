@@ -48,6 +48,10 @@ export function writeConfig(client: DetectedClient, config: ClientConfig): void 
     fs.mkdirSync(dir, { recursive: true });
   }
 
+  fs.writeFileSync(client.configPath, renderConfigContent(client, config), "utf-8");
+}
+
+export function renderConfigContent(client: DetectedClient, config: ClientConfig): string {
   let existing: Record<string, unknown> = {};
   if (fs.existsSync(client.configPath)) {
     try {
@@ -57,7 +61,7 @@ export function writeConfig(client: DetectedClient, config: ClientConfig): void 
 
   const key = getServersKey(client);
   existing[key] = serializeServers(client, config.mcpServers);
-  fs.writeFileSync(client.configPath, JSON.stringify(existing, null, 2) + "\n", "utf-8");
+  return JSON.stringify(existing, null, 2) + "\n";
 }
 
 function serializeServers(

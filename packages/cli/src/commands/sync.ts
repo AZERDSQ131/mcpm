@@ -119,7 +119,7 @@ export async function sync(opts: SyncOptions = {}): Promise<void> {
 
 async function dryRunSync(serverIds: string[], receiptPath?: string): Promise<void> {
   const desired: Record<string, McpServerConfig> = {};
-  const missingEnv: Record<string, string[]> = {};
+  const requiredEnv: Record<string, string[]> = {};
   const unknownServers: string[] = [];
 
   for (const serverId of serverIds) {
@@ -132,14 +132,14 @@ async function dryRunSync(serverIds: string[], receiptPath?: string): Promise<vo
       command: server.command,
       args: server.args,
     };
-    const requiredEnv = Object.entries(server.env ?? {})
+    const envKeys = Object.entries(server.env ?? {})
       .filter(([, meta]) => meta.required)
       .map(([key]) => key);
-    if (requiredEnv.length > 0) missingEnv[serverId] = requiredEnv;
+    if (envKeys.length > 0) requiredEnv[serverId] = envKeys;
   }
 
   const clients = detectClients();
-  const targets = clients.map((client) => buildTargetReceipt(client, desired, missingEnv));
+  const targets = clients.map((client) => buildTargetReceipt(client, desired, requiredEnv));
   const rcPath = path.join(process.cwd(), RC_FILE);
   const receipt: SyncReceipt = {
     receipt_version: "mcpm.sync-rendered-output.v1",
@@ -182,7 +182,7 @@ async function dryRunSync(serverIds: string[], receiptPath?: string): Promise<vo
 function buildTargetReceipt(
   client: DetectedClient,
   desired: Record<string, McpServerConfig>,
-  missingEnv: Record<string, string[]>
+  requiredEnv: Record<string, string[]>
 ): TargetReceipt {
   if (!client.detected) {
     return {
@@ -210,12 +210,19 @@ function buildTargetReceipt(
   for (const [serverId, config] of Object.entries(desired)) {
     const existing = current.mcpServers[serverId];
     if (!existing) added.push(serverId);
-    else if (stableStringify(existing) !== stableStringify(config)) changed.push(serverId);
+    else if (stableStringify(comparableConfig(existing)) !== stableStringify(comparableConfig(config))) changed.push(serverId);
     else unchanged.push(serverId);
     proposed.mcpServers[serverId] = config;
   }
 
   const rendered = renderConfigContent(client, proposed);
+  const missingEnv = Object.entries(requiredEnv)
+    .map(([server_id, keys]) => ({
+      server_id,
+      keys: keys.filter((key) => !current.mcpServers[server_id]?.env?.[key]),
+    }))
+    .filter((item) => item.keys.length > 0);
+
   return {
     client_id: client.id,
     client_name: client.name,
@@ -227,8 +234,15 @@ function buildTargetReceipt(
     removed_servers: [],
     changed_servers: changed.sort(),
     unchanged_servers: unchanged.sort(),
-    missing_env: Object.entries(missingEnv).map(([server_id, keys]) => ({ server_id, keys })),
+    missing_env: missingEnv,
     rollback_snapshot: hashFile(client.configPath),
+  };
+}
+
+function comparableConfig(config: McpServerConfig): Pick<McpServerConfig, "command" | "args"> {
+  return {
+    command: config.command,
+    args: config.args ?? [],
   };
 }
 

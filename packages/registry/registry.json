@@ -14794,6 +14794,26 @@
         "tools"
       ],
       "env": {}
+    },
+    "mcpico": {
+      "name": "MCPico",
+      "description": "MCP proxy that groups upstream tools into hierarchical subcommand groups (help_<group> + <group>), cutting conversation tokens 43-60% vs flat tool lists.",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcpico",
+        "--config",
+        "mcpico.json"
+      ],
+      "url": "https://github.com/lxg2it/mcpico",
+      "tags": [
+        "proxy",
+        "mcp",
+        "tool-grouping",
+        "token-optimization",
+        "aggregation"
+      ],
+      "env": {}
     }
   },
   "bundles": {

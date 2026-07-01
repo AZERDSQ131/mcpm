@@ -5,9 +5,10 @@ import { getServer, getBundle } from "../registry.js";
 import { detectClients } from "../clients/detect.js";
 import { addServer, listInstalledServers } from "../clients/config.js";
 import { addToRC, readRC } from "./sync.js";
+import { createRollbackSnapshot } from "./rollback.js";
 import type { McpServerConfig } from "../types.js";
 
-export async function install(serverIds: string[], opts: { save?: boolean } = {}): Promise<void> {
+export async function install(serverIds: string[], opts: { save?: boolean; snapshot?: boolean } = {}): Promise<void> {
   const allClients = detectClients();
   const detectedClients = allClients.filter((c) => c.detected);
 
@@ -24,6 +25,11 @@ export async function install(serverIds: string[], opts: { save?: boolean } = {}
     console.log(chalk.green("  ✓ ") + chalk.bold(client.name));
   }
   console.log();
+
+  if (opts.snapshot !== false) {
+    const snapshot = createRollbackSnapshot(detectedClients, "install");
+    if (snapshot) console.log(chalk.dim(`Rollback snapshot: ${snapshot}\n`));
+  }
 
   // Expand bundles
   const expanded: string[] = [];

@@ -1,0 +1,5 @@
+*
+!dist/**
+!registry.json
+!package.json
+!README.md

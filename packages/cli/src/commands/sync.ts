@@ -4,6 +4,7 @@ import crypto from "crypto";
 import chalk from "chalk";
 import inquirer from "inquirer";
 import { install } from "./install.js";
+import { createRollbackSnapshot } from "./rollback.js";
 import { getBundle, getServer } from "../registry.js";
 import { detectClients } from "../clients/detect.js";
 import { readConfig, renderConfigContent } from "../clients/config.js";
@@ -114,7 +115,9 @@ export async function sync(opts: SyncOptions = {}): Promise<void> {
   }
 
   console.log(chalk.dim(`\nSyncing ${unique.length} servers from ${RC_FILE}...\n`));
-  await install(unique);
+  const snapshot = createRollbackSnapshot(detectClients(), "sync");
+  if (snapshot) console.log(chalk.dim(`Rollback snapshot: ${snapshot}\n`));
+  await install(unique, { snapshot: false });
 }
 
 async function dryRunSync(serverIds: string[], receiptPath?: string): Promise<void> {

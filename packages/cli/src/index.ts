@@ -11,6 +11,7 @@ import { outdated } from "./commands/outdated.js";
 import { doctor } from "./commands/doctor.js";
 import { run } from "./commands/run.js";
 import { sync } from "./commands/sync.js";
+import { rollback } from "./commands/rollback.js";
 import { exportConfig, importConfig } from "./commands/exportImport.js";
 import { completion, printCompletionHelp } from "./commands/completion.js";
 import { create } from "./commands/create.js";
@@ -102,6 +103,14 @@ program
   });
 
 program
+  .command("rollback")
+  .description("Restore client configs from the latest rollback snapshot")
+  .option("--snapshot <dir>", "Restore from a specific rollback snapshot directory")
+  .action(async (opts: { snapshot?: string }) => {
+    await rollback({ snapshot: opts.snapshot });
+  });
+
+program
   .command("update")
   .description("Update all installed MCP servers to latest versions")
   .action(async () => {
@@ -154,6 +163,7 @@ ${chalk.dim("Examples:")}
   ${chalk.italic("mcpm install github --save")}           install and save to .mcpmrc
   ${chalk.italic("mcpm install @bundle/webdev")}          install the Web Dev bundle
   ${chalk.italic("mcpm sync")}                            install all servers in .mcpmrc
+  ${chalk.italic("mcpm rollback")}                        restore latest config snapshot
   ${chalk.italic("mcpm run fetch")}                       test a server without installing
   ${chalk.italic("mcpm outdated")}                        check for updates
   ${chalk.italic("mcpm search --bundles")}                browse available bundles

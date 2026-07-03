@@ -89,6 +89,7 @@ mcpm list                            List installed servers
 mcpm outdated                        Check for outdated packages
 mcpm doctor                          Diagnose broken servers
 mcpm sync                            Sync from .mcpmrc project file
+mcpm rollback                        Restore the latest config snapshot
 mcpm export [file]                   Export your config
 mcpm import <file>                   Import a config
 mcpm publish                         Submit a server to the registry
@@ -115,7 +116,10 @@ Pin your project's MCP servers in a `.mcpmrc` file and let teammates sync in one
 ```bash
 mcpm sync
 mcpm sync --dry-run --receipt .mcpm/sync-receipt.json
+mcpm rollback
 ```
+
+Before writing configs, mcpm stores rollback snapshots in `~/.cache/mcp-fleet/rollback/` because Claude Code, Cursor, and other client config files are global/user-level, not project-local. Keep rollback snapshots out of git because they may contain local config values.
 
 For team review flows, see [rendered output drift receipts](docs/rendered-output-drift-receipts.md):
 a safe dry-run artifact for checking which client config files would change before write/rollback.

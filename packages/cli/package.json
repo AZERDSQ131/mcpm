@@ -13,6 +13,7 @@
     "start": "node dist/index.js",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint src",
     "format": "prettier --write .",
     "prepublishOnly": "node ../../scripts/sync-registry.mjs"
@@ -47,6 +48,7 @@
     "@eslint/js": "^9.14.0",
     "@types/inquirer": "^9.0.7",
     "@types/node": "^20.14.0",
+    "@vitest/coverage-v8": "^2.1.9",
     "eslint": "^9.14.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.3.3",

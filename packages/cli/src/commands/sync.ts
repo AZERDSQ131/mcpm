@@ -34,7 +34,13 @@ interface TargetReceipt {
   changed_servers: string[];
   unchanged_servers: string[];
   missing_env: Array<{ server_id: string; keys: string[] }>;
-  rollback_snapshot: string | null;
+  /**
+   * Hash of the client's config as it stands right now — i.e. the baseline that
+   * `mcpm sync` would snapshot for rollback if this dry run were applied for real.
+   * Previously misleadingly named `rollback_snapshot`, which implied an actual
+   * snapshot directory/id rather than a content hash (issue #51).
+   */
+  rollback_baseline_hash: string | null;
 }
 
 interface SyncReceipt {
@@ -200,7 +206,7 @@ function buildTargetReceipt(
       changed_servers: [],
       unchanged_servers: [],
       missing_env: [],
-      rollback_snapshot: null,
+      rollback_baseline_hash: null,
     };
   }
 
@@ -238,7 +244,7 @@ function buildTargetReceipt(
     changed_servers: changed.sort(),
     unchanged_servers: unchanged.sort(),
     missing_env: missingEnv,
-    rollback_snapshot: hashFile(client.configPath),
+    rollback_baseline_hash: hashFile(client.configPath),
   };
 }
 

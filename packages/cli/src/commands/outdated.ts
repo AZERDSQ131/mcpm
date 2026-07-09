@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 import ora from "ora";
 import { detectClients } from "../clients/detect.js";
 import { listInstalledServers } from "../clients/config.js";
@@ -62,7 +62,7 @@ export async function outdated(): Promise<void> {
 
     if (config.command === "npx" && pkgToCheck) {
       try {
-        latestVersion = execSync(`npm view ${pkgToCheck} version`, {
+        latestVersion = execFileSync("npm", ["view", pkgToCheck, "version"], {
           stdio: "pipe",
           timeout: 10_000,
         })
@@ -74,7 +74,7 @@ export async function outdated(): Promise<void> {
       }
     } else if (config.command === "uvx" && pkgToCheck) {
       try {
-        const out = execSync(`curl -sf "https://pypi.org/pypi/${pkgToCheck}/json"`, { stdio: "pipe", timeout: 10_000 });
+        const out = execFileSync("curl", ["-sf", `https://pypi.org/pypi/${pkgToCheck}/json`], { stdio: "pipe", timeout: 10_000 });
         const data = JSON.parse(out.toString()) as { info?: { version?: string } };
         latestVersion = data.info?.version ?? null;
         status = latestVersion ? (pkgMismatch ? "mismatch" : "ok") : "unknown";
@@ -87,7 +87,7 @@ export async function outdated(): Promise<void> {
         const url = repo.includes("/")
           ? `https://hub.docker.com/v2/repositories/${repo}/tags/${tag}/`
           : `https://hub.docker.com/v2/repositories/library/${repo}/tags/${tag}/`;
-        const out = execSync(`curl -sf "${url}"`, { stdio: "pipe", timeout: 10_000 });
+        const out = execFileSync("curl", ["-sf", url], { stdio: "pipe", timeout: 10_000 });
         const data = JSON.parse(out.toString()) as { last_updated?: string; name?: string };
         latestVersion = data.last_updated ? tag : null;
         status = latestVersion ? "ok" : "unknown";
@@ -97,7 +97,7 @@ export async function outdated(): Promise<void> {
     } else if (config.command === "go" && pkgToCheck) {
       try {
         const mod = pkgToCheck.replace(/@[^@]+$/, "");
-        const out = execSync(`curl -sf "https://proxy.golang.org/${mod}/@latest"`, { stdio: "pipe", timeout: 10_000 });
+        const out = execFileSync("curl", ["-sf", `https://proxy.golang.org/${mod}/@latest`], { stdio: "pipe", timeout: 10_000 });
         const data = JSON.parse(out.toString()) as { Version?: string };
         latestVersion = data.Version ?? null;
         status = latestVersion ? (pkgMismatch ? "mismatch" : "ok") : "unknown";

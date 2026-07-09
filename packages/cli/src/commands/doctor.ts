@@ -1,9 +1,16 @@
 import chalk from "chalk";
-import { execSync } from "child_process";
 import ora from "ora";
 import { detectClients } from "../clients/detect.js";
 import { listInstalledServers } from "../clients/config.js";
 import { getServer } from "../registry.js";
+import {
+  extractPkg,
+  hasCommand,
+  fetchNpmVersion,
+  fetchPyPIVersion,
+  fetchDockerHubTag,
+  fetchGoModuleVersion,
+} from "../serverChecks.js";
 
 interface ServerHealth {
   id: string;
@@ -11,49 +18,6 @@ interface ServerHealth {
   args: string[];
   status: "ok" | "broken" | "unknown";
   fix?: string;
-}
-
-function hasCommand(cmd: string): boolean {
-  try {
-    execSync(`which ${cmd}`, { stdio: "pipe" });
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function checkPyPI(pkg: string): boolean {
-  try {
-    const out = execSync(`curl -sf "https://pypi.org/pypi/${pkg}/json"`, { stdio: "pipe", timeout: 10_000 });
-    const data = JSON.parse(out.toString()) as { info?: { version?: string } };
-    return !!data.info?.version;
-  } catch {
-    return false;
-  }
-}
-
-function checkDockerHub(image: string): boolean {
-  try {
-    const [repo, tag = "latest"] = image.split(":");
-    const url = repo.includes("/")
-      ? `https://hub.docker.com/v2/repositories/${repo}/tags/${tag}/`
-      : `https://hub.docker.com/v2/repositories/library/${repo}/tags/${tag}/`;
-    const res = execSync(`curl -sf "${url}"`, { stdio: "pipe", timeout: 10_000 });
-    const data = JSON.parse(res.toString()) as { name?: string };
-    return !!data.name;
-  } catch {
-    return false;
-  }
-}
-
-function checkGoModule(mod: string): boolean {
-  try {
-    const res = execSync(`curl -sf "https://proxy.golang.org/${mod}/@latest"`, { stdio: "pipe", timeout: 10_000 });
-    const data = JSON.parse(res.toString()) as { Version?: string };
-    return !!data.Version;
-  } catch {
-    return false;
-  }
 }
 
 export async function doctor(): Promise<void> {
@@ -140,32 +104,27 @@ async function checkServer(
   args: string[],
   available: Record<string, boolean>
 ): Promise<ServerHealth> {
+  const pkg = extractPkg(command, args);
+
   if (command === "npx") {
-    const pkg = args.find((a) => !a.startsWith("-") && a !== "-y");
     if (!pkg) return { id, command, args, status: "unknown" };
-    try {
-      execSync(`npm view ${pkg} version`, { stdio: "pipe", timeout: 10_000 });
-      return { id, command, args, status: "ok" };
-    } catch {
-      const fix = await suggestFix(id, pkg);
-      return { id, command, args, status: "broken", fix };
-    }
+    return fetchNpmVersion(pkg)
+      ? { id, command, args, status: "ok" }
+      : { id, command, args, status: "broken", fix: await suggestFix(id, pkg) };
   }
 
   if (command === "uvx") {
-    const pkg = args.find((a) => !a.startsWith("-") && a !== "--from");
     if (!pkg) return { id, command, args, status: "unknown" };
     if (!available["uvx"]) return { id, command, args, status: "unknown" };
-    return checkPyPI(pkg)
+    return fetchPyPIVersion(pkg)
       ? { id, command, args, status: "ok" }
       : { id, command, args, status: "broken", fix: await suggestFix(id, pkg) };
   }
 
   if (command === "docker") {
-    const image = args.find((a) => !a.startsWith("-") && a !== "run" && a !== "-i" && a !== "--rm");
-    if (!image) return { id, command, args, status: "unknown" };
+    if (!pkg) return { id, command, args, status: "unknown" };
     if (!available["docker"]) return { id, command, args, status: "unknown" };
-    return checkDockerHub(image)
+    return fetchDockerHubTag(pkg)
       ? { id, command, args, status: "ok" }
       : { id, command, args, status: "broken" };
   }
@@ -175,10 +134,9 @@ async function checkServer(
   }
 
   if (command === "go") {
-    const mod = args.find((a) => !a.startsWith("-") && a !== "run");
-    if (!mod) return { id, command, args, status: "unknown" };
+    if (!pkg) return { id, command, args, status: "unknown" };
     if (!available["go"]) return { id, command, args, status: "unknown" };
-    return checkGoModule(mod.replace(/@[^@]+$/, ""))
+    return fetchGoModuleVersion(pkg.replace(/@[^@]+$/, ""))
       ? { id, command, args, status: "ok" }
       : { id, command, args, status: "broken" };
   }
@@ -188,7 +146,7 @@ async function checkServer(
 
 async function suggestFix(id: string, currentPkg: string): Promise<string | undefined> {
   const known = await getServer(id);
-  const registryPkg = known?.args.find((a) => !a.startsWith("-") && a !== "-y" && a !== "--from");
+  const registryPkg = known ? extractPkg(known.command, known.args) : undefined;
   return registryPkg && registryPkg !== currentPkg
     ? `mcpm uninstall ${id} && mcpm install ${id}  (correct package: ${registryPkg})`
     : undefined;

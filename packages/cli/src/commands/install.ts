@@ -17,7 +17,7 @@ function stripSurroundingQuotes(value: string): string {
 
 export async function install(
   serverIds: string[],
-  opts: { save?: boolean; snapshot?: boolean; force?: boolean } = {}
+  opts: { save?: boolean; snapshot?: boolean; force?: boolean; yes?: boolean } = {}
 ): Promise<void> {
   const allClients = detectClients();
   const detectedClients = allClients.filter((c) => c.detected);
@@ -66,7 +66,7 @@ export async function install(
   const shouldSave = opts.save || readRC() !== null;
 
   for (const serverId of [...new Set(expanded)]) {
-    await installOne(serverId, detectedClients, { force: opts.force });
+    await installOne(serverId, detectedClients, { force: opts.force, yes: opts.yes });
     if (shouldSave) addToRC(serverId);
   }
 
@@ -78,7 +78,7 @@ export async function install(
 async function installOne(
   serverId: string,
   clients: ReturnType<typeof detectClients>,
-  opts: { force?: boolean } = {}
+  opts: { force?: boolean; yes?: boolean } = {}
 ): Promise<void> {
   const server = await getServer(serverId);
 
@@ -109,6 +109,22 @@ async function installOne(
   }
 
   const isReinstall = opts.force && alreadyInstalledClients.length > 0;
+
+  if (isReinstall && !opts.yes) {
+    const { proceed } = await inquirer.prompt<{ proceed: boolean }>([
+      {
+        type: "confirm",
+        name: "proceed",
+        message: `Reconfigure ${server.name} in ${alreadyInstalledClients.length} already-installed client${alreadyInstalledClients.length > 1 ? "s" : ""}?`,
+        default: true,
+      },
+    ]);
+    if (!proceed) {
+      console.log(chalk.yellow(`\nSkipped ${server.name}.\n`));
+      return;
+    }
+  }
+
   console.log(chalk.bold(`${isReinstall ? "Reinstalling" : "Installing"} ${server.name}...`));
   if (isReinstall) {
     console.log(

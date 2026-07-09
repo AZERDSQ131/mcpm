@@ -40,8 +40,9 @@ program
   .description("Install one or more servers or a bundle (@bundle/<name>)")
   .option("--save", "Save to .mcpmrc")
   .option("--force", "Reinstall even if already installed, re-prompting for env vars")
-  .action(async (servers: string[], opts: { save?: boolean; force?: boolean }) => {
-    await install(servers, { save: opts.save, force: opts.force });
+  .option("-y, --yes", "Skip the reinstall confirmation prompt when using --force")
+  .action(async (servers: string[], opts: { save?: boolean; force?: boolean; yes?: boolean }) => {
+    await install(servers, { save: opts.save, force: opts.force, yes: opts.yes });
   });
 
 program

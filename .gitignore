@@ -3,3 +3,8 @@ dist/
 *.log
 .DS_Store
 .mcpm/
+.vitest-cache/
+*.tsbuildinfo
+coverage/
+.env
+.env.local

@@ -2,7 +2,8 @@ import chalk from "chalk";
 
 const COMMANDS = [
   "install", "uninstall", "search", "info", "list",
-  "update", "outdated", "doctor", "run", "sync",
+  "create", "publish", "run", "sync", "rollback",
+  "update", "outdated", "doctor", "cache",
   "export", "import", "completion", "help",
 ];
 

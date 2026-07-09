@@ -6,6 +6,7 @@ import { detectClients } from "../clients/detect.js";
 import { addServer, listInstalledServers } from "../clients/config.js";
 import { addToRC, readRC } from "./sync.js";
 import { createRollbackSnapshot } from "./rollback.js";
+import { isSecretEnvVar } from "../secrets.js";
 import type { McpServerConfig } from "../types.js";
 
 function stripSurroundingQuotes(value: string): string {
@@ -123,7 +124,7 @@ async function installOne(
     console.log(chalk.dim("  This server requires environment variables:"));
     for (const [key, meta] of envKeys) {
       if (meta.required) {
-        const isSecret = meta.secret !== false;
+        const isSecret = isSecretEnvVar(meta);
         const { value } = await inquirer.prompt<{ value: string }>([
           {
             type: isSecret ? "password" : "input",

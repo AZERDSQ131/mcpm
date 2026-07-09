@@ -3,9 +3,18 @@ import { detectClients } from "../clients/detect.js";
 import { listInstalledServers } from "../clients/config.js";
 import { getServer } from "../registry.js";
 
-export async function list(): Promise<void> {
+export async function list(json?: boolean): Promise<void> {
   const clients = detectClients();
   const detected = clients.filter((c) => c.detected);
+
+  if (json) {
+    const result: Record<string, Record<string, unknown>> = {};
+    for (const client of detected) {
+      result[client.id] = listInstalledServers(client);
+    }
+    console.log(JSON.stringify(result, null, 2));
+    return;
+  }
 
   if (detected.length === 0) {
     console.log(chalk.yellow("\nNo AI client detected.\n"));

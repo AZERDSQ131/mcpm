@@ -59,23 +59,26 @@ program
   .description("Search the MCP server registry")
   .option("--bundles", "Show available bundles")
   .option("--limit <n>", "Max number of results to show (default: 50)")
-  .action((query?: string, opts?: { bundles?: boolean; limit?: string }) => {
-    search(query, opts?.bundles, opts?.limit);
+  .option("--json", "Output as JSON")
+  .action((query?: string, opts?: { bundles?: boolean; limit?: string; json?: boolean }) => {
+    search(query, opts?.bundles, opts?.limit, opts?.json);
   });
 
 program
   .command("info <server>")
   .description("Show detailed info about an MCP server")
-  .action(async (server: string) => {
-    await info(server);
+  .option("--json", "Output as JSON")
+  .action(async (server: string, opts?: { json?: boolean }) => {
+    await info(server, opts?.json);
   });
 
 program
   .command("list")
   .alias("ls")
   .description("List installed MCP servers across all clients")
-  .action(async () => {
-    await list();
+  .option("--json", "Output as JSON")
+  .action(async (opts?: { json?: boolean }) => {
+    await list(opts?.json);
   });
 
 program

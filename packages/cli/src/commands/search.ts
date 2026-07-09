@@ -14,14 +14,29 @@ function resolveLimit(rawLimit?: string): number {
   return parsed;
 }
 
-export async function search(query?: string, showBundles?: boolean, rawLimit?: string): Promise<void> {
+export async function search(
+  query?: string,
+  showBundles?: boolean,
+  rawLimit?: string,
+  json?: boolean
+): Promise<void> {
   if (showBundles) {
+    if (json) {
+      const bundles = await getAllBundles();
+      console.log(JSON.stringify(Object.fromEntries(bundles), null, 2));
+      return;
+    }
     await printBundles();
     return;
   }
 
   const limit = resolveLimit(rawLimit);
   const all = query ? await searchServers(query) : await getAllServers();
+
+  if (json) {
+    console.log(JSON.stringify(Object.fromEntries(all), null, 2));
+    return;
+  }
 
   if (all.length === 0) {
     console.log(chalk.yellow(`\nNo servers found matching "${query}"\n`));

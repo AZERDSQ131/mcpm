@@ -60,8 +60,11 @@ export function renderConfigContent(client: DetectedClient, config: ClientConfig
     try {
       existing = JSON.parse(fs.readFileSync(client.configPath, "utf-8"));
     } catch {
+      const backupPath = backupInvalidConfig(client.configPath);
       console.warn(
-        `[mcpm] Warning: ${client.configPath} contained invalid JSON and will be overwritten.`
+        backupPath
+          ? `[mcpm] Warning: ${client.configPath} contained invalid JSON — backed up to ${backupPath} and will be overwritten.`
+          : `[mcpm] Warning: ${client.configPath} contained invalid JSON and will be overwritten.`
       );
     }
   }
@@ -69,6 +72,17 @@ export function renderConfigContent(client: DetectedClient, config: ClientConfig
   const key = getServersKey(client);
   existing[key] = serializeServers(client, config.mcpServers);
   return JSON.stringify(existing, null, 2) + "\n";
+}
+
+/** Copies an unparseable config file to `<path>.bak` so its content isn't lost when overwritten. Returns the backup path, or null if the copy failed. */
+function backupInvalidConfig(configPath: string): string | null {
+  const backupPath = `${configPath}.bak`;
+  try {
+    fs.copyFileSync(configPath, backupPath);
+    return backupPath;
+  } catch {
+    return null;
+  }
 }
 
 function serializeServers(

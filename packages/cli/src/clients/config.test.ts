@@ -35,6 +35,7 @@ describe("readConfig", () => {
 
   afterEach(() => {
     if (fs.existsSync(configPath)) fs.unlinkSync(configPath);
+    if (fs.existsSync(`${configPath}.bak`)) fs.unlinkSync(`${configPath}.bak`);
   });
 
   it("returns an empty config when the file does not exist", () => {
@@ -111,6 +112,7 @@ describe("renderConfigContent", () => {
 
   afterEach(() => {
     if (fs.existsSync(configPath)) fs.unlinkSync(configPath);
+    if (fs.existsSync(`${configPath}.bak`)) fs.unlinkSync(`${configPath}.bak`);
   });
 
   it("preserves unrelated top-level keys already in the file", () => {
@@ -198,6 +200,7 @@ describe("addServer / removeServer / listInstalledServers", () => {
 
   afterEach(() => {
     if (fs.existsSync(configPath)) fs.unlinkSync(configPath);
+    if (fs.existsSync(`${configPath}.bak`)) fs.unlinkSync(`${configPath}.bak`);
   });
 
   it("adds a server that can then be listed", () => {

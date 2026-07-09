@@ -119,9 +119,10 @@ program
   .option("--snapshot <dir>", "Restore from a specific rollback snapshot directory")
   .option("--list", "List available snapshots without restoring anything")
   .option("--limit <n>", "Max number of snapshots to show with --list")
-  .action(async (opts: { snapshot?: string; list?: boolean; limit?: string }) => {
+  .option("--json", "Output snapshot list as JSON (used with --list)")
+  .action(async (opts: { snapshot?: string; list?: boolean; limit?: string; json?: boolean }) => {
     const limit = opts.limit ? Number.parseInt(opts.limit, 10) : undefined;
-    await rollback({ snapshot: opts.snapshot, list: opts.list, limit });
+    await rollback({ snapshot: opts.snapshot, list: opts.list, limit, json: opts.json });
   });
 
 program

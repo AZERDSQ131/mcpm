@@ -78,9 +78,17 @@ function pruneOldSnapshots(): void {
   }
 }
 
-export async function rollback(opts: { snapshot?: string; list?: boolean; limit?: number } = {}): Promise<void> {
+export async function rollback(
+  opts: { snapshot?: string; list?: boolean; limit?: number; json?: boolean } = {}
+): Promise<void> {
   if (opts.list) {
-    listSnapshots(opts.limit);
+    if (opts.json) {
+      const all = getSnapshotSummaries();
+      const shown = opts.limit && opts.limit > 0 ? all.slice(0, opts.limit) : all;
+      console.log(JSON.stringify(shown, null, 2));
+    } else {
+      listSnapshots(opts.limit);
+    }
     return;
   }
 

@@ -25,7 +25,7 @@ describe("detectClients", () => {
     expect(cursor?.detected).toBe(true);
   });
 
-  it("marks a client as detected when only its config directory exists", () => {
+  it("does NOT mark a client as detected when only its config directory exists (no false positives)", () => {
     mockExistsSync((p) => {
       const str = String(p);
       if (str.endsWith("mcp.json")) return false; // the file itself is absent
@@ -33,7 +33,7 @@ describe("detectClients", () => {
     });
     const clients = detectClients();
     const cursor = clients.find((c) => c.id === "cursor");
-    expect(cursor?.detected).toBe(true);
+    expect(cursor?.detected).toBe(false);
   });
 
   it("returns one entry per known client id, with no duplicates", () => {

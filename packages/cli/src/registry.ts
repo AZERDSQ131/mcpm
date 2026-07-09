@@ -1,16 +1,13 @@
 import { createRequire } from "module";
 import { fileURLToPath } from "url";
-import fs from "fs";
-import os from "os";
 import path from "path";
 import type { Registry, RegistryServer, RegistryBundle } from "./types.js";
+import { readCache, writeCache } from "./cache.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const REGISTRY_URL =
   "https://raw.githubusercontent.com/AZERDSQ131/mcpm/main/packages/registry/registry.json";
-const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
-const CACHE_PATH = path.join(os.homedir(), ".cache", "mcp-fleet", "registry.json");
 
 let _registry: Registry | null = null;
 
@@ -31,27 +28,24 @@ export async function loadRegistry(): Promise<Registry> {
 }
 
 async function fetchLive(): Promise<Registry | null> {
-  // Return cache if fresh
-  if (fs.existsSync(CACHE_PATH)) {
-    try {
-      const stat = fs.statSync(CACHE_PATH);
-      if (Date.now() - stat.mtimeMs < CACHE_TTL_MS) {
-        const cached = JSON.parse(fs.readFileSync(CACHE_PATH, "utf-8"));
-        return cached as Registry;
-      }
-    } catch {}
-  }
+  const cached = readCache();
+  if (cached) return cached;
 
   try {
     const res = await fetch(REGISTRY_URL, { signal: AbortSignal.timeout(4000) });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      if (process.env.MCPM_DEBUG) {
+        console.warn(`[mcpm] registry fetch failed: HTTP ${res.status}`);
+      }
+      return null;
+    }
     const data = (await res.json()) as Registry;
-    // Write cache
-    const dir = path.dirname(CACHE_PATH);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(CACHE_PATH, JSON.stringify(data, null, 2), "utf-8");
+    writeCache(data);
     return data;
-  } catch {
+  } catch (err) {
+    if (process.env.MCPM_DEBUG) {
+      console.warn(`[mcpm] registry fetch failed: ${(err as Error).message}`);
+    }
     return null;
   }
 }
@@ -65,6 +59,35 @@ function loadLocal(): Registry {
 export async function getServer(id: string): Promise<RegistryServer | undefined> {
   const registry = await loadRegistry();
   return registry.servers[id];
+}
+
+function levenshtein(a: string, b: string): number {
+  const dp: number[][] = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+  for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+  for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      dp[i][j] =
+        a[i - 1] === b[j - 1]
+          ? dp[i - 1][j - 1]
+          : 1 + Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]);
+    }
+  }
+  return dp[a.length][b.length];
+}
+
+/** Suggests the closest known server ID for a typo'd input, or undefined if nothing is close enough. */
+export async function suggestServer(id: string): Promise<string | undefined> {
+  const servers = await getAllServers();
+  let best: { id: string; distance: number } | undefined;
+  for (const [candidateId] of servers) {
+    const distance = levenshtein(id.toLowerCase(), candidateId.toLowerCase());
+    if (!best || distance < best.distance) {
+      best = { id: candidateId, distance };
+    }
+  }
+  const maxAllowedDistance = Math.max(2, Math.floor(id.length / 3));
+  return best && best.distance <= maxAllowedDistance ? best.id : undefined;
 }
 
 export async function getBundle(id: string): Promise<RegistryBundle | undefined> {

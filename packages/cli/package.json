@@ -33,7 +33,7 @@
     "mcpm",
     "mcp-manager"
   ],
-  "author": "",
+  "author": "AZERDSQ131",
   "license": "MIT",
   "dependencies": {
     "chalk": "^5.3.0",

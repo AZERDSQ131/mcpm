@@ -56,7 +56,11 @@ export function renderConfigContent(client: DetectedClient, config: ClientConfig
   if (fs.existsSync(client.configPath)) {
     try {
       existing = JSON.parse(fs.readFileSync(client.configPath, "utf-8"));
-    } catch {}
+    } catch {
+      console.warn(
+        `[mcpm] Warning: ${client.configPath} contained invalid JSON and will be overwritten.`
+      );
+    }
   }
 
   const key = getServersKey(client);

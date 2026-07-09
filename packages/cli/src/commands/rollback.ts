@@ -7,6 +7,7 @@ import { detectClients } from "../clients/detect.js";
 import type { DetectedClient } from "../types.js";
 
 const ROLLBACK_DIR = path.join(os.homedir(), ".cache", "mcp-fleet", "rollback");
+const MAX_SNAPSHOTS = 10;
 
 interface SnapshotFile {
   client_id: string;
@@ -56,10 +57,35 @@ export function createRollbackSnapshot(clients: DetectedClient[], reason: string
     files,
   };
   fs.writeFileSync(path.join(snapshotDir, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n", "utf-8");
+  pruneOldSnapshots();
   return snapshotDir;
 }
 
-export async function rollback(opts: { snapshot?: string } = {}): Promise<void> {
+function listSnapshotDirs(): string[] {
+  if (!fs.existsSync(ROLLBACK_DIR)) return [];
+  return fs
+    .readdirSync(ROLLBACK_DIR, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+}
+
+/** Keeps only the MAX_SNAPSHOTS most recent snapshots, deleting the rest. */
+function pruneOldSnapshots(): void {
+  const entries = listSnapshotDirs();
+  const toRemove = entries.slice(0, Math.max(0, entries.length - MAX_SNAPSHOTS));
+  for (const name of toRemove) {
+    fs.rmSync(path.join(ROLLBACK_DIR, name), { recursive: true, force: true });
+  }
+}
+
+export async function rollback(opts: { snapshot?: string; list?: boolean } = {}): Promise<void> {
+  if (opts.list) {
+    listSnapshots();
+    return;
+  }
+
+
   const snapshotDir = opts.snapshot ? path.resolve(opts.snapshot) : latestSnapshotDir();
   if (!snapshotDir) {
     console.log(chalk.yellow("\nNo rollback snapshots found.\n"));
@@ -95,13 +121,33 @@ export async function rollback(opts: { snapshot?: string } = {}): Promise<void> 
 }
 
 function latestSnapshotDir(): string | null {
-  if (!fs.existsSync(ROLLBACK_DIR)) return null;
-  const entries = fs.readdirSync(ROLLBACK_DIR, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => entry.name)
-    .sort();
-  const latest = entries.at(-1);
+  const latest = listSnapshotDirs().at(-1);
   return latest ? path.join(ROLLBACK_DIR, latest) : null;
+}
+
+function listSnapshots(): void {
+  const names = listSnapshotDirs().reverse();
+
+  if (names.length === 0) {
+    console.log(chalk.yellow("\nNo rollback snapshots found.\n"));
+    return;
+  }
+
+  console.log(chalk.dim(`\n${names.length} snapshot${names.length > 1 ? "s" : ""} (most recent first):\n`));
+
+  for (const name of names) {
+    const manifestPath = path.join(ROLLBACK_DIR, name, "manifest.json");
+    if (!fs.existsSync(manifestPath)) continue;
+
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8")) as RollbackManifest;
+    const date = new Date(manifest.created_at).toLocaleString();
+    console.log(`  ${chalk.bold(name)}`);
+    console.log(chalk.dim(`    ${date} — ${manifest.reason} — ${manifest.files.length} client${manifest.files.length > 1 ? "s" : ""}`));
+  }
+
+  console.log();
+  console.log(chalk.dim("Restore: ") + chalk.italic("mcpm rollback --snapshot <name>"));
+  console.log();
 }
 
 function displayPath(filePath: string): string {

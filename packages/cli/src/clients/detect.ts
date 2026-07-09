@@ -73,9 +73,7 @@ const CLIENTS: DetectedClient[] = [
 
 export function detectClients(): DetectedClient[] {
   return CLIENTS.map((client) => {
-    const configDir = path.dirname(client.configPath);
-    const detected =
-      fs.existsSync(client.configPath) || fs.existsSync(configDir);
+    const detected = fs.existsSync(client.configPath);
     return { ...client, detected };
   });
 }

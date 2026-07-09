@@ -78,9 +78,9 @@ function pruneOldSnapshots(): void {
   }
 }
 
-export async function rollback(opts: { snapshot?: string; list?: boolean } = {}): Promise<void> {
+export async function rollback(opts: { snapshot?: string; list?: boolean; limit?: number } = {}): Promise<void> {
   if (opts.list) {
-    listSnapshots();
+    listSnapshots(opts.limit);
     return;
   }
 
@@ -124,24 +124,77 @@ function latestSnapshotDir(): string | null {
   return latest ? path.join(ROLLBACK_DIR, latest) : null;
 }
 
-function listSnapshots(): void {
-  const names = listSnapshotDirs().reverse();
+export interface SnapshotSummary {
+  name: string;
+  createdAt: string;
+  reason: string;
+  fileCount: number;
+  sizeBytes: number;
+}
 
-  if (names.length === 0) {
+/** Returns snapshot summaries ordered most-recent-first. */
+export function getSnapshotSummaries(): SnapshotSummary[] {
+  const names = listSnapshotDirs().reverse();
+  const summaries: SnapshotSummary[] = [];
+
+  for (const name of names) {
+    const snapshotDir = path.join(ROLLBACK_DIR, name);
+    const manifestPath = path.join(snapshotDir, "manifest.json");
+    if (!fs.existsSync(manifestPath)) continue;
+
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8")) as RollbackManifest;
+    summaries.push({
+      name,
+      createdAt: manifest.created_at,
+      reason: manifest.reason,
+      fileCount: manifest.files.length,
+      sizeBytes: dirSize(snapshotDir),
+    });
+  }
+
+  return summaries;
+}
+
+function dirSize(dir: string): number {
+  let total = 0;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (!entry.isFile()) continue;
+    total += fs.statSync(path.join(dir, entry.name)).size;
+  }
+  return total;
+}
+
+function formatSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  const kb = bytes / 1024;
+  if (kb < 1024) return `${kb.toFixed(1)} KB`;
+  return `${(kb / 1024).toFixed(1)} MB`;
+}
+
+function listSnapshots(limit?: number): void {
+  const all = getSnapshotSummaries();
+
+  if (all.length === 0) {
     console.log(chalk.yellow("\nNo rollback snapshots found.\n"));
     return;
   }
 
-  console.log(chalk.dim(`\n${names.length} snapshot${names.length > 1 ? "s" : ""} (most recent first):\n`));
+  const shown = limit && limit > 0 ? all.slice(0, limit) : all;
 
-  for (const name of names) {
-    const manifestPath = path.join(ROLLBACK_DIR, name, "manifest.json");
-    if (!fs.existsSync(manifestPath)) continue;
+  const headerCount =
+    shown.length === all.length
+      ? `${all.length} snapshot${all.length > 1 ? "s" : ""}`
+      : `${shown.length} of ${all.length} snapshots`;
+  console.log(chalk.dim(`\n${headerCount} (most recent first):\n`));
 
-    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8")) as RollbackManifest;
-    const date = new Date(manifest.created_at).toLocaleString();
-    console.log(`  ${chalk.bold(name)}`);
-    console.log(chalk.dim(`    ${date} — ${manifest.reason} — ${manifest.files.length} client${manifest.files.length > 1 ? "s" : ""}`));
+  for (const s of shown) {
+    const date = new Date(s.createdAt).toLocaleString();
+    console.log(`  ${chalk.bold(s.name)}`);
+    console.log(
+      chalk.dim(
+        `    ${date} — ${s.reason} — ${s.fileCount} client${s.fileCount > 1 ? "s" : ""} — ${formatSize(s.sizeBytes)}`
+      )
+    );
   }
 
   console.log();

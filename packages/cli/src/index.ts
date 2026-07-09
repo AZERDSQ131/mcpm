@@ -118,8 +118,10 @@ program
   .description("Restore client configs from the latest rollback snapshot")
   .option("--snapshot <dir>", "Restore from a specific rollback snapshot directory")
   .option("--list", "List available snapshots without restoring anything")
-  .action(async (opts: { snapshot?: string; list?: boolean }) => {
-    await rollback({ snapshot: opts.snapshot, list: opts.list });
+  .option("--limit <n>", "Max number of snapshots to show with --list")
+  .action(async (opts: { snapshot?: string; list?: boolean; limit?: string }) => {
+    const limit = opts.limit ? Number.parseInt(opts.limit, 10) : undefined;
+    await rollback({ snapshot: opts.snapshot, list: opts.list, limit });
   });
 
 program
@@ -194,6 +196,7 @@ ${chalk.dim("Examples:")}
   ${chalk.italic("mcpm sync")}                            install all servers in .mcpmrc
   ${chalk.italic("mcpm rollback")}                        restore latest config snapshot
   ${chalk.italic("mcpm rollback --list")}                 list available snapshots
+  ${chalk.italic("mcpm rollback --list --limit 5")}        cap the number of snapshots shown
   ${chalk.italic("mcpm run fetch")}                       test a server without installing
   ${chalk.italic("mcpm outdated")}                        check for updates
   ${chalk.italic("mcpm search --bundles")}                browse available bundles

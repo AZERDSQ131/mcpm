@@ -48,7 +48,10 @@ export function writeConfig(client: DetectedClient, config: ClientConfig): void 
     fs.mkdirSync(dir, { recursive: true });
   }
 
-  fs.writeFileSync(client.configPath, renderConfigContent(client, config), "utf-8");
+  const content = renderConfigContent(client, config);
+  const tmpPath = `${client.configPath}.tmp-${process.pid}`;
+  fs.writeFileSync(tmpPath, content, "utf-8");
+  fs.renameSync(tmpPath, client.configPath);
 }
 
 export function renderConfigContent(client: DetectedClient, config: ClientConfig): string {

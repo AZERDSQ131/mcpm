@@ -3,7 +3,7 @@ import path from "path";
 import chalk from "chalk";
 import inquirer from "inquirer";
 import ora from "ora";
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 import { loadRegistry } from "../registry.js";
 
 interface PkgJson {
@@ -191,9 +191,18 @@ export async function publish(): Promise<void> {
   try {
     // Clone registry in a temp dir
     const tmp = `/tmp/mcpm-publish-${Date.now()}`;
-    execSync(`gh repo fork AZERDSQ131/mcpm --clone --fork-name mcpm-publish-tmp 2>/dev/null || git clone https://github.com/AZERDSQ131/mcpm.git ${tmp}`, { stdio: "pipe", timeout: 30_000 });
+    let repoDir: string;
+    try {
+      execFileSync("gh", ["repo", "fork", "AZERDSQ131/mcpm", "--clone", "--fork-name", "mcpm-publish-tmp"], {
+        stdio: "pipe",
+        timeout: 30_000,
+      });
+      repoDir = `${process.env.HOME}/mcpm-publish-tmp`;
+    } catch {
+      execFileSync("git", ["clone", "https://github.com/AZERDSQ131/mcpm.git", tmp], { stdio: "pipe", timeout: 30_000 });
+      repoDir = tmp;
+    }
 
-    const repoDir = fs.existsSync(tmp) ? tmp : `${process.env.HOME}/mcpm-publish-tmp`;
     const registryFile = path.join(repoDir, "packages", "registry", "registry.json");
 
     const reg = JSON.parse(fs.readFileSync(registryFile, "utf-8"));
@@ -201,16 +210,23 @@ export async function publish(): Promise<void> {
     fs.writeFileSync(registryFile, JSON.stringify(reg, null, 2) + "\n");
 
     const branch = `add-${answers.id}`;
-    execSync(`git -C ${repoDir} checkout -b ${branch}`, { stdio: "pipe" });
-    execSync(`git -C ${repoDir} add packages/registry/registry.json`, { stdio: "pipe" });
-    execSync(`git -C ${repoDir} commit -m "Add ${answers.id} to registry"`, { stdio: "pipe" });
-    execSync(`git -C ${repoDir} push origin ${branch}`, { stdio: "pipe", timeout: 15_000 });
-    execSync(
-      `gh pr create --repo AZERDSQ131/mcpm --title "Add ${answers.displayName} to registry" --body "Adds \`${answers.id}\` — ${answers.description}\n\nPackage: \`${answers.packageName}\`" --head ${branch}`,
+    execFileSync("git", ["-C", repoDir, "checkout", "-b", branch], { stdio: "pipe" });
+    execFileSync("git", ["-C", repoDir, "add", "packages/registry/registry.json"], { stdio: "pipe" });
+    execFileSync("git", ["-C", repoDir, "commit", "-m", `Add ${answers.id} to registry`], { stdio: "pipe" });
+    execFileSync("git", ["-C", repoDir, "push", "origin", branch], { stdio: "pipe", timeout: 15_000 });
+    execFileSync(
+      "gh",
+      [
+        "pr", "create",
+        "--repo", "AZERDSQ131/mcpm",
+        "--title", `Add ${answers.displayName} to registry`,
+        "--body", `Adds \`${answers.id}\` — ${answers.description}\n\nPackage: \`${answers.packageName}\``,
+        "--head", branch,
+      ],
       { stdio: "pipe", timeout: 15_000 }
     );
 
-    execSync(`rm -rf ${repoDir}`, { stdio: "pipe" });
+    fs.rmSync(repoDir, { recursive: true, force: true });
 
     spinner.succeed("Pull request opened!");
     console.log(chalk.dim("\nOnce merged, anyone can install your server with:"));
@@ -229,7 +245,7 @@ function printManualInstructions(id: string, entry: RegistryEntry): void {
 
 function commandExists(cmd: string): boolean {
   try {
-    execSync(`which ${cmd}`, { stdio: "pipe" });
+    execFileSync("which", [cmd], { stdio: "pipe" });
     return true;
   } catch {
     return false;

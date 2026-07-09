@@ -1,16 +1,13 @@
 import { createRequire } from "module";
 import { fileURLToPath } from "url";
-import fs from "fs";
-import os from "os";
 import path from "path";
 import type { Registry, RegistryServer, RegistryBundle } from "./types.js";
+import { readCache, writeCache } from "./cache.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const REGISTRY_URL =
   "https://raw.githubusercontent.com/AZERDSQ131/mcpm/main/packages/registry/registry.json";
-const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
-const CACHE_PATH = path.join(os.homedir(), ".cache", "mcp-fleet", "registry.json");
 
 let _registry: Registry | null = null;
 
@@ -31,16 +28,8 @@ export async function loadRegistry(): Promise<Registry> {
 }
 
 async function fetchLive(): Promise<Registry | null> {
-  // Return cache if fresh
-  if (fs.existsSync(CACHE_PATH)) {
-    try {
-      const stat = fs.statSync(CACHE_PATH);
-      if (Date.now() - stat.mtimeMs < CACHE_TTL_MS) {
-        const cached = JSON.parse(fs.readFileSync(CACHE_PATH, "utf-8"));
-        return cached as Registry;
-      }
-    } catch {}
-  }
+  const cached = readCache();
+  if (cached) return cached;
 
   try {
     const res = await fetch(REGISTRY_URL, { signal: AbortSignal.timeout(4000) });
@@ -51,10 +40,7 @@ async function fetchLive(): Promise<Registry | null> {
       return null;
     }
     const data = (await res.json()) as Registry;
-    // Write cache
-    const dir = path.dirname(CACHE_PATH);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(CACHE_PATH, JSON.stringify(data, null, 2), "utf-8");
+    writeCache(data);
     return data;
   } catch (err) {
     if (process.env.MCPM_DEBUG) {

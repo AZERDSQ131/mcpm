@@ -8,7 +8,14 @@ import type { Registry } from "./types.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const DEFAULT_CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
-const CACHE_DIR = path.join(os.homedir(), ".cache", "mcp-fleet");
+
+/** Honors XDG_CACHE_HOME when set (e.g. per-profile setups), falling back to ~/.cache. */
+function resolveCacheBaseDir(): string {
+  const xdg = process.env.XDG_CACHE_HOME;
+  return xdg && xdg.trim() !== "" ? xdg : path.join(os.homedir(), ".cache");
+}
+
+const CACHE_DIR = path.join(resolveCacheBaseDir(), "mcp-fleet");
 const CACHE_FILE = path.join(CACHE_DIR, "registry.json");
 const STATS_FILE = path.join(CACHE_DIR, "cache-stats.json");
 const CACHE_META_FILE = path.join(CACHE_DIR, "cache-meta.json");

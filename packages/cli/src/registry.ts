@@ -18,7 +18,7 @@ function registryUrlFor(ref: string): string {
 function cliVersionTag(): string {
   const require = createRequire(import.meta.url);
   const pkg = require(path.resolve(__dirname, "../package.json")) as { version: string };
-  return pkg.version;
+  return `v${pkg.version}`;
 }
 const CACHE_PATH = path.join(os.homedir(), ".cache", "mcp-fleet", "registry.json");
 

@@ -5,7 +5,7 @@ import { getDetectedClients } from "../clients/detect.js";
 import { listInstalledServers } from "../clients/config.js";
 import { getServer } from "../registry.js";
 
-export async function update(): Promise<void> { // eslint-disable-line
+export async function update(): Promise<void> {
   const clients = getDetectedClients();
 
   if (clients.length === 0) {

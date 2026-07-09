@@ -69,7 +69,7 @@ complete -c mcpm -n "not __fish_seen_subcommand_from $commands" -a "$commands"
 
 # Complete server names for relevant commands
 complete -c mcpm -n "__fish_seen_subcommand_from $server_commands" \\
-  -a "(mcpm search 2>/dev/null | grep -E '^  [a-z]' | awk '{print \$1}')"
+  -a "(mcpm search 2>/dev/null | grep -E '^  [a-z]' | awk '{print $1}')"
 `;
 
 type Shell = "bash" | "zsh" | "fish";

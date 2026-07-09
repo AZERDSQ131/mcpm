@@ -3,7 +3,6 @@ import os from "os";
 import path from "path";
 import crypto from "crypto";
 import chalk from "chalk";
-import { detectClients } from "../clients/detect.js";
 import type { DetectedClient } from "../types.js";
 
 const ROLLBACK_DIR = path.join(os.homedir(), ".cache", "mcp-fleet", "rollback");

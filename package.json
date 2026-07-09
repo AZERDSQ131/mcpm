@@ -4,6 +4,8 @@
   "workspaces": ["packages/*"],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "dev": "cd packages/cli && npm run dev"
+    "dev": "cd packages/cli && npm run dev",
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "npm run format --workspaces --if-present"
   }
 }

@@ -11,6 +11,8 @@
     "dev": "node --loader ts-node/esm src/index.ts",
     "watch": "tsc -w",
     "start": "node dist/index.js",
+    "lint": "eslint src",
+    "format": "prettier --write .",
     "prepublishOnly": "node ../../scripts/sync-registry.mjs"
   },
   "files": [
@@ -40,10 +42,15 @@
     "ora": "^8.1.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.14.0",
     "@types/inquirer": "^9.0.7",
     "@types/node": "^20.14.0",
+    "eslint": "^9.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^8.13.0"
   },
   "engines": {
     "node": ">=18"

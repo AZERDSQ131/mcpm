@@ -35,6 +35,7 @@ describe("readConfig", () => {
 
   afterEach(() => {
     if (fs.existsSync(configPath)) fs.unlinkSync(configPath);
+    if (fs.existsSync(`${configPath}.bak`)) fs.unlinkSync(`${configPath}.bak`);
   });
 
   it("returns an empty config when the file does not exist", () => {
@@ -111,6 +112,7 @@ describe("renderConfigContent", () => {
 
   afterEach(() => {
     if (fs.existsSync(configPath)) fs.unlinkSync(configPath);
+    if (fs.existsSync(`${configPath}.bak`)) fs.unlinkSync(`${configPath}.bak`);
   });
 
   it("preserves unrelated top-level keys already in the file", () => {
@@ -127,6 +129,52 @@ describe("renderConfigContent", () => {
     const client = makeClient("cursor", configPath);
     const rendered = JSON.parse(renderConfigContent(client, { mcpServers: {} }));
     expect(rendered).toEqual({ mcpServers: {} });
+  });
+
+  it("backs up invalid JSON to <path>.bak before overwriting", () => {
+    fs.writeFileSync(configPath, "{ this is not valid json", "utf-8");
+    const client = makeClient("cursor", configPath);
+    renderConfigContent(client, { mcpServers: {} });
+
+    expect(fs.existsSync(`${configPath}.bak`)).toBe(true);
+    expect(fs.readFileSync(`${configPath}.bak`, "utf-8")).toBe("{ this is not valid json");
+  });
+
+  it("does not create a .bak file when the existing config is valid JSON", () => {
+    fs.writeFileSync(configPath, JSON.stringify({ mcpServers: {} }), "utf-8");
+    const client = makeClient("cursor", configPath);
+    renderConfigContent(client, { mcpServers: {} });
+    expect(fs.existsSync(`${configPath}.bak`)).toBe(false);
+  });
+
+  it("does not create a .bak file when there is no existing config", () => {
+    const client = makeClient("cursor", configPath);
+    renderConfigContent(client, { mcpServers: {} });
+    expect(fs.existsSync(`${configPath}.bak`)).toBe(false);
+  });
+
+  it("drops a server missing a command before writing", () => {
+    const client = makeClient("cursor", configPath);
+    const broken = { args: ["-y", "x"] } as unknown as McpServerConfig;
+    const rendered = JSON.parse(renderConfigContent(client, { mcpServers: { broken } }));
+    expect(rendered.mcpServers.broken).toBeUndefined();
+  });
+
+  it("drops a server whose args is not an array before writing", () => {
+    const client = makeClient("cursor", configPath);
+    const broken = { command: "npx", args: "not-an-array" } as unknown as McpServerConfig;
+    const rendered = JSON.parse(renderConfigContent(client, { mcpServers: { broken } }));
+    expect(rendered.mcpServers.broken).toBeUndefined();
+  });
+
+  it("keeps valid servers alongside a dropped invalid one", () => {
+    const client = makeClient("cursor", configPath);
+    const broken = { args: [] } as unknown as McpServerConfig;
+    const rendered = JSON.parse(
+      renderConfigContent(client, { mcpServers: { github: sampleServer, broken } })
+    );
+    expect(rendered.mcpServers.github).toBeDefined();
+    expect(rendered.mcpServers.broken).toBeUndefined();
   });
 
   it("serializes Claude's format with a stdio type field", () => {
@@ -198,6 +246,7 @@ describe("addServer / removeServer / listInstalledServers", () => {
 
   afterEach(() => {
     if (fs.existsSync(configPath)) fs.unlinkSync(configPath);
+    if (fs.existsSync(`${configPath}.bak`)) fs.unlinkSync(`${configPath}.bak`);
   });
 
   it("adds a server that can then be listed", () => {

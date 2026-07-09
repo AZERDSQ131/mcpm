@@ -35,7 +35,7 @@ function resolveLocal(serverId: string): RegistryServer | null {
   }
 }
 
-export async function run(serverId: string): Promise<void> {
+export async function run(serverId: string, opts: { yes?: boolean } = {}): Promise<void> {
   const local = resolveLocal(serverId);
   const server = local ?? (await getServer(serverId));
 
@@ -43,6 +43,23 @@ export async function run(serverId: string): Promise<void> {
     console.log(chalk.red(`\nUnknown server: ${chalk.bold(serverId)}`));
     console.log(chalk.dim(`Run ${chalk.italic("mcpm search")} to browse available servers.\n`));
     return;
+  }
+
+  if (!opts.yes) {
+    console.log(chalk.bold(`\n${server.name}`) + chalk.dim(` will run:`));
+    console.log(chalk.cyan(`  ${server.command} ${server.args.join(" ")}\n`));
+    const { proceed } = await inquirer.prompt<{ proceed: boolean }>([
+      {
+        type: "confirm",
+        name: "proceed",
+        message: "Continue?",
+        default: false,
+      },
+    ]);
+    if (!proceed) {
+      console.log(chalk.yellow("\nCancelled.\n"));
+      return;
+    }
   }
 
   console.log(chalk.bold(`\nRunning ${server.name} temporarily...`));

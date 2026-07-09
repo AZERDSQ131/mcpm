@@ -3,6 +3,7 @@ import chalk from "chalk";
 import inquirer from "inquirer";
 import { detectClients } from "../clients/detect.js";
 import { listInstalledServers, addServer } from "../clients/config.js";
+import { colorizeJson } from "../jsonColor.js";
 import type { ExportFormat } from "../types.js";
 
 export function exportConfig(outputPath?: string): void {
@@ -39,8 +40,11 @@ export function exportConfig(outputPath?: string): void {
     console.log(
       chalk.green(`\n✓ Exported ${Object.keys(merged).length} servers to ${chalk.bold(outputPath)}\n`)
     );
+  } else if (process.stdout.isTTY) {
+    // Interactive terminal: colorize for readability. Piped/redirected output stays
+    // plain so it remains valid JSON for tools like jq or a shell redirect.
+    process.stdout.write(colorizeJson(json));
   } else {
-    // Print to stdout so it can be piped
     process.stdout.write(json);
   }
 }

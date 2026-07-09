@@ -29,9 +29,12 @@ export function cacheInfo(): void {
   console.log(`Size:   ${formatBytes(stats.sizeBytes)}`);
   console.log(`Age:    ${formatDuration(stats.ageMs)}`);
   console.log(`TTL:    ${formatDuration(stats.ttlMs)} ${chalk.dim(`(${ttlSourceLabel})`)}`);
-  console.log(
-    `Status: ${stats.isFresh ? chalk.green("fresh") : chalk.yellow("stale (will refetch on next use)")}`
-  );
+  const statusLabel = stats.invalidatedByVersion
+    ? chalk.yellow("stale (written by a different mcpm version, will refetch on next use)")
+    : stats.isFresh
+      ? chalk.green("fresh")
+      : chalk.yellow("stale (will refetch on next use)");
+  console.log(`Status: ${statusLabel}`);
 
   if (stats.invalidEnvValue) {
     console.log(

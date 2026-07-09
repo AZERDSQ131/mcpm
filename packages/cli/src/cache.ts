@@ -1,12 +1,24 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
+import { createRequire } from "module";
+import { fileURLToPath } from "url";
 import type { Registry } from "./types.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const DEFAULT_CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 const CACHE_DIR = path.join(os.homedir(), ".cache", "mcp-fleet");
 const CACHE_FILE = path.join(CACHE_DIR, "registry.json");
 const STATS_FILE = path.join(CACHE_DIR, "cache-stats.json");
+const CACHE_META_FILE = path.join(CACHE_DIR, "cache-meta.json");
+
+/** The installed CLI version, used to auto-invalidate a cache written by a different mcpm version. */
+function getCliVersion(): string {
+  const require = createRequire(import.meta.url);
+  const pkg = require(path.resolve(__dirname, "../package.json")) as { version: string };
+  return pkg.version;
+}
 
 const ENV_TTL_MINUTES = "MCPM_CACHE_TTL_MINUTES";
 
@@ -28,6 +40,26 @@ export interface CacheStats {
   ttlSource: TtlSource;
   invalidEnvValue?: string;
   isFresh: boolean;
+  /** True when the cache was written by a different mcpm version and was invalidated because of it. */
+  invalidatedByVersion?: boolean;
+}
+
+function readCachedVersion(): string | null {
+  try {
+    const raw = fs.readFileSync(CACHE_META_FILE, "utf-8");
+    const parsed = JSON.parse(raw) as Partial<{ cliVersion: string }>;
+    return parsed.cliVersion ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function writeCachedVersion(version: string): void {
+  try {
+    fs.writeFileSync(CACHE_META_FILE, JSON.stringify({ cliVersion: version }), "utf-8");
+  } catch {
+    // best-effort; a failure here must never break registry loading
+  }
 }
 
 /**
@@ -76,6 +108,10 @@ export function getCacheStats(): CacheStats {
   const stat = fs.statSync(CACHE_FILE);
   const ageMs = Date.now() - stat.mtimeMs;
 
+  const cachedVersion = readCachedVersion();
+  const currentVersion = getCliVersion();
+  const invalidatedByVersion = cachedVersion !== null && cachedVersion !== currentVersion;
+
   return {
     exists: true,
     path: CACHE_FILE,
@@ -84,7 +120,8 @@ export function getCacheStats(): CacheStats {
     ttlMs,
     ttlSource: source,
     invalidEnvValue,
-    isFresh: ageMs < ttlMs,
+    isFresh: ageMs < ttlMs && !invalidatedByVersion,
+    invalidatedByVersion,
   };
 }
 
@@ -159,10 +196,12 @@ export function writeCache(data: Registry): void {
     fs.mkdirSync(CACHE_DIR, { recursive: true });
   }
   fs.writeFileSync(CACHE_FILE, JSON.stringify(data, null, 2), "utf-8");
+  writeCachedVersion(getCliVersion());
 }
 
-/** Deletes the cache file. Returns false if there was nothing to delete. */
+/** Deletes the cache file (and its version marker). Returns false if there was nothing to delete. */
 export function clearCache(): boolean {
+  if (fs.existsSync(CACHE_META_FILE)) fs.unlinkSync(CACHE_META_FILE);
   if (!fs.existsSync(CACHE_FILE)) return false;
   fs.unlinkSync(CACHE_FILE);
   return true;

@@ -34,8 +34,9 @@ program
   .alias("i")
   .description("Install one or more servers or a bundle (@bundle/<name>)")
   .option("--save", "Save to .mcpmrc")
-  .action(async (servers: string[], opts: { save?: boolean }) => {
-    await install(servers, { save: opts.save });
+  .option("--force", "Reinstall even if already installed, re-prompting for env vars")
+  .action(async (servers: string[], opts: { save?: boolean; force?: boolean }) => {
+    await install(servers, { save: opts.save, force: opts.force });
   });
 
 program
@@ -161,6 +162,7 @@ program.addHelpText(
   `
 ${chalk.dim("Examples:")}
   ${chalk.italic("mcpm install github --save")}           install and save to .mcpmrc
+  ${chalk.italic("mcpm install github --force")}          reconfigure an already-installed server
   ${chalk.italic("mcpm install @bundle/webdev")}          install the Web Dev bundle
   ${chalk.italic("mcpm sync")}                            install all servers in .mcpmrc
   ${chalk.italic("mcpm rollback")}                        restore latest config snapshot

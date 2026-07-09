@@ -8,7 +8,10 @@ import { addToRC, readRC } from "./sync.js";
 import { createRollbackSnapshot } from "./rollback.js";
 import type { McpServerConfig } from "../types.js";
 
-export async function install(serverIds: string[], opts: { save?: boolean; snapshot?: boolean } = {}): Promise<void> {
+export async function install(
+  serverIds: string[],
+  opts: { save?: boolean; snapshot?: boolean; force?: boolean } = {}
+): Promise<void> {
   const allClients = detectClients();
   const detectedClients = allClients.filter((c) => c.detected);
 
@@ -56,7 +59,7 @@ export async function install(serverIds: string[], opts: { save?: boolean; snaps
   const shouldSave = opts.save || readRC() !== null;
 
   for (const serverId of [...new Set(expanded)]) {
-    await installOne(serverId, detectedClients);
+    await installOne(serverId, detectedClients, { force: opts.force });
     if (shouldSave) addToRC(serverId);
   }
 
@@ -67,7 +70,8 @@ export async function install(serverIds: string[], opts: { save?: boolean; snaps
 
 async function installOne(
   serverId: string,
-  clients: ReturnType<typeof detectClients>
+  clients: ReturnType<typeof detectClients>,
+  opts: { force?: boolean } = {}
 ): Promise<void> {
   const server = await getServer(serverId);
 
@@ -79,7 +83,28 @@ async function installOne(
     return;
   }
 
-  console.log(chalk.bold(`Installing ${server.name}...`));
+  // Split clients into those that need (re)configuring vs. those to leave untouched
+  const alreadyInstalledClients = clients.filter(
+    (client) => !!listInstalledServers(client)[serverId]
+  );
+  const targetClients = opts.force
+    ? clients
+    : clients.filter((client) => !listInstalledServers(client)[serverId]);
+
+  if (targetClients.length === 0) {
+    console.log(chalk.yellow(`\n~ ${server.name} already installed in all clients`));
+    console.log(chalk.dim(`  Run ${chalk.italic(`mcpm install ${serverId} --force`)} to reconfigure it`));
+    console.log();
+    return;
+  }
+
+  const isReinstall = opts.force && alreadyInstalledClients.length > 0;
+  console.log(chalk.bold(`${isReinstall ? "Reinstalling" : "Installing"} ${server.name}...`));
+  if (isReinstall) {
+    console.log(
+      chalk.dim(`  --force: reconfiguring ${alreadyInstalledClients.length} already-installed client${alreadyInstalledClients.length > 1 ? "s" : ""}`)
+    );
+  }
 
   const envValues: Record<string, string> = {};
   const envKeys = Object.entries(server.env ?? {});
@@ -111,31 +136,23 @@ async function installOne(
   };
 
   const spinner = ora("Writing configuration...").start();
-  let successCount = 0;
 
-  for (const client of clients) {
-    const existing = listInstalledServers(client);
-    if (existing[serverId]) continue;
+  for (const client of targetClients) {
     addServer(client, serverId, serverConfig);
-    successCount++;
   }
 
   spinner.stop();
 
-  for (const client of clients) {
-    const existing = listInstalledServers(client);
-    if (existing[serverId]) {
-      console.log(
-        `  ${chalk.green("✓")} ${chalk.bold(client.name)} ${chalk.dim(client.configPath)}`
-      );
-    }
+  for (const client of targetClients) {
+    console.log(
+      `  ${chalk.green("✓")} ${chalk.bold(client.name)} ${chalk.dim(client.configPath)}`
+    );
   }
 
-  if (successCount > 0) {
-    console.log(chalk.green(`\n✓ ${server.name} installed`) + chalk.dim(` for ${successCount} client${successCount > 1 ? "s" : ""}`));
-    if (envKeys.length > 0) console.log(chalk.dim("  Restart your AI client for changes to take effect."));
-  } else {
-    console.log(chalk.yellow(`\n~ ${server.name} already installed in all clients`));
-  }
+  console.log(
+    chalk.green(`\n✓ ${server.name} ${isReinstall ? "reinstalled" : "installed"}`) +
+      chalk.dim(` for ${targetClients.length} client${targetClients.length > 1 ? "s" : ""}`)
+  );
+  if (envKeys.length > 0) console.log(chalk.dim("  Restart your AI client for changes to take effect."));
   console.log();
 }

@@ -7,9 +7,19 @@ import type { Registry, RegistryServer, RegistryBundle } from "./types.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const REGISTRY_URL =
-  "https://raw.githubusercontent.com/AZERDSQ131/mcpm/main/packages/registry/registry.json";
+const REGISTRY_BASE_URL = "https://raw.githubusercontent.com/AZERDSQ131/mcpm";
+const REGISTRY_SUBPATH = "packages/registry/registry.json";
 const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+
+function registryUrlFor(ref: string): string {
+  return `${REGISTRY_BASE_URL}/${ref}/${REGISTRY_SUBPATH}`;
+}
+
+function cliVersionTag(): string {
+  const require = createRequire(import.meta.url);
+  const pkg = require(path.resolve(__dirname, "../package.json")) as { version: string };
+  return pkg.version;
+}
 const CACHE_PATH = path.join(os.homedir(), ".cache", "mcp-fleet", "registry.json");
 
 let _registry: Registry | null = null;
@@ -42,15 +52,21 @@ async function fetchLive(): Promise<Registry | null> {
     } catch {}
   }
 
+  const versionedUrl = registryUrlFor(cliVersionTag());
+  const data = (await tryFetch(versionedUrl)) ?? (await tryFetch(registryUrlFor("main")));
+  if (!data) return null;
+
+  const dir = path.dirname(CACHE_PATH);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(CACHE_PATH, JSON.stringify(data, null, 2), "utf-8");
+  return data;
+}
+
+async function tryFetch(url: string): Promise<Registry | null> {
   try {
-    const res = await fetch(REGISTRY_URL, { signal: AbortSignal.timeout(4000) });
+    const res = await fetch(url, { signal: AbortSignal.timeout(4000) });
     if (!res.ok) return null;
-    const data = (await res.json()) as Registry;
-    // Write cache
-    const dir = path.dirname(CACHE_PATH);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(CACHE_PATH, JSON.stringify(data, null, 2), "utf-8");
-    return data;
+    return (await res.json()) as Registry;
   } catch {
     return null;
   }

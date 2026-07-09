@@ -3,6 +3,7 @@ import os from "os";
 import path from "path";
 import crypto from "crypto";
 import chalk from "chalk";
+import { isDryRun } from "../dryRun.js";
 import type { DetectedClient } from "../types.js";
 
 const ROLLBACK_DIR = path.join(os.homedir(), ".cache", "mcp-fleet", "rollback");
@@ -25,6 +26,8 @@ interface RollbackManifest {
 }
 
 export function createRollbackSnapshot(clients: DetectedClient[], reason: string): string | null {
+  if (isDryRun()) return null;
+
   const detected = clients.filter((client) => client.detected);
   if (detected.length === 0) return null;
 

@@ -19,6 +19,7 @@ import { create } from "./commands/create.js";
 import { publish } from "./commands/publish.js";
 import { cacheInfo, cacheClear } from "./commands/cache.js";
 import { whoami } from "./commands/whoami.js";
+import { changelog } from "./commands/changelog.js";
 import { setDryRun } from "./dryRun.js";
 
 const require = createRequire(import.meta.url);
@@ -168,6 +169,15 @@ program
   .description("Show detected AI clients, their active config paths, and installed servers")
   .action(() => {
     whoami();
+  });
+
+program
+  .command("changelog")
+  .description("Generate a grouped changelog from git log since the last tag")
+  .option("--from <ref>", "Generate the changelog since this git ref instead of the latest tag")
+  .option("--limit <n>", "Max entries to show per group")
+  .action((opts: { from?: string; limit?: string }) => {
+    changelog({ from: opts.from, limit: opts.limit ? Number.parseInt(opts.limit, 10) : undefined });
   });
 
 const cacheCommand = program.command("cache").description("Manage the local registry cache");

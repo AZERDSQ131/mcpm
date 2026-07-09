@@ -44,7 +44,7 @@ export function resolveTtl(): TtlResolution {
     return { ttlMs: DEFAULT_CACHE_TTL_MS, source: "default", invalidEnvValue: raw };
   }
 
-  return { ttlMs: minutes, source: "env" };
+  return { ttlMs: minutes * 60 * 1000, source: "env" };
 }
 
 /** Convenience wrapper when only the TTL value is needed. */

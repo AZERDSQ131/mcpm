@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { createRequire } from "module";
 import { Command } from "commander";
 import chalk from "chalk";
 import { install } from "./commands/install.js";
@@ -17,6 +18,9 @@ import { completion, printCompletionHelp } from "./commands/completion.js";
 import { create } from "./commands/create.js";
 import { publish } from "./commands/publish.js";
 
+const require = createRequire(import.meta.url);
+const { version } = require("../package.json") as { version: string };
+
 const program = new Command();
 
 const BANNER = `
@@ -26,7 +30,7 @@ const BANNER = `
 program
   .name("mcpm")
   .description("Install and manage MCP servers across all your AI clients")
-  .version("0.1.0")
+  .version(version)
   .addHelpText("before", BANNER);
 
 program

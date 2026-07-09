@@ -3,3 +3,7 @@ dist/
 *.log
 .DS_Store
 .mcpm/
+*.tsbuildinfo
+coverage/
+.env
+.env.local

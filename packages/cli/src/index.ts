@@ -89,8 +89,9 @@ program
 program
   .command("run <server>")
   .description("Run a server temporarily to see its tools — use '.' for local server")
-  .action(async (server: string) => {
-    await run(server);
+  .option("-y, --yes", "Skip the confirmation prompt")
+  .action(async (server: string, opts: { yes?: boolean }) => {
+    await run(server, { yes: opts.yes });
   });
 
 program

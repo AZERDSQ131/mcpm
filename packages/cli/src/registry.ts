@@ -44,14 +44,22 @@ async function fetchLive(): Promise<Registry | null> {
 
   try {
     const res = await fetch(REGISTRY_URL, { signal: AbortSignal.timeout(4000) });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      if (process.env.MCPM_DEBUG) {
+        console.warn(`[mcpm] registry fetch failed: HTTP ${res.status}`);
+      }
+      return null;
+    }
     const data = (await res.json()) as Registry;
     // Write cache
     const dir = path.dirname(CACHE_PATH);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(CACHE_PATH, JSON.stringify(data, null, 2), "utf-8");
     return data;
-  } catch {
+  } catch (err) {
+    if (process.env.MCPM_DEBUG) {
+      console.warn(`[mcpm] registry fetch failed: ${(err as Error).message}`);
+    }
     return null;
   }
 }

@@ -70,8 +70,32 @@ export function renderConfigContent(client: DetectedClient, config: ClientConfig
   }
 
   const key = getServersKey(client);
-  existing[key] = serializeServers(client, config.mcpServers);
+  existing[key] = serializeServers(client, validateServers(config.mcpServers));
   return JSON.stringify(existing, null, 2) + "\n";
+}
+
+/**
+ * Minimal schema check before persisting server entries: drops any entry missing a
+ * non-empty `command` string or with a non-array `args`, warning for each one dropped.
+ * This is a last line of defense against writing a corrupted config for AI clients to
+ * choke on — it does not replace validation done earlier in the install flow.
+ */
+function validateServers(
+  servers: Record<string, McpServerConfig>
+): Record<string, McpServerConfig> {
+  const valid: Record<string, McpServerConfig> = {};
+  for (const [id, server] of Object.entries(servers)) {
+    if (typeof server?.command !== "string" || server.command.trim() === "") {
+      console.warn(`[mcpm] Skipping server "${id}": missing or invalid "command"`);
+      continue;
+    }
+    if (!Array.isArray(server.args)) {
+      console.warn(`[mcpm] Skipping server "${id}": "args" must be an array`);
+      continue;
+    }
+    valid[id] = server;
+  }
+  return valid;
 }
 
 /** Copies an unparseable config file to `<path>.bak` so its content isn't lost when overwritten. Returns the backup path, or null if the copy failed. */

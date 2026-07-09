@@ -8,15 +8,33 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const REGISTRY_BASE_URL = "https://raw.githubusercontent.com/AZERDSQ131/mcpm";
 const REGISTRY_SUBPATH = "packages/registry/registry.json";
+const LATEST_RELEASE_API_URL = "https://api.github.com/repos/AZERDSQ131/mcpm/releases/latest";
 
-function registryUrlFor(ref: string): string {
+export function registryUrlFor(ref: string): string {
   return `${REGISTRY_BASE_URL}/${ref}/${REGISTRY_SUBPATH}`;
 }
 
-function cliVersionTag(): string {
+export function cliVersionTag(): string {
   const require = createRequire(import.meta.url);
   const pkg = require(path.resolve(__dirname, "../package.json")) as { version: string };
   return `v${pkg.version}`;
+}
+
+/**
+ * Looks up the latest published GitHub release tag. Used as a middle rung between the
+ * CLI's own (possibly unpublished, e.g. a local/prerelease build) version tag and the
+ * unstable `main` branch, so a stale local version doesn't force falling all the way
+ * back to unreleased registry content.
+ */
+async function latestStableTag(): Promise<string | null> {
+  try {
+    const res = await fetch(LATEST_RELEASE_API_URL, { signal: AbortSignal.timeout(4000) });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { tag_name?: string };
+    return data.tag_name ?? null;
+  } catch {
+    return null;
+  }
 }
 
 let _registry: Registry | null = null;
@@ -41,8 +59,17 @@ async function fetchLive(): Promise<Registry | null> {
   const cached = readCache();
   if (cached) return cached;
 
-  const versionedUrl = registryUrlFor(cliVersionTag());
-  const data = (await tryFetch(versionedUrl)) ?? (await tryFetch(registryUrlFor("main")));
+  const versionTag = cliVersionTag();
+  let data = await tryFetch(registryUrlFor(versionTag));
+
+  if (!data) {
+    const stableTag = await latestStableTag();
+    if (stableTag && stableTag !== versionTag) {
+      data = await tryFetch(registryUrlFor(stableTag));
+    }
+  }
+
+  data = data ?? (await tryFetch(registryUrlFor("main")));
   if (!data) return null;
 
   writeCache(data);

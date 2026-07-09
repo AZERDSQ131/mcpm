@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import inquirer from "inquirer";
 import ora from "ora";
-import { getServer, getBundle } from "../registry.js";
+import { getServer, getBundle, suggestServer } from "../registry.js";
 import { detectClients } from "../clients/detect.js";
 import { addServer, listInstalledServers } from "../clients/config.js";
 import { addToRC, readRC } from "./sync.js";
@@ -76,9 +76,12 @@ async function installOne(
   const server = await getServer(serverId);
 
   if (!server) {
+    const suggestion = await suggestServer(serverId);
     console.log(
       chalk.red(`✗ Unknown server: ${chalk.bold(serverId)}`),
-      chalk.dim(`— run ${chalk.italic("mcpm search")} to browse available servers`)
+      suggestion
+        ? chalk.dim(`— did you mean ${chalk.bold(suggestion)}?`)
+        : chalk.dim(`— run ${chalk.italic("mcpm search")} to browse available servers`)
     );
     return;
   }

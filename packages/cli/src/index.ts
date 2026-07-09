@@ -58,8 +58,9 @@ program
   .alias("s")
   .description("Search the MCP server registry")
   .option("--bundles", "Show available bundles")
-  .action((query?: string, opts?: { bundles?: boolean }) => {
-    search(query, opts?.bundles);
+  .option("--limit <n>", "Max number of results to show (default: 50)")
+  .action((query?: string, opts?: { bundles?: boolean; limit?: string }) => {
+    search(query, opts?.bundles, opts?.limit);
   });
 
 program
@@ -190,6 +191,7 @@ ${chalk.dim("Examples:")}
   ${chalk.italic("mcpm run fetch")}                       test a server without installing
   ${chalk.italic("mcpm outdated")}                        check for updates
   ${chalk.italic("mcpm search --bundles")}                browse available bundles
+  ${chalk.italic("mcpm search fetch --limit 5")}          cap the number of results shown
   ${chalk.italic("mcpm info postgres")}                   show details about a server
   ${chalk.italic("mcpm doctor")}                          check server health
   ${chalk.italic("mcpm cache info")}                      inspect the registry cache

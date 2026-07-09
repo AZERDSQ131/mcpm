@@ -8,6 +8,13 @@ import { addToRC, readRC } from "./sync.js";
 import { createRollbackSnapshot } from "./rollback.js";
 import type { McpServerConfig } from "../types.js";
 
+function stripSurroundingQuotes(value: string): string {
+  if (value.length >= 2 && ((value[0] === '"' && value.at(-1) === '"') || (value[0] === "'" && value.at(-1) === "'"))) {
+    return value.slice(1, -1);
+  }
+  return value;
+}
+
 export async function install(
   serverIds: string[],
   opts: { save?: boolean; snapshot?: boolean; force?: boolean } = {}
@@ -127,7 +134,7 @@ async function installOne(
               input.trim().length > 0 || `${key} is required`,
           },
         ]);
-        envValues[key] = value.trim();
+        envValues[key] = stripSurroundingQuotes(value.trim());
       }
     }
     console.log();

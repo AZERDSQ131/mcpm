@@ -153,6 +153,23 @@ mcpm search --bundles
 | `@bundle/startup` | Startup essentials |
 | `@bundle/ai-tools` | AI tooling & agents |
 
+### How the registry is resolved
+
+`mcpm` pins registry lookups to your installed CLI version, so a `mcpm@1.4.0` never
+silently picks up a registry entry shape only understood by `1.5.0`:
+
+1. Fetch `packages/registry/registry.json` from the git tag matching your installed
+   version (`v<version>` from `package.json`).
+2. If that tag doesn't exist (e.g. a prerelease/local build), fall back to the latest
+   published GitHub release tag.
+3. If that also fails, fall back to the unstable `main` branch.
+4. If all network attempts fail, fall back to the registry bundled with the CLI at
+   install time.
+
+Results are cached locally (see `mcpm cache info` / `mcpm cache clear`) — set
+`MCPM_CACHE_TTL_MINUTES` to control how long a fetch is reused, and `MCPM_DEBUG=1` to
+log which step of the fallback chain was used.
+
 ---
 
 ## Submit a server

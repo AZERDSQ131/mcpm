@@ -4,6 +4,7 @@ import ora from "ora";
 import { detectClients } from "../clients/detect.js";
 import { listInstalledServers } from "../clients/config.js";
 import { getServer } from "../registry.js";
+import { formatEnvValue } from "../secrets.js";
 
 interface ServerHealth {
   id: string;
@@ -11,6 +12,33 @@ interface ServerHealth {
   args: string[];
   status: "ok" | "broken" | "unknown";
   fix?: string;
+}
+
+interface EnvVarStatus {
+  key: string;
+  required: boolean;
+  set: boolean;
+  displayValue: string | null;
+}
+
+/** Reports which of a server's declared env vars are configured, masking secret values. */
+async function checkEnvVars(
+  id: string,
+  configEnv: Record<string, string> | undefined
+): Promise<EnvVarStatus[]> {
+  const known = await getServer(id);
+  if (!known) return [];
+
+  return Object.entries(known.env).map(([key, meta]) => {
+    const value = configEnv?.[key];
+    const set = !!value;
+    return {
+      key,
+      required: meta.required,
+      set,
+      displayValue: set ? formatEnvValue(value, meta) : null,
+    };
+  });
 }
 
 function hasCommand(cmd: string): boolean {
@@ -102,16 +130,17 @@ export async function doctor(): Promise<void> {
     }
 
     const spinner = ora({ text: "Checking packages...", indent: 2 }).start();
-    const results: ServerHealth[] = [];
+    const results: Array<{ health: ServerHealth; envStatus: EnvVarStatus[] }> = [];
 
     for (const [id, config] of entries) {
       const health = await checkServer(id, config.command, config.args, available);
-      results.push(health);
+      const envStatus = await checkEnvVars(id, config.env);
+      results.push({ health, envStatus });
     }
 
     spinner.stop();
 
-    for (const result of results) {
+    for (const { health: result, envStatus } of results) {
       if (result.status === "ok") {
         console.log(`  ${chalk.green("✓")} ${chalk.bold(result.id)}`);
       } else if (result.status === "broken") {
@@ -120,6 +149,14 @@ export async function doctor(): Promise<void> {
         allBroken.push(result.id);
       } else {
         console.log(`  ${chalk.yellow("~")} ${chalk.bold(result.id)} ${chalk.dim("— cannot verify")}`);
+      }
+
+      for (const env of envStatus) {
+        if (env.set) {
+          console.log(`      ${chalk.dim("•")} ${env.key}=${chalk.dim(env.displayValue)}`);
+        } else if (env.required) {
+          console.log(`      ${chalk.yellow("•")} ${env.key} ${chalk.yellow("(required, not set)")}`);
+        }
       }
     }
 

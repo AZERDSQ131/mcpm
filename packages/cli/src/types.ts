@@ -1,6 +1,7 @@
 export interface EnvVar {
   description: string;
   required: boolean;
+  secret?: boolean;
 }
 
 export interface RegistryServer {

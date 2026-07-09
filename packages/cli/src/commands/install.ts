@@ -88,12 +88,13 @@ async function installOne(
     console.log(chalk.dim("  This server requires environment variables:"));
     for (const [key, meta] of envKeys) {
       if (meta.required) {
+        const isSecret = meta.secret === false;
         const { value } = await inquirer.prompt<{ value: string }>([
           {
-            type: "password",
+            type: isSecret ? "password" : "input",
             name: "value",
             message: `  ${key} — ${chalk.dim(meta.description)}:`,
-            mask: "*",
+            ...(isSecret && { mask: "*" }),
             validate: (input: string) =>
               input.trim().length > 0 || `${key} is required`,
           },

@@ -11,6 +11,8 @@
     "dev": "node --loader ts-node/esm src/index.ts",
     "watch": "tsc -w",
     "start": "node dist/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "lint": "eslint src",
     "format": "prettier --write .",
     "prepublishOnly": "node ../../scripts/sync-registry.mjs"
@@ -33,7 +35,7 @@
     "mcpm",
     "mcp-manager"
   ],
-  "author": "",
+  "author": "AZERDSQ131",
   "license": "MIT",
   "dependencies": {
     "chalk": "^5.3.0",
@@ -50,7 +52,8 @@
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
-    "typescript-eslint": "^8.13.0"
+    "typescript-eslint": "^8.13.0",
+    "vitest": "^2.1.4"
   },
   "engines": {
     "node": ">=18"

@@ -16,6 +16,7 @@ import { exportConfig, importConfig } from "./commands/exportImport.js";
 import { completion, printCompletionHelp } from "./commands/completion.js";
 import { create } from "./commands/create.js";
 import { publish } from "./commands/publish.js";
+import { cacheInfo, cacheClear } from "./commands/cache.js";
 
 const program = new Command();
 
@@ -145,6 +146,22 @@ program
     await importConfig(file);
   });
 
+const cacheCommand = program.command("cache").description("Manage the local registry cache");
+
+cacheCommand
+  .command("info")
+  .description("Show registry cache status (path, size, age, TTL)")
+  .action(() => {
+    cacheInfo();
+  });
+
+cacheCommand
+  .command("clear")
+  .description("Delete the local registry cache")
+  .action(() => {
+    cacheClear();
+  });
+
 program
   .command("completion <shell>")
   .description("Generate shell completion script (bash, zsh, fish)")
@@ -169,6 +186,8 @@ ${chalk.dim("Examples:")}
   ${chalk.italic("mcpm search --bundles")}                browse available bundles
   ${chalk.italic("mcpm info postgres")}                   show details about a server
   ${chalk.italic("mcpm doctor")}                          check server health
+  ${chalk.italic("mcpm cache info")}                      inspect the registry cache
+  ${chalk.italic("mcpm cache clear")}                     force a fresh registry fetch
   ${chalk.italic("mcpm export ~/my-mcp-setup.json")}      backup your setup
   ${chalk.italic("mcpm import ~/my-mcp-setup.json")}      restore on a new machine
   ${chalk.italic('mcpm create --ai "fetch crypto prices"')} AI writes the implementation

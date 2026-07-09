@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { getServer } from "../registry.js";
+import { getServer, suggestServer } from "../registry.js";
 
 export async function info(serverId: string, json?: boolean): Promise<void> {
   const server = await getServer(serverId);
@@ -9,8 +9,13 @@ export async function info(serverId: string, json?: boolean): Promise<void> {
       console.log(JSON.stringify({ error: `Unknown server: ${serverId}` }, null, 2));
       return;
     }
+    const suggestion = await suggestServer(serverId);
     console.log(chalk.red(`\nUnknown server: ${chalk.bold(serverId)}`));
-    console.log(chalk.dim(`Run ${chalk.italic("mcpm search")} to browse available servers.\n`));
+    console.log(
+      suggestion
+        ? chalk.dim(`Did you mean ${chalk.bold(suggestion)}?\n`)
+        : chalk.dim(`Run ${chalk.italic("mcpm search")} to browse available servers.\n`)
+    );
     return;
   }
 

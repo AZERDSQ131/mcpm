@@ -2,7 +2,24 @@ import chalk from "chalk";
 import { searchServers, getAllServers, getAllBundles } from "../registry.js";
 import type { RegistryServer, RegistryBundle } from "../types.js";
 
-export async function search(query?: string, showBundles?: boolean, json?: boolean): Promise<void> {
+const DEFAULT_LIMIT = 50;
+
+function resolveLimit(rawLimit?: string): number {
+  if (rawLimit === undefined) return DEFAULT_LIMIT;
+  const parsed = Number.parseInt(rawLimit, 10);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    console.log(chalk.yellow(`\nInvalid --limit "${rawLimit}", falling back to ${DEFAULT_LIMIT}\n`));
+    return DEFAULT_LIMIT;
+  }
+  return parsed;
+}
+
+export async function search(
+  query?: string,
+  showBundles?: boolean,
+  rawLimit?: string,
+  json?: boolean
+): Promise<void> {
   if (showBundles) {
     if (json) {
       const bundles = await getAllBundles();
@@ -13,7 +30,7 @@ export async function search(query?: string, showBundles?: boolean, json?: boole
     return;
   }
 
-  const DEFAULT_LIMIT = 50;
+  const limit = resolveLimit(rawLimit);
   const all = query ? await searchServers(query) : await getAllServers();
 
   if (json) {
@@ -26,11 +43,11 @@ export async function search(query?: string, showBundles?: boolean, json?: boole
     return;
   }
 
-  const results = query ? all : all.slice(0, DEFAULT_LIMIT);
+  const results = all.slice(0, limit);
   const total = all.length;
 
   const label = query
-    ? `${total} server${total > 1 ? "s" : ""} matching "${chalk.bold(query)}"`
+    ? `Showing ${results.length} of ${total} server${total > 1 ? "s" : ""} matching "${chalk.bold(query)}"`
     : `Showing ${results.length} of ${total} servers`;
 
   console.log(chalk.dim(`\n${label}\n`));
@@ -39,8 +56,11 @@ export async function search(query?: string, showBundles?: boolean, json?: boole
     printServer(id, server);
   }
 
-  if (!query && total > DEFAULT_LIMIT) {
-    console.log(chalk.dim(`  … and ${total - DEFAULT_LIMIT} more — use `) + chalk.italic(`mcpm search <query>`) + chalk.dim(` to filter\n`));
+  if (total > limit) {
+    const hint = query
+      ? chalk.italic(`mcpm search "${query}" --limit ${total}`)
+      : chalk.italic(`mcpm search --limit ${total}`);
+    console.log(chalk.dim(`  … and ${total - limit} more — use `) + hint + chalk.dim(` to see them all\n`));
   }
 
   console.log(chalk.dim(`Install: `) + chalk.italic(`mcpm install <name>`));

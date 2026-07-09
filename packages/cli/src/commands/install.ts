@@ -1,14 +1,24 @@
 import chalk from "chalk";
 import inquirer from "inquirer";
 import ora from "ora";
-import { getServer, getBundle } from "../registry.js";
+import { getServer, getBundle, suggestServer } from "../registry.js";
 import { detectClients } from "../clients/detect.js";
 import { addServer, listInstalledServers } from "../clients/config.js";
 import { addToRC, readRC } from "./sync.js";
 import { createRollbackSnapshot } from "./rollback.js";
 import type { McpServerConfig } from "../types.js";
 
-export async function install(serverIds: string[], opts: { save?: boolean; snapshot?: boolean } = {}): Promise<void> {
+function stripSurroundingQuotes(value: string): string {
+  if (value.length >= 2 && ((value[0] === '"' && value.at(-1) === '"') || (value[0] === "'" && value.at(-1) === "'"))) {
+    return value.slice(1, -1);
+  }
+  return value;
+}
+
+export async function install(
+  serverIds: string[],
+  opts: { save?: boolean; snapshot?: boolean; force?: boolean } = {}
+): Promise<void> {
   const allClients = detectClients();
   const detectedClients = allClients.filter((c) => c.detected);
 
@@ -56,7 +66,7 @@ export async function install(serverIds: string[], opts: { save?: boolean; snaps
   const shouldSave = opts.save || readRC() !== null;
 
   for (const serverId of [...new Set(expanded)]) {
-    await installOne(serverId, detectedClients);
+    await installOne(serverId, detectedClients, { force: opts.force });
     if (shouldSave) addToRC(serverId);
   }
 
@@ -67,19 +77,44 @@ export async function install(serverIds: string[], opts: { save?: boolean; snaps
 
 async function installOne(
   serverId: string,
-  clients: ReturnType<typeof detectClients>
+  clients: ReturnType<typeof detectClients>,
+  opts: { force?: boolean } = {}
 ): Promise<void> {
   const server = await getServer(serverId);
 
   if (!server) {
+    const suggestion = await suggestServer(serverId);
     console.log(
       chalk.red(`✗ Unknown server: ${chalk.bold(serverId)}`),
-      chalk.dim(`— run ${chalk.italic("mcpm search")} to browse available servers`)
+      suggestion
+        ? chalk.dim(`— did you mean ${chalk.bold(suggestion)}?`)
+        : chalk.dim(`— run ${chalk.italic("mcpm search")} to browse available servers`)
     );
     return;
   }
 
-  console.log(chalk.bold(`Installing ${server.name}...`));
+  // Split clients into those that need (re)configuring vs. those to leave untouched
+  const alreadyInstalledClients = clients.filter(
+    (client) => !!listInstalledServers(client)[serverId]
+  );
+  const targetClients = opts.force
+    ? clients
+    : clients.filter((client) => !listInstalledServers(client)[serverId]);
+
+  if (targetClients.length === 0) {
+    console.log(chalk.yellow(`\n~ ${server.name} already installed in all clients`));
+    console.log(chalk.dim(`  Run ${chalk.italic(`mcpm install ${serverId} --force`)} to reconfigure it`));
+    console.log();
+    return;
+  }
+
+  const isReinstall = opts.force && alreadyInstalledClients.length > 0;
+  console.log(chalk.bold(`${isReinstall ? "Reinstalling" : "Installing"} ${server.name}...`));
+  if (isReinstall) {
+    console.log(
+      chalk.dim(`  --force: reconfiguring ${alreadyInstalledClients.length} already-installed client${alreadyInstalledClients.length > 1 ? "s" : ""}`)
+    );
+  }
 
   const envValues: Record<string, string> = {};
   const envKeys = Object.entries(server.env ?? {});
@@ -88,17 +123,18 @@ async function installOne(
     console.log(chalk.dim("  This server requires environment variables:"));
     for (const [key, meta] of envKeys) {
       if (meta.required) {
+        const isSecret = meta.secret !== false;
         const { value } = await inquirer.prompt<{ value: string }>([
           {
-            type: "password",
+            type: isSecret ? "password" : "input",
             name: "value",
             message: `  ${key} — ${chalk.dim(meta.description)}:`,
-            mask: "*",
+            ...(isSecret && { mask: "*" }),
             validate: (input: string) =>
               input.trim().length > 0 || `${key} is required`,
           },
         ]);
-        envValues[key] = value.trim();
+        envValues[key] = stripSurroundingQuotes(value.trim());
       }
     }
     console.log();
@@ -111,31 +147,23 @@ async function installOne(
   };
 
   const spinner = ora("Writing configuration...").start();
-  let successCount = 0;
 
-  for (const client of clients) {
-    const existing = listInstalledServers(client);
-    if (existing[serverId]) continue;
+  for (const client of targetClients) {
     addServer(client, serverId, serverConfig);
-    successCount++;
   }
 
   spinner.stop();
 
-  for (const client of clients) {
-    const existing = listInstalledServers(client);
-    if (existing[serverId]) {
-      console.log(
-        `  ${chalk.green("✓")} ${chalk.bold(client.name)} ${chalk.dim(client.configPath)}`
-      );
-    }
+  for (const client of targetClients) {
+    console.log(
+      `  ${chalk.green("✓")} ${chalk.bold(client.name)} ${chalk.dim(client.configPath)}`
+    );
   }
 
-  if (successCount > 0) {
-    console.log(chalk.green(`\n✓ ${server.name} installed`) + chalk.dim(` for ${successCount} client${successCount > 1 ? "s" : ""}`));
-    if (envKeys.length > 0) console.log(chalk.dim("  Restart your AI client for changes to take effect."));
-  } else {
-    console.log(chalk.yellow(`\n~ ${server.name} already installed in all clients`));
-  }
+  console.log(
+    chalk.green(`\n✓ ${server.name} ${isReinstall ? "reinstalled" : "installed"}`) +
+      chalk.dim(` for ${targetClients.length} client${targetClients.length > 1 ? "s" : ""}`)
+  );
+  if (envKeys.length > 0) console.log(chalk.dim("  Restart your AI client for changes to take effect."));
   console.log();
 }

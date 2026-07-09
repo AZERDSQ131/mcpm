@@ -2,14 +2,24 @@ import chalk from "chalk";
 import { searchServers, getAllServers, getAllBundles } from "../registry.js";
 import type { RegistryServer, RegistryBundle } from "../types.js";
 
-export async function search(query?: string, showBundles?: boolean): Promise<void> {
+export async function search(query?: string, showBundles?: boolean, json?: boolean): Promise<void> {
   if (showBundles) {
+    if (json) {
+      const bundles = await getAllBundles();
+      console.log(JSON.stringify(Object.fromEntries(bundles), null, 2));
+      return;
+    }
     await printBundles();
     return;
   }
 
   const DEFAULT_LIMIT = 50;
   const all = query ? await searchServers(query) : await getAllServers();
+
+  if (json) {
+    console.log(JSON.stringify(Object.fromEntries(all), null, 2));
+    return;
+  }
 
   if (all.length === 0) {
     console.log(chalk.yellow(`\nNo servers found matching "${query}"\n`));

@@ -1,12 +1,21 @@
 import chalk from "chalk";
 import { getServer } from "../registry.js";
 
-export async function info(serverId: string): Promise<void> {
+export async function info(serverId: string, json?: boolean): Promise<void> {
   const server = await getServer(serverId);
 
   if (!server) {
+    if (json) {
+      console.log(JSON.stringify({ error: `Unknown server: ${serverId}` }, null, 2));
+      return;
+    }
     console.log(chalk.red(`\nUnknown server: ${chalk.bold(serverId)}`));
     console.log(chalk.dim(`Run ${chalk.italic("mcpm search")} to browse available servers.\n`));
+    return;
+  }
+
+  if (json) {
+    console.log(JSON.stringify({ id: serverId, ...server }, null, 2));
     return;
   }
 

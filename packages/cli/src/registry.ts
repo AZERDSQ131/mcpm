@@ -6,8 +6,18 @@ import { readCache, writeCache } from "./cache.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const REGISTRY_URL =
-  "https://raw.githubusercontent.com/AZERDSQ131/mcpm/main/packages/registry/registry.json";
+const REGISTRY_BASE_URL = "https://raw.githubusercontent.com/AZERDSQ131/mcpm";
+const REGISTRY_SUBPATH = "packages/registry/registry.json";
+
+function registryUrlFor(ref: string): string {
+  return `${REGISTRY_BASE_URL}/${ref}/${REGISTRY_SUBPATH}`;
+}
+
+function cliVersionTag(): string {
+  const require = createRequire(import.meta.url);
+  const pkg = require(path.resolve(__dirname, "../package.json")) as { version: string };
+  return `v${pkg.version}`;
+}
 
 let _registry: Registry | null = null;
 
@@ -31,20 +41,27 @@ async function fetchLive(): Promise<Registry | null> {
   const cached = readCache();
   if (cached) return cached;
 
+  const versionedUrl = registryUrlFor(cliVersionTag());
+  const data = (await tryFetch(versionedUrl)) ?? (await tryFetch(registryUrlFor("main")));
+  if (!data) return null;
+
+  writeCache(data);
+  return data;
+}
+
+async function tryFetch(url: string): Promise<Registry | null> {
   try {
-    const res = await fetch(REGISTRY_URL, { signal: AbortSignal.timeout(4000) });
+    const res = await fetch(url, { signal: AbortSignal.timeout(4000) });
     if (!res.ok) {
       if (process.env.MCPM_DEBUG) {
-        console.warn(`[mcpm] registry fetch failed: HTTP ${res.status}`);
+        console.warn(`[mcpm] registry fetch failed: HTTP ${res.status} (${url})`);
       }
       return null;
     }
-    const data = (await res.json()) as Registry;
-    writeCache(data);
-    return data;
+    return (await res.json()) as Registry;
   } catch (err) {
     if (process.env.MCPM_DEBUG) {
-      console.warn(`[mcpm] registry fetch failed: ${(err as Error).message}`);
+      console.warn(`[mcpm] registry fetch failed: ${(err as Error).message} (${url})`);
     }
     return null;
   }

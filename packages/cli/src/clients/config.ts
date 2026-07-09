@@ -1,5 +1,7 @@
 import fs from "fs";
 import path from "path";
+import chalk from "chalk";
+import { isDryRun } from "../dryRun.js";
 import type { ClientConfig, McpServerConfig, DetectedClient } from "../types.js";
 
 // Zed uses a different key and structure than all other clients
@@ -43,6 +45,11 @@ function parseServers(
 }
 
 export function writeConfig(client: DetectedClient, config: ClientConfig): void {
+  if (isDryRun()) {
+    console.log(chalk.dim(`  [dry-run] would write ${client.configPath}`));
+    return;
+  }
+
   const dir = path.dirname(client.configPath);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });

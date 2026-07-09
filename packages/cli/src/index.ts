@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { createRequire } from "module";
 import { Command } from "commander";
 import chalk from "chalk";
 import { install } from "./commands/install.js";
@@ -16,6 +17,10 @@ import { exportConfig, importConfig } from "./commands/exportImport.js";
 import { completion, printCompletionHelp } from "./commands/completion.js";
 import { create } from "./commands/create.js";
 import { publish } from "./commands/publish.js";
+import { cacheInfo, cacheClear } from "./commands/cache.js";
+
+const require = createRequire(import.meta.url);
+const { version } = require("../package.json") as { version: string };
 
 const program = new Command();
 
@@ -26,7 +31,7 @@ const BANNER = `
 program
   .name("mcpm")
   .description("Install and manage MCP servers across all your AI clients")
-  .version("0.1.0")
+  .version(version)
   .addHelpText("before", BANNER);
 
 program
@@ -34,8 +39,9 @@ program
   .alias("i")
   .description("Install one or more servers or a bundle (@bundle/<name>)")
   .option("--save", "Save to .mcpmrc")
-  .action(async (servers: string[], opts: { save?: boolean }) => {
-    await install(servers, { save: opts.save });
+  .option("--force", "Reinstall even if already installed, re-prompting for env vars")
+  .action(async (servers: string[], opts: { save?: boolean; force?: boolean }) => {
+    await install(servers, { save: opts.save, force: opts.force });
   });
 
 program
@@ -52,8 +58,9 @@ program
   .alias("s")
   .description("Search the MCP server registry")
   .option("--bundles", "Show available bundles")
-  .action((query?: string, opts?: { bundles?: boolean }) => {
-    search(query, opts?.bundles);
+  .option("--limit <n>", "Max number of results to show (default: 50)")
+  .action((query?: string, opts?: { bundles?: boolean; limit?: string }) => {
+    search(query, opts?.bundles, opts?.limit);
   });
 
 program
@@ -89,8 +96,9 @@ program
 program
   .command("run <server>")
   .description("Run a server temporarily to see its tools — use '.' for local server")
-  .action(async (server: string) => {
-    await run(server);
+  .option("-y, --yes", "Skip the confirmation prompt")
+  .action(async (server: string, opts: { yes?: boolean }) => {
+    await run(server, { yes: opts.yes });
   });
 
 program
@@ -145,6 +153,22 @@ program
     await importConfig(file);
   });
 
+const cacheCommand = program.command("cache").description("Manage the local registry cache");
+
+cacheCommand
+  .command("info")
+  .description("Show registry cache status (path, size, age, TTL)")
+  .action(() => {
+    cacheInfo();
+  });
+
+cacheCommand
+  .command("clear")
+  .description("Delete the local registry cache")
+  .action(() => {
+    cacheClear();
+  });
+
 program
   .command("completion <shell>")
   .description("Generate shell completion script (bash, zsh, fish)")
@@ -161,14 +185,18 @@ program.addHelpText(
   `
 ${chalk.dim("Examples:")}
   ${chalk.italic("mcpm install github --save")}           install and save to .mcpmrc
+  ${chalk.italic("mcpm install github --force")}          reconfigure an already-installed server
   ${chalk.italic("mcpm install @bundle/webdev")}          install the Web Dev bundle
   ${chalk.italic("mcpm sync")}                            install all servers in .mcpmrc
   ${chalk.italic("mcpm rollback")}                        restore latest config snapshot
   ${chalk.italic("mcpm run fetch")}                       test a server without installing
   ${chalk.italic("mcpm outdated")}                        check for updates
   ${chalk.italic("mcpm search --bundles")}                browse available bundles
+  ${chalk.italic("mcpm search fetch --limit 5")}          cap the number of results shown
   ${chalk.italic("mcpm info postgres")}                   show details about a server
   ${chalk.italic("mcpm doctor")}                          check server health
+  ${chalk.italic("mcpm cache info")}                      inspect the registry cache
+  ${chalk.italic("mcpm cache clear")}                     force a fresh registry fetch
   ${chalk.italic("mcpm export ~/my-mcp-setup.json")}      backup your setup
   ${chalk.italic("mcpm import ~/my-mcp-setup.json")}      restore on a new machine
   ${chalk.italic('mcpm create --ai "fetch crypto prices"')} AI writes the implementation

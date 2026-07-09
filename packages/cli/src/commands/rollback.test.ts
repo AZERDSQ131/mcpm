@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { createRollbackSnapshot, rollback } from "./rollback.js";
+import { createRollbackSnapshot, rollback, getSnapshotSummaries } from "./rollback.js";
 import type { DetectedClient } from "../types.js";
 
 // createRollbackSnapshot/rollback write to the real ~/.cache/mcp-fleet/rollback
@@ -30,6 +30,30 @@ function tmpConfigFile(content: string | null): string {
   const p = path.join(os.tmpdir(), `mcpm-rollback-test-${process.pid}-${Math.random().toString(36).slice(2)}.json`);
   if (content !== null) fs.writeFileSync(p, content, "utf-8");
   return p;
+}
+
+/** Writes a synthetic snapshot dir directly, bypassing createRollbackSnapshot, so tests
+ * can control the directory name (which determines sort order) and created_at precisely. */
+function writeFakeSnapshot(name: string, createdAt: string, reason = "test", fileCount = 1): void {
+  const dir = path.join(ROLLBACK_DIR, name);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(
+    path.join(dir, "manifest.json"),
+    JSON.stringify({
+      snapshot_version: "mcpm.rollback.v1",
+      created_at: createdAt,
+      reason,
+      files: Array.from({ length: fileCount }, (_, i) => ({
+        client_id: `client-${i}`,
+        client_name: `Client ${i}`,
+        config_path: `/fake/${i}.json`,
+        snapshot_file: `client-${i}.json`,
+        existed: false,
+        hash: null,
+      })),
+    }),
+    "utf-8"
+  );
 }
 
 describe("createRollbackSnapshot", () => {
@@ -173,5 +197,60 @@ describe("rollback", () => {
     fs.mkdirSync(fakeDir, { recursive: true });
     await expect(rollback({ snapshot: fakeDir })).resolves.not.toThrow();
     fs.rmSync(fakeDir, { recursive: true, force: true });
+  });
+});
+
+describe("getSnapshotSummaries", () => {
+  let before: Set<string>;
+
+  beforeEach(() => {
+    before = snapshotDirsBefore();
+  });
+
+  afterEach(() => {
+    cleanupSnapshotDirs(newSnapshotDirs(before));
+  });
+
+  it("orders snapshots most-recent-first by directory name", () => {
+    writeFakeSnapshot("2024-01-01T00-00-00-000Z", "2024-01-01T00:00:00.000Z");
+    writeFakeSnapshot("2024-03-01T00-00-00-000Z", "2024-03-01T00:00:00.000Z");
+    writeFakeSnapshot("2024-02-01T00-00-00-000Z", "2024-02-01T00:00:00.000Z");
+
+    const names = getSnapshotSummaries().map((s) => s.name);
+    const ours = names.filter((n) => n.startsWith("2024-"));
+    expect(ours).toEqual([
+      "2024-03-01T00-00-00-000Z",
+      "2024-02-01T00-00-00-000Z",
+      "2024-01-01T00-00-00-000Z",
+    ]);
+  });
+
+  it("reports the created_at, reason and file count from the manifest", () => {
+    writeFakeSnapshot("2024-06-15T12-00-00-000Z", "2024-06-15T12:00:00.000Z", "manual-test", 3);
+
+    const summary = getSnapshotSummaries().find((s) => s.name === "2024-06-15T12-00-00-000Z");
+    expect(summary).toBeDefined();
+    expect(summary!.createdAt).toBe("2024-06-15T12:00:00.000Z");
+    expect(summary!.reason).toBe("manual-test");
+    expect(summary!.fileCount).toBe(3);
+  });
+
+  it("skips directories that have no manifest.json", () => {
+    const junkDir = path.join(ROLLBACK_DIR, "not-a-real-snapshot");
+    fs.mkdirSync(junkDir, { recursive: true });
+
+    const names = getSnapshotSummaries().map((s) => s.name);
+    expect(names).not.toContain("not-a-real-snapshot");
+  });
+
+  it("computes a non-negative size in bytes for a snapshot with copied config files", () => {
+    const configPath = tmpConfigFile('{"mcpServers":{}}');
+    const clients: DetectedClient[] = [{ id: "cursor", name: "Cursor", configPath, detected: true }];
+    createRollbackSnapshot(clients, "size-test");
+    fs.unlinkSync(configPath);
+
+    const summary = getSnapshotSummaries().find((s) => s.reason === "size-test");
+    expect(summary).toBeDefined();
+    expect(summary!.sizeBytes).toBeGreaterThan(0);
   });
 });

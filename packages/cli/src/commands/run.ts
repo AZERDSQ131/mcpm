@@ -56,7 +56,7 @@ export async function run(serverId: string, opts: { yes?: boolean } = {}): Promi
         default: false,
       },
     ]);
-    if (proceed) {
+    if (!proceed) {
       console.log(chalk.yellow("\nCancelled.\n"));
       return;
     }

@@ -18,6 +18,7 @@ import { completion, printCompletionHelp } from "./commands/completion.js";
 import { create } from "./commands/create.js";
 import { publish } from "./commands/publish.js";
 import { cacheInfo, cacheClear } from "./commands/cache.js";
+import { whoami } from "./commands/whoami.js";
 
 const require = createRequire(import.meta.url);
 const { version } = require("../package.json") as { version: string };
@@ -155,6 +156,13 @@ program
   .description("Import and install servers from an export file")
   .action(async (file: string) => {
     await importConfig(file);
+  });
+
+program
+  .command("whoami")
+  .description("Show detected AI clients, their active config paths, and installed servers")
+  .action(() => {
+    whoami();
   });
 
 const cacheCommand = program.command("cache").description("Manage the local registry cache");

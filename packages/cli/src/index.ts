@@ -19,6 +19,7 @@ import { create } from "./commands/create.js";
 import { publish } from "./commands/publish.js";
 import { cacheInfo, cacheClear } from "./commands/cache.js";
 import { whoami } from "./commands/whoami.js";
+import { setDryRun } from "./dryRun.js";
 
 const require = createRequire(import.meta.url);
 const { version } = require("../package.json") as { version: string };
@@ -33,7 +34,11 @@ program
   .name("mcpm")
   .description("Install and manage MCP servers across all your AI clients")
   .version(version)
-  .addHelpText("before", BANNER);
+  .option("--dry-run", "Preview config writes without touching disk (applies to install/uninstall/import/sync)")
+  .addHelpText("before", BANNER)
+  .hook("preAction", (thisCommand) => {
+    setDryRun(!!thisCommand.opts().dryRun);
+  });
 
 program
   .command("install <servers...>")

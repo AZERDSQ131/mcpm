@@ -324,7 +324,7 @@ ${chalk.bold("Next steps:")}
 
 function getGitUser(): string {
   try {
-    return execSync("git config user.name", { stdio: "pipe" }).toString().trim();
+    return execSync("git config user.name", { stdio: "pipe", timeout: 3_000 }).toString().trim();
   } catch {
     return "";
   }

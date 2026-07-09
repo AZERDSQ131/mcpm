@@ -35,6 +35,11 @@ function resolveLocal(serverId: string): RegistryServer | null {
   }
 }
 
+function isTruthyEnv(value: string | undefined): boolean {
+  if (!value) return false;
+  return ["1", "true", "yes"].includes(value.trim().toLowerCase());
+}
+
 export async function run(serverId: string, opts: { yes?: boolean } = {}): Promise<void> {
   const local = resolveLocal(serverId);
   const server = local ?? (await getServer(serverId));
@@ -45,7 +50,11 @@ export async function run(serverId: string, opts: { yes?: boolean } = {}): Promi
     return;
   }
 
-  if (!opts.yes) {
+  // MCPM_YES lets CI/scripted environments skip the confirmation without needing to
+  // thread a --yes flag through every call site.
+  const skipConfirmation = opts.yes || isTruthyEnv(process.env.MCPM_YES);
+
+  if (!skipConfirmation) {
     console.log(chalk.bold(`\n${server.name}`) + chalk.dim(` will run:`));
     console.log(chalk.cyan(`  ${server.command} ${server.args.join(" ")}\n`));
     const { proceed } = await inquirer.prompt<{ proceed: boolean }>([

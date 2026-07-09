@@ -1,8 +1,9 @@
+import fs from "fs";
 import { createRequire } from "module";
 import { fileURLToPath } from "url";
 import path from "path";
 import type { Registry, RegistryServer, RegistryBundle } from "./types.js";
-import { readCache, writeCache } from "./cache.js";
+import { readCache, writeCache, getCachePath } from "./cache.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -72,8 +73,40 @@ async function fetchLive(): Promise<Registry | null> {
   data = data ?? (await tryFetch(registryUrlFor("main")));
   if (!data) return null;
 
+  warnIfDivergedFromCache(data);
   writeCache(data);
   return data;
+}
+
+/** Reads whatever is on disk right now, ignoring TTL — used only to compare against a fresh fetch. */
+function readStaleCache(): Registry | null {
+  try {
+    return JSON.parse(fs.readFileSync(getCachePath(), "utf-8")) as Registry;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Warns when a freshly fetched registry differs from what was previously cached — a
+ * signal that the registry changed upstream since the cache was last populated.
+ */
+function warnIfDivergedFromCache(fresh: Registry): void {
+  const previous = readStaleCache();
+  if (!previous) return;
+
+  if (previous.version !== fresh.version) {
+    console.warn(
+      `[mcpm] registry updated since last cache: v${previous.version} → v${fresh.version}`
+    );
+    return;
+  }
+
+  const previousIds = new Set(Object.keys(previous.servers));
+  const freshIds = new Set(Object.keys(fresh.servers));
+  if (previousIds.size !== freshIds.size || [...previousIds].some((id) => !freshIds.has(id))) {
+    console.warn("[mcpm] registry contents changed since last cache (same version, different servers)");
+  }
 }
 
 async function tryFetch(url: string): Promise<Registry | null> {

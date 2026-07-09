@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 import ora from "ora";
 import { detectClients } from "../clients/detect.js";
 import { listInstalledServers } from "../clients/config.js";
@@ -15,7 +15,7 @@ interface ServerHealth {
 
 function hasCommand(cmd: string): boolean {
   try {
-    execSync(`which ${cmd}`, { stdio: "pipe" });
+    execFileSync("which", [cmd], { stdio: "pipe" });
     return true;
   } catch {
     return false;
@@ -24,7 +24,7 @@ function hasCommand(cmd: string): boolean {
 
 function checkPyPI(pkg: string): boolean {
   try {
-    const out = execSync(`curl -sf "https://pypi.org/pypi/${pkg}/json"`, { stdio: "pipe", timeout: 10_000 });
+    const out = execFileSync("curl", ["-sf", `https://pypi.org/pypi/${pkg}/json`], { stdio: "pipe", timeout: 10_000 });
     const data = JSON.parse(out.toString()) as { info?: { version?: string } };
     return !!data.info?.version;
   } catch {
@@ -38,7 +38,7 @@ function checkDockerHub(image: string): boolean {
     const url = repo.includes("/")
       ? `https://hub.docker.com/v2/repositories/${repo}/tags/${tag}/`
       : `https://hub.docker.com/v2/repositories/library/${repo}/tags/${tag}/`;
-    const res = execSync(`curl -sf "${url}"`, { stdio: "pipe", timeout: 10_000 });
+    const res = execFileSync("curl", ["-sf", url], { stdio: "pipe", timeout: 10_000 });
     const data = JSON.parse(res.toString()) as { name?: string };
     return !!data.name;
   } catch {
@@ -48,7 +48,7 @@ function checkDockerHub(image: string): boolean {
 
 function checkGoModule(mod: string): boolean {
   try {
-    const res = execSync(`curl -sf "https://proxy.golang.org/${mod}/@latest"`, { stdio: "pipe", timeout: 10_000 });
+    const res = execFileSync("curl", ["-sf", `https://proxy.golang.org/${mod}/@latest`], { stdio: "pipe", timeout: 10_000 });
     const data = JSON.parse(res.toString()) as { Version?: string };
     return !!data.Version;
   } catch {
@@ -144,7 +144,7 @@ async function checkServer(
     const pkg = args.find((a) => !a.startsWith("-") && a !== "-y");
     if (!pkg) return { id, command, args, status: "unknown" };
     try {
-      execSync(`npm view ${pkg} version`, { stdio: "pipe", timeout: 10_000 });
+      execFileSync("npm", ["view", pkg, "version"], { stdio: "pipe", timeout: 10_000 });
       return { id, command, args, status: "ok" };
     } catch {
       const fix = await suggestFix(id, pkg);

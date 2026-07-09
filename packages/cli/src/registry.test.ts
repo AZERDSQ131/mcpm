@@ -1,5 +1,13 @@
 import { describe, it, expect, vi, beforeAll } from "vitest";
-import { getServer, getBundle, searchServers, getAllServers, getAllBundles } from "./registry.js";
+import {
+  getServer,
+  getBundle,
+  searchServers,
+  getAllServers,
+  getAllBundles,
+  cliVersionTag,
+  registryUrlFor,
+} from "./registry.js";
 
 // registry.ts memoizes the loaded registry in a module-level variable, so we
 // force offline mode (fetch always rejects) before the very first call in
@@ -10,6 +18,33 @@ beforeAll(() => {
     "fetch",
     vi.fn(() => Promise.reject(new Error("network disabled in tests")))
   );
+});
+
+describe("cliVersionTag", () => {
+  it("prefixes the installed package.json version with 'v'", async () => {
+    const { createRequire } = await import("module");
+    const require = createRequire(import.meta.url);
+    const pkg = require("../package.json") as { version: string };
+    expect(cliVersionTag()).toBe(`v${pkg.version}`);
+  });
+
+  it("always starts with 'v'", () => {
+    expect(cliVersionTag().startsWith("v")).toBe(true);
+  });
+});
+
+describe("registryUrlFor", () => {
+  it("builds a raw.githubusercontent.com URL scoped to the given ref", () => {
+    expect(registryUrlFor("main")).toBe(
+      "https://raw.githubusercontent.com/AZERDSQ131/mcpm/main/packages/registry/registry.json"
+    );
+  });
+
+  it("substitutes the ref for tags as well as branch names", () => {
+    expect(registryUrlFor("v1.2.3")).toBe(
+      "https://raw.githubusercontent.com/AZERDSQ131/mcpm/v1.2.3/packages/registry/registry.json"
+    );
+  });
 });
 
 describe("getServer", () => {

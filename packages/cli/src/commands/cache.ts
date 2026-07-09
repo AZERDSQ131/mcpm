@@ -1,5 +1,12 @@
 import chalk from "chalk";
-import { getCacheStats, clearCache, getCachePath, formatDuration, formatBytes } from "../cache.js";
+import {
+  getCacheStats,
+  clearCacheAndStats,
+  getCachePath,
+  formatDuration,
+  formatBytes,
+  getHitMissStats,
+} from "../cache.js";
 
 export function cacheInfo(): void {
   const stats = getCacheStats();
@@ -40,10 +47,30 @@ export function cacheInfo(): void {
 }
 
 export function cacheClear(): void {
-  const cleared = clearCache();
+  const cleared = clearCacheAndStats();
   if (cleared) {
     console.log(chalk.green("\n✓ Registry cache cleared\n"));
   } else {
     console.log(chalk.yellow("\n~ No cache to clear\n"));
   }
+}
+
+export function cacheStatsCommand(): void {
+  const { hits, misses, hitRate } = getHitMissStats();
+  const total = hits + misses;
+
+  console.log();
+  console.log(chalk.bold("Registry cache — hit/miss stats"));
+  console.log(chalk.dim("─".repeat(40)));
+
+  if (total === 0) {
+    console.log(chalk.dim("No cache reads recorded yet."));
+    console.log();
+    return;
+  }
+
+  console.log(`Hits:    ${chalk.green(hits)}`);
+  console.log(`Misses:  ${chalk.yellow(misses)}`);
+  console.log(`Hit rate: ${chalk.bold(`${(hitRate * 100).toFixed(1)}%`)} ${chalk.dim(`(${total} reads)`)}`);
+  console.log();
 }

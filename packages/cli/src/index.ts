@@ -17,7 +17,7 @@ import { exportConfig, importConfig } from "./commands/exportImport.js";
 import { completion, printCompletionHelp } from "./commands/completion.js";
 import { create } from "./commands/create.js";
 import { publish } from "./commands/publish.js";
-import { cacheInfo, cacheClear } from "./commands/cache.js";
+import { cacheInfo, cacheClear, cacheStatsCommand } from "./commands/cache.js";
 
 const require = createRequire(import.meta.url);
 const { version } = require("../package.json") as { version: string };
@@ -173,6 +173,13 @@ cacheCommand
     cacheClear();
   });
 
+cacheCommand
+  .command("stats")
+  .description("Show registry cache hit/miss counters")
+  .action(() => {
+    cacheStatsCommand();
+  });
+
 program
   .command("completion <shell>")
   .description("Generate shell completion script (bash, zsh, fish)")
@@ -202,6 +209,7 @@ ${chalk.dim("Examples:")}
   ${chalk.italic("mcpm doctor")}                          check server health
   ${chalk.italic("mcpm cache info")}                      inspect the registry cache
   ${chalk.italic("mcpm cache clear")}                     force a fresh registry fetch
+  ${chalk.italic("mcpm cache stats")}                     show cache hit/miss counters
   ${chalk.italic("mcpm export ~/my-mcp-setup.json")}      backup your setup
   ${chalk.italic("mcpm import ~/my-mcp-setup.json")}      restore on a new machine
   ${chalk.italic('mcpm create --ai "fetch crypto prices"')} AI writes the implementation

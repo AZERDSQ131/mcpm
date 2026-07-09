@@ -119,7 +119,8 @@ function listSnapshots(): void {
     .readdirSync(ROLLBACK_DIR, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
-    .sort();
+    .sort()
+    .reverse();
 
   if (names.length === 0) {
     console.log(chalk.yellow("\nNo rollback snapshots found.\n"));

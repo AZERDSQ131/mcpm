@@ -117,8 +117,9 @@ program
   .command("rollback")
   .description("Restore client configs from the latest rollback snapshot")
   .option("--snapshot <dir>", "Restore from a specific rollback snapshot directory")
-  .action(async (opts: { snapshot?: string }) => {
-    await rollback({ snapshot: opts.snapshot });
+  .option("--list", "List available snapshots without restoring anything")
+  .action(async (opts: { snapshot?: string; list?: boolean }) => {
+    await rollback({ snapshot: opts.snapshot, list: opts.list });
   });
 
 program
@@ -192,6 +193,7 @@ ${chalk.dim("Examples:")}
   ${chalk.italic("mcpm install @bundle/webdev")}          install the Web Dev bundle
   ${chalk.italic("mcpm sync")}                            install all servers in .mcpmrc
   ${chalk.italic("mcpm rollback")}                        restore latest config snapshot
+  ${chalk.italic("mcpm rollback --list")}                 list available snapshots
   ${chalk.italic("mcpm run fetch")}                       test a server without installing
   ${chalk.italic("mcpm outdated")}                        check for updates
   ${chalk.italic("mcpm search --bundles")}                browse available bundles

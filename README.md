@@ -1,3 +1,5 @@
+
+
 # mcpm — Universal MCP Server Manager
 
 [![npm](https://img.shields.io/npm/v/mcp-fleet?style=flat-square&color=7c6aff&label=npm)](https://www.npmjs.com/package/mcp-fleet)
@@ -94,6 +96,7 @@ mcpm export [file]                   Export your config
 mcpm import <file>                   Import a config
 mcpm publish                         Submit a server to the registry
 mcpm run <server>                    Run a server directly (stdio)
+mcpm cache <info|clear|stats>        Manage the local registry cache
 ```
 
 <p align="center">

@@ -94,6 +94,7 @@ mcpm export [file]                   Export your config
 mcpm import <file>                   Import a config
 mcpm publish                         Submit a server to the registry
 mcpm run <server>                    Run a server directly (stdio)
+mcpm cache <info|clear|stats>        Manage the local registry cache
 ```
 
 <p align="center">

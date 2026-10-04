@@ -4,6 +4,7 @@ import inquirer from "inquirer";
 import { detectClients } from "../clients/detect.js";
 import { listInstalledServers, addServer } from "../clients/config.js";
 import { colorizeJson } from "../jsonColor.js";
+import { isDryRun } from "../dryRun.js";
 import type { ExportFormat } from "../types.js";
 
 export function exportConfig(outputPath?: string): void {
@@ -101,6 +102,11 @@ export async function importConfig(inputPath: string): Promise<void> {
 
   if (!confirmed) {
     console.log(chalk.dim("Aborted.\n"));
+    return;
+  }
+
+  if (isDryRun()) {
+    console.log(chalk.dim(`[dry-run] would install ${servers.length} servers into ${clients.length} client${clients.length > 1 ? "s" : ""} — no client configs written.\n`));
     return;
   }
 

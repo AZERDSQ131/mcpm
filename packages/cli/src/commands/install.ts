@@ -6,6 +6,7 @@ import { detectClients } from "../clients/detect.js";
 import { addServer, listInstalledServers } from "../clients/config.js";
 import { addToRC, readRC } from "./sync.js";
 import { createRollbackSnapshot } from "./rollback.js";
+import { isDryRun } from "../dryRun.js";
 import { isSecretEnvVar } from "../secrets.js";
 import type { McpServerConfig } from "../types.js";
 
@@ -37,7 +38,9 @@ export async function install(
   }
   console.log();
 
-  if (opts.snapshot !== false && !opts.dryRun) {
+  const dry = opts.dryRun ?? isDryRun();
+
+  if (opts.snapshot !== false && !dry) {
     const snapshot = createRollbackSnapshot(detectedClients, "install");
     if (snapshot) console.log(chalk.dim(`Rollback snapshot: ${snapshot}\n`));
   }
@@ -66,7 +69,7 @@ export async function install(
 
   const shouldSave = opts.save || readRC() !== null;
 
-  if (opts.dryRun) {
+  if (dry) {
     console.log(chalk.dim(`\nDry run: previewing install of ${expanded.length} requested ${expanded.length > 1 ? "entries" : "entry"} (no changes will be written)...\n`));
     for (const ref of [...new Set(expanded)]) {
       const { id: serverId, version } = parseServerRef(ref);
@@ -111,11 +114,13 @@ export async function install(
   for (const ref of deduped) {
     const { id, version } = parseServerRef(ref);
     await installOne(ref, detectedClients, { force: opts.force });
-    if (shouldSave) addToRC(id, version);
+    if (shouldSave && !dry) addToRC(id, version);
   }
 
-  if (shouldSave && opts.save) {
+  if (shouldSave && opts.save && !dry) {
     console.log(chalk.dim(`✓ Saved to .mcpmrc\n`));
+  } else if (dry && shouldSave) {
+    console.log(chalk.dim(`[dry-run] .mcpmrc left untouched\n`));
   }
 }
 

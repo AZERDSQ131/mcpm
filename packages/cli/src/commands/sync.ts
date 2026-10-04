@@ -5,6 +5,7 @@ import chalk from "chalk";
 import inquirer from "inquirer";
 import { install } from "./install.js";
 import { createRollbackSnapshot } from "./rollback.js";
+import { isDryRun } from "../dryRun.js";
 import { getBundle, getServer } from "../registry.js";
 import { detectClients } from "../clients/detect.js";
 import { readConfig, renderConfigContent } from "../clients/config.js";
@@ -120,8 +121,12 @@ export async function sync(opts: SyncOptions = {}): Promise<void> {
       },
     ]);
     if (create) {
-      writeRC({ servers: [] });
-      console.log(chalk.green(`\n✓ Created ${RC_FILE} — add servers and run mcpm sync again.\n`));
+      if (isDryRun()) {
+        console.log(chalk.dim(`\n[dry-run] would create ${RC_FILE} — no file written.\n`));
+      } else {
+        writeRC({ servers: [] });
+        console.log(chalk.green(`\n✓ Created ${RC_FILE} — add servers and run mcpm sync again.\n`));
+      }
     }
     return;
   }
@@ -144,7 +149,7 @@ export async function sync(opts: SyncOptions = {}): Promise<void> {
     return;
   }
 
-  if (opts.dryRun || opts.receipt) {
+  if (opts.dryRun || opts.receipt || isDryRun()) {
     await dryRunSync(unique, opts.receipt);
     return;
   }

@@ -76,6 +76,16 @@ export async function importConfig(inputPath: string): Promise<void> {
   );
   console.log(chalk.dim(`Exported: ${data.exportedAt}\n`));
 
+  for (const [id, config] of servers) {
+    console.log(chalk.bold(id) + chalk.dim(" will install:"));
+    console.log(chalk.cyan(`  ${config.command} ${(config.args ?? []).join(" ")}`));
+    const envKeys = Object.keys(config.env ?? {});
+    if (envKeys.length > 0) {
+      console.log(chalk.dim(`  env keys: ${envKeys.join(", ")}`));
+    }
+    console.log();
+  }
+
   const { confirmed } = await inquirer.prompt<{ confirmed: boolean }>([
     {
       type: "confirm",

@@ -1,21 +1,9 @@
 import chalk from "chalk";
-import { execFileSync } from "child_process";
 import ora from "ora";
 import { detectClients } from "../clients/detect.js";
 import { listInstalledServers } from "../clients/config.js";
 import { getServer } from "../registry.js";
-
-function extractPkg(command: string, args: string[]): string {
-  const SKIP: Record<string, string[]> = {
-    npx: ["-y"],
-    uvx: ["--from"],
-    docker: ["run", "-i", "--rm"],
-    go: ["run"],
-    deno: ["run", "--allow-net", "--allow-env", "--allow-read", "--allow-write", "--allow-all"],
-  };
-  const skip = new Set(SKIP[command] ?? []);
-  return args.find((a) => !a.startsWith("-") && !skip.has(a)) ?? "";
-}
+import { extractPkg, getDockerTag, getGoModuleVersion, getNpmLatestVersion, getPyPIVersion } from "../packageChecks.js";
 
 interface ServerStatus {
   id: string;
@@ -61,49 +49,17 @@ export async function outdated(): Promise<void> {
     let status: ServerStatus["status"] = "unknown";
 
     if (config.command === "npx" && pkgToCheck) {
-      try {
-        latestVersion = execFileSync("npm", ["view", pkgToCheck, "version"], {
-          stdio: "pipe",
-          timeout: 10_000,
-        })
-          .toString()
-          .trim();
-        status = pkgMismatch ? "mismatch" : "ok";
-      } catch {
-        status = "unknown";
-      }
+      latestVersion = getNpmLatestVersion(pkgToCheck);
+      status = latestVersion !== null ? (pkgMismatch ? "mismatch" : "ok") : "unknown";
     } else if (config.command === "uvx" && pkgToCheck) {
-      try {
-        const out = execFileSync("curl", ["-sf", `https://pypi.org/pypi/${pkgToCheck}/json`], { stdio: "pipe", timeout: 10_000 });
-        const data = JSON.parse(out.toString()) as { info?: { version?: string } };
-        latestVersion = data.info?.version ?? null;
-        status = latestVersion ? (pkgMismatch ? "mismatch" : "ok") : "unknown";
-      } catch {
-        status = "unknown";
-      }
+      latestVersion = getPyPIVersion(pkgToCheck);
+      status = latestVersion ? (pkgMismatch ? "mismatch" : "ok") : "unknown";
     } else if (config.command === "docker" && pkgToCheck) {
-      try {
-        const [repo, tag = "latest"] = pkgToCheck.split(":");
-        const url = repo.includes("/")
-          ? `https://hub.docker.com/v2/repositories/${repo}/tags/${tag}/`
-          : `https://hub.docker.com/v2/repositories/library/${repo}/tags/${tag}/`;
-        const out = execFileSync("curl", ["-sf", url], { stdio: "pipe", timeout: 10_000 });
-        const data = JSON.parse(out.toString()) as { last_updated?: string; name?: string };
-        latestVersion = data.last_updated ? tag : null;
-        status = latestVersion ? "ok" : "unknown";
-      } catch {
-        status = "unknown";
-      }
+      latestVersion = getDockerTag(pkgToCheck);
+      status = latestVersion ? "ok" : "unknown";
     } else if (config.command === "go" && pkgToCheck) {
-      try {
-        const mod = pkgToCheck.replace(/@[^@]+$/, "");
-        const out = execFileSync("curl", ["-sf", `https://proxy.golang.org/${mod}/@latest`], { stdio: "pipe", timeout: 10_000 });
-        const data = JSON.parse(out.toString()) as { Version?: string };
-        latestVersion = data.Version ?? null;
-        status = latestVersion ? (pkgMismatch ? "mismatch" : "ok") : "unknown";
-      } catch {
-        status = "unknown";
-      }
+      latestVersion = getGoModuleVersion(pkgToCheck);
+      status = latestVersion ? (pkgMismatch ? "mismatch" : "ok") : "unknown";
     }
 
     results.push({ id, currentPkg, registryPkg, latestVersion, pkgMismatch, status });

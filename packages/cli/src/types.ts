@@ -49,3 +49,15 @@ export interface ExportFormat {
   exportedAt: string;
   servers: Record<string, McpServerConfig>;
 }
+
+export interface PinnedServer {
+  id: string;
+  version: string;
+}
+
+export type McpmRCServers = string[] | Record<string, string>;
+
+export interface McpmRC {
+  servers?: McpmRCServers;
+  bundles?: string[];
+}

@@ -10,9 +10,34 @@ import { detectClients } from "../clients/detect.js";
 import { readConfig, renderConfigContent } from "../clients/config.js";
 import type { ClientConfig, DetectedClient, McpServerConfig } from "../types.js";
 
+export interface PinnedServer {
+  id: string;
+  version: string;
+}
+
+export type McpmRCServers = string[] | Record<string, string>;
+
 interface McpmRC {
-  servers?: string[];
+  servers?: McpmRCServers;
   bundles?: string[];
+}
+
+/**
+ * Normalizes both .mcpmrc formats to a pinned list.
+ * Legacy: servers: string[] → version "latest".
+ * Pinned: servers: Record<string, string> → version as-is ("latest" when empty).
+ */
+export function normalizePinnedServers(servers?: McpmRCServers): PinnedServer[] {
+  if (!servers) return [];
+  if (Array.isArray(servers)) return servers.map((id) => ({ id, version: "latest" }));
+  return Object.entries(servers).map(([id, version]) => ({
+    id,
+    version: version && version.trim().length > 0 ? version.trim() : "latest",
+  }));
+}
+
+export function formatPinned(server: PinnedServer): string {
+  return server.version && server.version !== "latest" ? `${server.id}@${server.version}` : server.id;
 }
 
 const RC_FILE = ".mcpmrc";
@@ -34,7 +59,6 @@ interface TargetReceipt {
   changed_servers: string[];
   unchanged_servers: string[];
   missing_env: Array<{ server_id: string; keys: string[] }>;
-  rollback_snapshot: string | null;
 }
 
 interface SyncReceipt {
@@ -44,6 +68,7 @@ interface SyncReceipt {
   rc_path: string;
   rc_hash: string;
   desired_servers: string[];
+  desired_versions: Record<string, string>;
   unknown_servers: string[];
   targets: TargetReceipt[];
 }
@@ -63,13 +88,22 @@ export function writeRC(data: McpmRC, dir = process.cwd()): void {
   fs.writeFileSync(rcPath, JSON.stringify(data, null, 2) + "\n", "utf-8");
 }
 
-export function addToRC(serverId: string, dir = process.cwd()): void {
+export function addToRC(serverId: string, version = "latest", dir = process.cwd()): void {
   const existing = readRC(dir) ?? {};
-  const servers = existing.servers ?? [];
-  if (!servers.includes(serverId)) {
-    existing.servers = [...servers, serverId];
-    writeRC(existing, dir);
+  const normalized = normalizePinnedServers(existing.servers);
+  const found = normalized.find((s) => s.id === serverId);
+  if (!found) {
+    normalized.push({ id: serverId, version });
+  } else if (version !== "latest") {
+    found.version = version;
   }
+  const needsRecord = normalized.some((s) => s.version !== "latest");
+  if (needsRecord || (existing.servers && !Array.isArray(existing.servers))) {
+    existing.servers = Object.fromEntries(normalized.map((s) => [s.id, s.version]));
+  } else {
+    existing.servers = normalized.map((s) => s.id);
+  }
+  writeRC(existing, dir);
 }
 
 export async function sync(opts: SyncOptions = {}): Promise<void> {
@@ -92,17 +126,18 @@ export async function sync(opts: SyncOptions = {}): Promise<void> {
     return;
   }
 
-  const servers = [...(rc.servers ?? [])];
+  const pinned = normalizePinnedServers(rc.servers);
 
-  // Expand bundles
+  // Expand bundles (bundles always resolve to "latest" — pins apply to direct servers only)
   for (const bundleRef of rc.bundles ?? []) {
     const bundleName = bundleRef.replace("@bundle/", "");
     const bundle = await getBundle(bundleName);
-    if (bundle) servers.push(...bundle.servers);
+    if (bundle) pinned.push(...bundle.servers.map((id) => ({ id, version: "latest" as string })));
     else console.log(chalk.yellow(`~ Unknown bundle: ${bundleRef}`));
   }
 
-  const unique = [...new Set(servers)];
+  const seen = new Set<string>();
+  const unique = pinned.filter((s) => (seen.has(s.id) ? false : (seen.add(s.id), true)));
 
   if (unique.length === 0) {
     console.log(chalk.dim(`\n${RC_FILE} has no servers. Add some with mcpm install --save <server>\n`));
@@ -114,27 +149,42 @@ export async function sync(opts: SyncOptions = {}): Promise<void> {
     return;
   }
 
+  const pinnedLabels = unique.filter((s) => s.version !== "latest").map(formatPinned);
   console.log(chalk.dim(`\nSyncing ${unique.length} servers from ${RC_FILE}...\n`));
+  if (pinnedLabels.length > 0) {
+    console.log(
+      chalk.yellow(
+        `  Note: ${pinnedLabels.length} pinned version${pinnedLabels.length > 1 ? "s" : ""} recorded from ${RC_FILE} ` +
+          `(${pinnedLabels.join(", ")}), ` +
+          `but the registry has no versioned artifacts — pins are stored, not enforced.`
+      )
+    );
+  }
   const snapshot = createRollbackSnapshot(detectClients(), "sync");
   if (snapshot) console.log(chalk.dim(`Rollback snapshot: ${snapshot}\n`));
-  await install(unique, { snapshot: false });
+  await install(
+    unique.map(formatPinned),
+    { snapshot: false }
+  );
 }
 
-async function dryRunSync(serverIds: string[], receiptPath?: string): Promise<void> {
+async function dryRunSync(pinned: PinnedServer[], receiptPath?: string): Promise<void> {
   const desired: Record<string, McpServerConfig> = {};
+  const desiredVersions: Record<string, string> = {};
   const requiredEnv: Record<string, string[]> = {};
   const unknownServers: string[] = [];
 
-  for (const serverId of serverIds) {
+  for (const { id: serverId, version } of pinned) {
     const server = await getServer(serverId);
     if (!server) {
-      unknownServers.push(serverId);
+      unknownServers.push(formatPinned({ id: serverId, version }));
       continue;
     }
     desired[serverId] = {
       command: server.command,
       args: server.args,
     };
+    desiredVersions[serverId] = version;
     const envKeys = Object.entries(server.env ?? {})
       .filter(([, meta]) => meta.required)
       .map(([key]) => key);
@@ -151,11 +201,22 @@ async function dryRunSync(serverIds: string[], receiptPath?: string): Promise<vo
     rc_path: rcPath,
     rc_hash: hashFile(rcPath) ?? "",
     desired_servers: Object.keys(desired).sort(),
+    desired_versions: Object.fromEntries(Object.entries(desiredVersions).sort(([a], [b]) => a.localeCompare(b))),
     unknown_servers: unknownServers.sort(),
     targets,
   };
 
+  const pinnedLabels = Object.entries(desiredVersions)
+    .filter(([, v]) => v !== "latest")
+    .map(([id, v]) => `${id}@${v}`)
+    .sort();
   console.log(chalk.dim(`\nDry run: ${receipt.desired_servers.length} known server${receipt.desired_servers.length === 1 ? "" : "s"} from ${RC_FILE}\n`));
+  if (pinnedLabels.length > 0) {
+    console.log(chalk.dim(`  pinned: ${pinnedLabels.join(", ")}`));
+    console.log(
+      chalk.yellow(`  Note: version pins are recorded from ${RC_FILE} but not enforced — the registry has no versioned artifacts.`)
+    );
+  }
   for (const target of targets.filter((t) => t.detected)) {
     const changed = target.added_servers.length + target.removed_servers.length + target.changed_servers.length;
     const symbol = changed > 0 ? chalk.yellow("~") : chalk.green("✓");
@@ -182,7 +243,7 @@ async function dryRunSync(serverIds: string[], receiptPath?: string): Promise<vo
   }
 }
 
-function buildTargetReceipt(
+export function buildTargetReceipt(
   client: DetectedClient,
   desired: Record<string, McpServerConfig>,
   requiredEnv: Record<string, string[]>
@@ -200,7 +261,6 @@ function buildTargetReceipt(
       changed_servers: [],
       unchanged_servers: [],
       missing_env: [],
-      rollback_snapshot: null,
     };
   }
 
@@ -238,11 +298,10 @@ function buildTargetReceipt(
     changed_servers: changed.sort(),
     unchanged_servers: unchanged.sort(),
     missing_env: missingEnv,
-    rollback_snapshot: hashFile(client.configPath),
   };
 }
 
-function comparableConfig(config: McpServerConfig): Pick<McpServerConfig, "command" | "args"> {
+export function comparableConfig(config: McpServerConfig): Pick<McpServerConfig, "command" | "args"> {
   return {
     command: config.command,
     args: config.args ?? [],

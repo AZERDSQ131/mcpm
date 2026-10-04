@@ -18,7 +18,7 @@ function stripSurroundingQuotes(value: string): string {
 
 export async function install(
   serverIds: string[],
-  opts: { save?: boolean; snapshot?: boolean; force?: boolean } = {}
+  opts: { save?: boolean; snapshot?: boolean; force?: boolean; dryRun?: boolean } = {}
 ): Promise<void> {
   const allClients = detectClients();
   const detectedClients = allClients.filter((c) => c.detected);
@@ -37,7 +37,7 @@ export async function install(
   }
   console.log();
 
-  if (opts.snapshot !== false) {
+  if (opts.snapshot !== false && !opts.dryRun) {
     const snapshot = createRollbackSnapshot(detectedClients, "install");
     if (snapshot) console.log(chalk.dim(`Rollback snapshot: ${snapshot}\n`));
   }
@@ -66,9 +66,52 @@ export async function install(
 
   const shouldSave = opts.save || readRC() !== null;
 
-  for (const serverId of [...new Set(expanded)]) {
-    await installOne(serverId, detectedClients, { force: opts.force });
-    if (shouldSave) addToRC(serverId);
+  if (opts.dryRun) {
+    console.log(chalk.dim(`\nDry run: previewing install of ${expanded.length} requested ${expanded.length > 1 ? "entries" : "entry"} (no changes will be written)...\n`));
+    for (const ref of [...new Set(expanded)]) {
+      const { id: serverId, version } = parseServerRef(ref);
+      const server = await getServer(serverId);
+      if (!server) {
+        const suggestion = await suggestServer(serverId);
+        console.log(
+          chalk.red(`✗ Unknown server: ${chalk.bold(serverId)}`),
+          suggestion
+            ? chalk.dim(`— did you mean ${chalk.bold(suggestion)}?`)
+            : chalk.dim(`— run ${chalk.italic("mcpm search")} to browse available servers`)
+        );
+        continue;
+      }
+      console.log(chalk.bold(`${server.name} (${serverId}):`));
+      if (version !== "latest") {
+        console.log(chalk.dim(`  pinned version ${version} recorded (registry installs latest)`));
+      }
+      for (const client of detectedClients) {
+        const alreadyInstalled = !!listInstalledServers(client)[serverId];
+        if (alreadyInstalled && !opts.force) {
+          console.log(chalk.dim(`  = ${client.name} already installed — skipped (use --force to reconfigure)`));
+        } else if (alreadyInstalled && opts.force) {
+          console.log(chalk.yellow(`  ~ ${client.name} would reconfigure ${serverId} ${chalk.dim(client.configPath)}`));
+        } else {
+          console.log(chalk.green(`  + ${client.name} would install ${serverId} ${chalk.dim(client.configPath)}`));
+        }
+      }
+    }
+    console.log(chalk.dim("\nDry run: no client configs written, no rollback snapshot created.\n"));
+    return;
+  }
+
+  const seenIds = new Set<string>();
+  const deduped = [...new Set(expanded)].filter((ref) => {
+    const id = ref.split("@").length > 1 && !ref.startsWith("@bundle/") ? ref.slice(0, ref.lastIndexOf("@")) : ref;
+    if (seenIds.has(id)) return false;
+    seenIds.add(id);
+    return true;
+  });
+
+  for (const ref of deduped) {
+    const { id, version } = parseServerRef(ref);
+    await installOne(ref, detectedClients, { force: opts.force });
+    if (shouldSave) addToRC(id, version);
   }
 
   if (shouldSave && opts.save) {
@@ -76,11 +119,22 @@ export async function install(
   }
 }
 
+function parseServerRef(ref: string): { id: string; version: string } {
+  const at = ref.lastIndexOf("@");
+  if (at > 0) {
+    const id = ref.slice(0, at);
+    const version = ref.slice(at + 1).trim();
+    if (id && version) return { id, version };
+  }
+  return { id: ref, version: "latest" };
+}
+
 async function installOne(
-  serverId: string,
+  serverRef: string,
   clients: ReturnType<typeof detectClients>,
   opts: { force?: boolean } = {}
 ): Promise<void> {
+  const { id: serverId, version } = parseServerRef(serverRef);
   const server = await getServer(serverId);
 
   if (!server) {
@@ -92,6 +146,12 @@ async function installOne(
         : chalk.dim(`— run ${chalk.italic("mcpm search")} to browse available servers`)
     );
     return;
+  }
+
+  if (version !== "latest") {
+    console.log(
+      chalk.yellow(`  Note: ${serverId}@${version} pinned in .mcpmrc — registry has no versioned artifacts, installing latest and recording the pin.`)
+    );
   }
 
   // Split clients into those that need (re)configuring vs. those to leave untouched

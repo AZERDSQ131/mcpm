@@ -1,5 +1,3 @@
-
-
 # mcpm — Universal MCP Server Manager
 
 [![npm](https://img.shields.io/npm/v/mcp-fleet?style=flat-square&color=7c6aff&label=npm)](https://www.npmjs.com/package/mcp-fleet)
